@@ -20,7 +20,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
 
-    public Member join(String username, String password, String email) {
+    public Member join(String username, String password, String email, String ninckname) {
         if (memberRepository.findByUsername(username).isPresent()) {
             throw new RuntimeException();
         }
@@ -29,6 +29,7 @@ public class MemberService {
                 .username(username)
                 .password(passwordEncoder.encode(password))
                 .email(email)
+                .nickname(ninckname)
                 .build();
 
         memberRepository.save(member);
@@ -47,7 +48,7 @@ public class MemberService {
 
         ResponseMessage responseMessage = ResponseMessage.builder()
                 .to(member.getEmail())
-                .subject("QUPP, 회원 가입 인증")
+                .subject("SenEbook 회원 가입 안내")
                 .message(message
                         + " \n 바로가기링크 "
                         + " \n http://localhost:8010 ")
