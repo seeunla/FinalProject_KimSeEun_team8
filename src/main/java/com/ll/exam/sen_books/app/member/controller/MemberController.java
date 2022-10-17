@@ -2,6 +2,7 @@ package com.ll.exam.sen_books.app.member.controller;
 
 import com.ll.exam.sen_books.app.member.form.JoinForm;
 import com.ll.exam.sen_books.app.member.service.MemberService;
+import com.ll.exam.sen_books.app.security.dto.MemberContext;
 import com.ll.exam.sen_books.util.Ut;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,12 +22,7 @@ public class MemberController {
 
     @PreAuthorize("isAnonymous()")
     @GetMapping("/login")
-    public String showLogin(HttpServletRequest request) {
-        String uri = request.getHeader("Referer");
-        if (uri != null && !uri.contains("/member/login")) {
-            request.getSession().setAttribute("prevPage", uri);
-        }
-
+    public String showLogin() {
         return "member/login";
     }
 
@@ -40,6 +36,7 @@ public class MemberController {
     @PostMapping("/join")
     public String join(@Valid JoinForm joinForm) {
         memberService.join(joinForm.getUsername(), joinForm.getPassword(), joinForm.getEmail());
+
 
         return "redirect:/member/login?msg=" + Ut.url.encode("회원가입이 완료되었습니다.");
     }
