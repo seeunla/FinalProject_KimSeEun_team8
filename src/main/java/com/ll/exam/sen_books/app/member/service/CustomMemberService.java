@@ -26,12 +26,12 @@ public class CustomMemberService implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         if ( member.getAuthLevel() > 6) {
-
             authorities.add(new SimpleGrantedAuthority("ADMIN"));
         }
 
         if ( member.getNickname() != null) {
             authorities.add(new SimpleGrantedAuthority("AUTHOR"));
+            member.setAuthLevel(3);
         }
 
         authorities.add(new SimpleGrantedAuthority("MEMBER"));
