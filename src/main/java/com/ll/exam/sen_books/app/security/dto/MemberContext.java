@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -20,7 +21,7 @@ public class MemberContext extends User {
     private final String email;
     private final Set<GrantedAuthority> authorities;
 
-    public MemberContext(Member member) {
+    public MemberContext(Member member, List<GrantedAuthority> authorities) {
         super(member.getUsername(), member.getPassword(), member.getAuthorities());
 
         this.id = member.getId();

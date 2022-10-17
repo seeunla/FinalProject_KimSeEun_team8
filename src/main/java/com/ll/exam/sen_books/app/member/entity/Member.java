@@ -33,32 +33,22 @@ public class Member extends BaseEntity {
     private String password;
     private String email;
     private String nickname;
+    private int authLevel;
 
 
     public Member(long id) {
         super(id);
     }
 
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("MEMBER"));
-
-        return authorities;
-    }
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        List<GrantedAuthority> authorities = new ArrayList<>();
+//        authorities.add(new SimpleGrantedAuthority("MEMBER"));
+//
+//        return authorities;
+//    }
 
     public String getName() {
         return username;
     }
 
-
-
-    public Map<String, Object> getAccessTokenClaims() {
-        return Ut.mapOf(
-                "id", getId(),
-                "createDate", getCreateDate(),
-                "username", getUsername(),
-                "email", getEmail(),
-                "authorities", getAuthorities()
-        );
-    }
 }

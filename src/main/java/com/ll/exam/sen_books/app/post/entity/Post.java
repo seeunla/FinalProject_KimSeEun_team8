@@ -1,5 +1,6 @@
 package com.ll.exam.sen_books.app.post.entity;
 
+import com.ll.exam.sen_books.app.author.entity.Author;
 import com.ll.exam.sen_books.app.base.entity.BaseEntity;
 import com.ll.exam.sen_books.app.member.entity.Member;
 import lombok.AllArgsConstructor;
