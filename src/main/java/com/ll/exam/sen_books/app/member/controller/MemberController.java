@@ -112,13 +112,9 @@ public class MemberController {
 
     @PreAuthorize("isAnonymous()")
     @PostMapping("/findPassword")
-    public String SendPasswordEmail(ResponseMember member, Model model) throws MessagingException {
-        String message = "임시 비밀번호가 %s로 발송되었습니다.".formatted(member.getEmail());
-
-        model.addAttribute("message", message);
-
+    public String SendPasswordEmail(ResponseMember member) throws MessagingException {
         memberService.sendPasswordEmail(member);
 
-        return "member/findUserPassword";
+        return "redirect:/?msg=" + Ut.url.encode( "임시 비밀번호가 %s로 발송되었습니다.".formatted(member.getEmail()));
     }
 }
