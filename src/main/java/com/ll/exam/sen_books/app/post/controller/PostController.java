@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 @RequiredArgsConstructor
@@ -108,18 +109,23 @@ public class PostController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @DeleteMapping("/{id}/delete")
-    public String deletePost (@AuthenticationPrincipal MemberContext memberContext, @Valid PostForm postForm, @PathVariable long id) {
+    @GetMapping("/{id}/delete")
+    public String deletePost (@AuthenticationPrincipal MemberContext memberContext, @PathVariable long id) {
         Post post = postService.findById(id).get();
+
+        if (post == null) {
+            throw new NoSuchElementException("%d번 글은 존재하지 않습니다.".formatted(id));
+        }
+
         Member author = memberContext.getMember();
 
         if (postService.authorCanModify(author, post) == false) {
-            throw new RuntimeException();
+            return "redirect:/?" + Ut.url.encode("삭제 권한이 없습니다.".formatted(post.getId()));
         }
 
         postService.delete(post);
 
-        return "";
+        return "redirect:/?" + Ut.url.encode("%d번 글이 삭제되었습니다.".formatted(post.getId()));
     }
 
 }

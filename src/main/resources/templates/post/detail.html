@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
 <head>
     <title>글</title>
@@ -25,6 +26,14 @@
                     <div class="badge badge-primary">내용</div>
 
                     <div th:text="${post.content}"></div>
+                </div>
+
+                <div>
+                    <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/post/${post.id}/delete|}"
+                       class="btn btn-sm btn-outline-secondary"
+                       sec:authorize="isAuthenticated()"
+                       th:if="${post.author != null and #authentication.isAuthenticated()}"
+                       th:text="삭제"></a>
                 </div>
             </div>
         </div>

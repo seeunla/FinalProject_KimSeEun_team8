@@ -24,7 +24,6 @@ import static javax.persistence.FetchType.LAZY;
 public class Post extends BaseEntity {
     private String subject;
     private String content;
-    private String contentHtml;
 
     @ManyToOne(fetch = LAZY)
     private Member author;
