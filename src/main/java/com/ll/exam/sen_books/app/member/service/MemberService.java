@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import java.util.Optional;
-import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -113,4 +112,14 @@ public class MemberService {
         emailService.sendEmail(responseMessage);
 
     }
+
+    public boolean isEqualPassword(String username, String password) {
+        Member member = memberRepository.findByUsername(username).get();
+
+        if (!(passwordEncoder.matches(member.getPassword(), password))) {
+            return true;
+        }
+        return false;
+    }
+
 }

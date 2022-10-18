@@ -2,7 +2,7 @@
 <html layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title>회원정보수정</title>
+    <title>회원정보 수정</title>
 </head>
 
 <body>
@@ -10,7 +10,7 @@
         <div class="section section-write container mx-auto">
 
             <div>
-                <h1>회원정보수정</h1>
+                <h1>회원정보 수정</h1>
 
 
 
@@ -33,6 +33,13 @@
                     <div class="grid grid-cols-2 mt-2 gap-2">
                         <input class="btn btn-primary" type="submit" value="수정">
                         <button type="button" onclick="history.back();" class="btn btn-secondary btn-outline">취소</button>
+                    </div>
+
+                    <div class="grid grid-cols-2 mt-2 gap-2">
+                        <a href="/member/modifyPassword" class="inline-flex">
+                            <i class="fa-solid fa-user"></i>
+                            <span class="ml-[2px] hidden sm:block">비밀번호 변경</span>
+                        </a>
                     </div>
                 </form>
 

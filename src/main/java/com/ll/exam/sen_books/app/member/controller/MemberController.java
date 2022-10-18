@@ -1,6 +1,7 @@
 package com.ll.exam.sen_books.app.member.controller;
 
 import com.ll.exam.sen_books.app.member.dto.ResponseMember;
+import com.ll.exam.sen_books.app.member.dto.RequestModifyPw;
 import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.member.form.JoinForm;
 import com.ll.exam.sen_books.app.member.service.MemberService;
@@ -17,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
@@ -73,8 +73,7 @@ public class MemberController {
 
     @PreAuthorize("isAnonymous()")
     @PostMapping("/logout")
-    public String logout(@Valid JoinForm joinForm) {
-        memberService.join(joinForm.getUsername(), joinForm.getPassword(), joinForm.getEmail(), joinForm.getNickname());
+    public String logout() {
 
         return "redirect:/member/logout?msg=" + Ut.url.encode("로그아웃이 완료되었습니다.");
     }
@@ -116,5 +115,27 @@ public class MemberController {
         memberService.sendPasswordEmail(member);
 
         return "redirect:/?msg=" + Ut.url.encode( "임시 비밀번호가 %s로 발송되었습니다.".formatted(member.getEmail()));
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/modifyPassword")
+    public String showModifyPassword(Model model) {
+        RequestModifyPw requestModifyPw = new RequestModifyPw();
+
+        model.addAttribute("modifyPassword", requestModifyPw);
+
+        return "member/modifyPassword";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/modifyPassword")
+    public String modifyPassword(@Valid RequestModifyPw pw, @AuthenticationPrincipal MemberContext memberContext) {
+        if (!(memberService.isEqualPassword(memberContext.getUsername(), pw.getPassword()))) {
+            return "redirect:/member/modifyPassword?msg=" + Ut.url.encode( "기존 비밀번호가 일치하지 않습니다.");
+        }
+
+        memberService.updatePassword(memberContext.getUsername(), pw.getPassword());
+
+        return "redirect:/?msg=" + Ut.url.encode( "비밀번호가 변경되었습니다.");
     }
 }
