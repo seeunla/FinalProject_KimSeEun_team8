@@ -1,5 +1,6 @@
 package com.ll.exam.sen_books.app.member.controller;
 
+import com.ll.exam.sen_books.app.member.dto.ResponseMember;
 import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.member.form.JoinForm;
 import com.ll.exam.sen_books.app.member.service.MemberService;
@@ -14,8 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -41,8 +40,25 @@ public class MemberController {
     public String join(@Valid JoinForm joinForm) {
         memberService.join(joinForm.getUsername(), joinForm.getPassword(), joinForm.getEmail(), joinForm.getNickname());
 
-
         return "redirect:/member/login?msg=" + Ut.url.encode("회원가입이 완료되었습니다.");
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/modify")
+    public String showModify(@AuthenticationPrincipal MemberContext memberContext, Model model) {
+        Member member = memberService.findById(memberContext.getId());
+
+        model.addAttribute("member", member);
+
+        return "member/modify";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/modify")
+    public String modify(@AuthenticationPrincipal MemberContext memberContext, ResponseMember member) {
+
+        memberService.modify(memberContext.getUsername(), member);
+        return "redirect:/member/profile";
     }
 
     @PreAuthorize("isAnonymous()")
@@ -50,14 +66,15 @@ public class MemberController {
     public String logout(@Valid JoinForm joinForm) {
         memberService.join(joinForm.getUsername(), joinForm.getPassword(), joinForm.getEmail(), joinForm.getNickname());
 
-        return "redirect:/member/login?msg=" + Ut.url.encode("회원가입이 완료되었습니다.");
+        return "redirect:/member/logout?msg=" + Ut.url.encode("로그아웃이 완료되었습니다.");
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/profile")
     public String showProfile(@AuthenticationPrincipal MemberContext memberContext, Model model) {
-        model.addAttribute("memberContext", memberContext);
+        Member member = memberService.findById(memberContext.getId());
+
+        model.addAttribute("member", member);
         return "member/profile";
     }
-
 }

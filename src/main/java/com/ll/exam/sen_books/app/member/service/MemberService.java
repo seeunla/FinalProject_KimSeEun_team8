@@ -1,7 +1,9 @@
 package com.ll.exam.sen_books.app.member.service;
 
+import com.ll.exam.sen_books.app.member.dto.ResponseMember;
 import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.member.repository.MemberRepository;
+import com.ll.exam.sen_books.app.security.dto.MemberContext;
 import com.ll.exam.sen_books.util.mail.dto.ResponseMessage;
 import com.ll.exam.sen_books.util.mail.service.EmailService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
 
-    public Member join(String username, String password, String email, String ninckname) {
+    public Member join(String username, String password, String email, String nickname) {
         if (memberRepository.findByUsername(username).isPresent()) {
             throw new RuntimeException();
         }
@@ -29,8 +31,12 @@ public class MemberService {
                 .username(username)
                 .password(passwordEncoder.encode(password))
                 .email(email)
-                .nickname(ninckname)
+                .nickname(nickname)
                 .build();
+
+        if (member.getNickname() != null) {
+            member.setAuthLevel(3);
+        }
 
         memberRepository.save(member);
 
@@ -64,5 +70,12 @@ public class MemberService {
 
     public Member findById(Long id) {
         return memberRepository.findById(id).get();
+    }
+    @Transactional
+    public void modify(String username, ResponseMember responseMember) {
+        Member member = findByUsername(username).get();
+
+        member.modify(responseMember.getUsername(), responseMember.getNickname(), responseMember.getEmail());
+        memberRepository.save(member);
     }
 }

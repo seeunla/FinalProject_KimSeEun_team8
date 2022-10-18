@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>회원정보수정</title>
+</head>
+
+<body>
+    <section layout:fragment="main">
+        <div class="section section-write container mx-auto">
+
+            <div>
+                <h1>회원정보수정</h1>
+
+                <script>
+                    let ModifyForm__submitDone = false;
+
+                    function ModifyForm__submit(form) {
+                        if (ModifyForm__submitDone) {
+                            return;
+                        }
+
+                        if (ModifyForm__submitDone) {
+                            return;
+                        }
+
+
+                        form.email.value = form.email.value.trim();
+
+                        if (form.email.value.length == 0) {
+                            alert("이메일을 입력해주세요.");
+                            form.email.focus();
+                            return;
+                        }
+
+                        form.username.value = form.username.value.trim();
+
+                        if (form.username.value.length == 0) {
+                            alert("아이디를 입력해주세요.");
+                            form.username.focus();
+                            return;
+                        }
+
+                        form.nickname.value = form.nickname.value.trim();
+
+                        if (form.nickname.value.length == 0) {
+                            alert("닉네임을 입력해주세요.");
+                            form.nickname.focus();
+                            return;
+                        }
+
+                        form.submit();
+
+                        ModifyForm__submitDone = true;
+                    }
+
+                </script>
+
+
+                <form th:action method="POST" class="flex flex-col gap-3" enctype="multipart/form-data" onsubmit="ModifyForm__submit(this); return false;">
+                    <div>
+                        <span>아이디</span>
+                        <input autofocus type="text" name="subject" placeholder="아이디" class="input input-bordered"
+                               maxlength="50" th:value="${member.username}">
+                    </div>
+                    <div>
+                        <span>이메일</span>
+                        <input autofocus type="text" name="subject" placeholder="이메일" class="input input-bordered"
+                               maxlength="50" th:value="${member.email}">
+                    </div>
+                    <div>
+                        <span>닉네임</span>
+                        <input autofocus type="text" name="subject" placeholder="닉네임" class="input input-bordered"
+                               maxlength="50" th:value="${member.nickname}">
+                    </div>
+                    <div class="grid grid-cols-2 mt-2 gap-2">
+                        <input class="btn btn-primary" type="submit" value="수정">
+                        <button type="button" onclick="history.back();" class="btn btn-secondary btn-outline">취소</button>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+</body>
+</html>
