@@ -134,7 +134,7 @@ public class MemberController {
             return "redirect:/member/modifyPassword?msg=" + Ut.url.encode( "기존 비밀번호가 일치하지 않습니다.");
         }
 
-        memberService.updatePassword(memberContext.getUsername(), pw.getPassword());
+        memberService.updatePassword(memberContext.getUsername(), pw.getUpdatePassword());
 
         return "redirect:/?msg=" + Ut.url.encode( "비밀번호가 변경되었습니다.");
     }

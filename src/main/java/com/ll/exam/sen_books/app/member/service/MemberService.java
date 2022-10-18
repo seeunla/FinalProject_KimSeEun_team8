@@ -116,10 +116,6 @@ public class MemberService {
     public boolean isEqualPassword(String username, String password) {
         Member member = memberRepository.findByUsername(username).get();
 
-        if (!(passwordEncoder.matches(member.getPassword(), password))) {
-            return true;
-        }
-        return false;
+        return passwordEncoder.matches(password, member.getPassword());
     }
-
 }
