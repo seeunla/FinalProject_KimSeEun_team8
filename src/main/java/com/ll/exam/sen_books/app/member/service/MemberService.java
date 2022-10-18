@@ -3,7 +3,6 @@ package com.ll.exam.sen_books.app.member.service;
 import com.ll.exam.sen_books.app.member.dto.ResponseMember;
 import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.member.repository.MemberRepository;
-import com.ll.exam.sen_books.app.security.dto.MemberContext;
 import com.ll.exam.sen_books.util.mail.dto.ResponseMessage;
 import com.ll.exam.sen_books.util.mail.service.EmailService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import java.util.Optional;
+import java.util.Random;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -76,6 +77,40 @@ public class MemberService {
         Member member = findByUsername(username).get();
 
         member.modify(responseMember.getUsername(), responseMember.getNickname(), responseMember.getEmail());
+
         memberRepository.save(member);
+    }
+
+    @Transactional
+    public Member findByEmail(String email) {
+        Member member = memberRepository.findByEmail(email).get();
+
+        return member;
+    }
+
+    @Transactional
+    public void updatePassword(String username, String password ) {
+        Member member = memberRepository.findByUsername(username).get();
+        member.updatePassword(passwordEncoder.encode(password));
+    }
+
+    public void sendPasswordEmail(ResponseMember responseMember) throws MessagingException {
+        String message = "SenEbook 임시 비밀번호입니다.";
+
+        Member member = memberRepository.findByUsername(responseMember.getUsername()).get();
+
+        String tmpPassword = UUID.randomUUID().toString().replace("-", "");
+        tmpPassword = tmpPassword.substring(0, 10);
+
+        updatePassword(member.getUsername(), tmpPassword);
+
+        ResponseMessage responseMessage = ResponseMessage.builder()
+                .to(member.getEmail())
+                .subject("임시 비밀번호 발송")
+                .message(message + tmpPassword)
+                .build();
+
+        emailService.sendEmail(responseMessage);
+
     }
 }

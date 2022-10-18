@@ -12,65 +12,22 @@
             <div>
                 <h1>회원정보수정</h1>
 
-                <script>
-                    let ModifyForm__submitDone = false;
-
-                    function ModifyForm__submit(form) {
-                        if (ModifyForm__submitDone) {
-                            return;
-                        }
-
-                        if (ModifyForm__submitDone) {
-                            return;
-                        }
 
 
-                        form.email.value = form.email.value.trim();
-
-                        if (form.email.value.length == 0) {
-                            alert("이메일을 입력해주세요.");
-                            form.email.focus();
-                            return;
-                        }
-
-                        form.username.value = form.username.value.trim();
-
-                        if (form.username.value.length == 0) {
-                            alert("아이디를 입력해주세요.");
-                            form.username.focus();
-                            return;
-                        }
-
-                        form.nickname.value = form.nickname.value.trim();
-
-                        if (form.nickname.value.length == 0) {
-                            alert("닉네임을 입력해주세요.");
-                            form.nickname.focus();
-                            return;
-                        }
-
-                        form.submit();
-
-                        ModifyForm__submitDone = true;
-                    }
-
-                </script>
-
-
-                <form th:action method="POST" class="flex flex-col gap-3" enctype="multipart/form-data" onsubmit="ModifyForm__submit(this); return false;">
+                <form th:action method="POST" class="flex flex-col gap-3" >
                     <div>
                         <span>아이디</span>
-                        <input autofocus type="text" name="subject" placeholder="아이디" class="input input-bordered"
+                        <input autofocus type="text" name="username" placeholder="아이디" class="input input-bordered"
                                maxlength="50" th:value="${member.username}">
                     </div>
                     <div>
                         <span>이메일</span>
-                        <input autofocus type="text" name="subject" placeholder="이메일" class="input input-bordered"
+                        <input autofocus type="text" name="email" placeholder="이메일" class="input input-bordered"
                                maxlength="50" th:value="${member.email}">
                     </div>
                     <div>
                         <span>닉네임</span>
-                        <input autofocus type="text" name="subject" placeholder="닉네임" class="input input-bordered"
+                        <input autofocus type="text" name="nickname" placeholder="닉네임" class="input input-bordered"
                                maxlength="50" th:value="${member.nickname}">
                     </div>
                     <div class="grid grid-cols-2 mt-2 gap-2">

@@ -14,7 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 @Controller
@@ -46,7 +48,7 @@ public class MemberController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify")
     public String showModify(@AuthenticationPrincipal MemberContext memberContext, Model model) {
-        Member member = memberService.findById(memberContext.getId());
+        Member member = memberContext.getMember();
 
         model.addAttribute("member", member);
 
@@ -58,6 +60,7 @@ public class MemberController {
     public String modify(@AuthenticationPrincipal MemberContext memberContext, ResponseMember member) {
 
         memberService.modify(memberContext.getUsername(), member);
+
         return "redirect:/member/profile";
     }
 
@@ -76,5 +79,39 @@ public class MemberController {
 
         model.addAttribute("member", member);
         return "member/profile";
+    }
+
+    @PreAuthorize("isAnonymous()")
+    @GetMapping("/findUsername")
+    public String showFindUsername() {
+        return "member/findUsername";
+    }
+
+    @PreAuthorize("isAnonymous()")
+    @PostMapping("/findUsername")
+    public String findUsernameByEmail(String email, Model model) {
+        Member member = memberService.findByEmail(email);
+
+        model.addAttribute("member", member.getUsername());
+
+        return "member/findUsername";
+    }
+
+    @PreAuthorize("isAnonymous()")
+    @GetMapping("/findPassword")
+    public String showFindPassword() {
+        return "member/findUserPassword";
+    }
+
+    @PreAuthorize("isAnonymous()")
+    @PostMapping("/findPassword")
+    public String SendPasswordEmail(ResponseMember member, Model model) throws MessagingException {
+        String message = "임시 비밀번호가 %s로 발송되었습니다.".formatted(member.getEmail());
+
+        model.addAttribute("message", message);
+
+        memberService.sendPasswordEmail(member);
+
+        return "member/findUserPassword";
     }
 }
