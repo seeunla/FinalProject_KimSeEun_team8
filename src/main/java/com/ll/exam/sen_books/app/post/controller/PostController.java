@@ -35,8 +35,7 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/write")
-    public String write(
-    ) {
+    public String write() {
         return "post/write";
     }
 
@@ -44,8 +43,8 @@ public class PostController {
     @PostMapping("/write")
     public String write(@AuthenticationPrincipal MemberContext memberContext, @Valid PostForm postForm) {
         Member author = memberContext.getMember();
-        Post post = postService.create( author , postForm.getSubject(), postForm.getContent());
-        return "post/write";
+        Post post = postService.create(author , postForm.getSubject(), postForm.getContent());
+        return "redirect:/post/" + post.getId() + "?msg=" + Ut.url.encode("%d번 글이 생성되었습니다.".formatted(post.getId()));
     }
 
 //    @PreAuthorize("isAnonymous()")
@@ -63,7 +62,7 @@ public class PostController {
 //        return "";
 //    }
 
-    @PreAuthorize("isAnonymous()")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
     public String detail(@AuthenticationPrincipal MemberContext memberContext, @PathVariable long id, Model model) {
         Post post = postService.findForPrintById(id).get();
