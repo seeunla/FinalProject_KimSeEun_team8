@@ -28,7 +28,12 @@
                     <div th:text="${post.content}"></div>
                 </div>
 
-                <div>
+                <div class="grid grid-cols-6 mt-2 gap-2">
+                    <a th:href="@{|/post/${post.id}/modify|}" class="btn btn-sm btn-outline-secondary"
+                       sec:authorize="isAuthenticated()"
+                       th:if="${post.author != null and #authentication.isAuthenticated()}"
+                       th:text="수정"></a>
+
                     <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/post/${post.id}/delete|}"
                        class="btn btn-sm btn-outline-secondary"
                        sec:authorize="isAuthenticated()"

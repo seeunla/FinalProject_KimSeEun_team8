@@ -14,7 +14,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -101,11 +100,11 @@ public class PostController {
         Member author = memberContext.getMember();
 
         if (postService.authorCanModify(author, post) == false) {
-            throw new RuntimeException();
+            return "redirect:/post/" + post.getId() + "?msg=" + Ut.url.encode("수정 권한이 없습니다..");
         }
 
         postService.modify(post, postForm.getSubject(), postForm.getContent());
-        return "redirect:/post/" + post.getAuthor() + "msg=" + Ut.url.encode("%d번 음원이 수정되었습니다.".formatted(post.getId()));
+        return "redirect:/post/" + post.getId() + "?msg=" + Ut.url.encode("%d번 글이 수정되었습니다.".formatted(post.getId()));
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -120,7 +119,7 @@ public class PostController {
         Member author = memberContext.getMember();
 
         if (postService.authorCanModify(author, post) == false) {
-            return "redirect:/?" + Ut.url.encode("삭제 권한이 없습니다.".formatted(post.getId()));
+            return "redirect:/?" + Ut.url.encode("삭제 권한이 없습니다.");
         }
 
         postService.delete(post);
