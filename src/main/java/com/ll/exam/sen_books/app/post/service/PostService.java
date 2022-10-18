@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,10 +17,10 @@ public class PostService {
     private final PostRepository postRepository;
 
     @Transactional
-    public Post create(Member author, String subject, String content) {
+    public Post write(Member author, String subject, String content) {
         Post product = Post.builder()
                 .subject(subject)
-                .authorId(author)
+                .author(author)
                 .content(content)
                 .build();
 
@@ -47,10 +48,14 @@ public class PostService {
     }
 
     public boolean authorCanModify(Member author, Post post) {
-        return author.getId().equals(post.getAuthorId().getId());
+        return author.getId().equals(post.getAuthor().getId());
     }
 
     public void delete(Post post) {
         postRepository.delete(post);
+    }
+
+    public List<Post> findAllByAuthorId(Long id) {
+        return postRepository.findAllByAuthorId(id);
     }
 }

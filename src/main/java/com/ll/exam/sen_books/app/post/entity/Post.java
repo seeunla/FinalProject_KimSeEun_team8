@@ -27,9 +27,13 @@ public class Post extends BaseEntity {
     private String contentHtml;
 
     @ManyToOne(fetch = LAZY)
-    private Member authorId;
+    private Member author;
 
     public Post(long id) {
         super(id);
+    }
+
+    public String getJdenticon() {
+        return "post__" + getId();
     }
 }

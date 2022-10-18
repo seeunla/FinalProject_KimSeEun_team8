@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
 <head>
     <title>글</title>
@@ -13,6 +13,8 @@
             <h1 class="font-bold text-lg">글</h1>
 
             <div class="flex flex-col gap-3 mt-3">
+                <svg width="80" height="80" th:data-jdenticon-value="${post.jdenticon}"></svg>
+
                 <div>
                     <div class="badge badge-primary">제목</div>
 
