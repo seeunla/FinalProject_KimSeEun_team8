@@ -8,7 +8,10 @@ import com.ll.exam.sen_books.app.security.dto.MemberContext;
 import com.ll.exam.sen_books.util.Ut;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,6 +63,10 @@ public class MemberController {
     public String modify(@AuthenticationPrincipal MemberContext memberContext, ResponseMember member) {
 
         memberService.modify(memberContext.getUsername(), member);
+
+        memberContext.setModifyDate(memberContext.getModifyDate());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(memberContext, memberContext.getPassword(), memberContext.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return "redirect:/member/profile";
     }
