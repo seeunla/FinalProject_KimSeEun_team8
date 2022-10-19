@@ -11,4 +11,5 @@ import javax.validation.constraints.NotEmpty;
 public class PostForm {
     private String subject;
     private String content;
+    private String hashTagContents;
 }

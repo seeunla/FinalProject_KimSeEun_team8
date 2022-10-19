@@ -1,5 +1,7 @@
 package com.ll.exam.sen_books.app.post.service;
 
+import com.ll.exam.sen_books.app.hashTag.entity.HashTag;
+import com.ll.exam.sen_books.app.hashTag.service.HashTagService;
 import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.post.entity.Post;
 import com.ll.exam.sen_books.app.post.form.PostForm;
@@ -17,6 +19,7 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class PostService {
     private final PostRepository postRepository;
+    private final HashTagService hashTagService;
 
     @Transactional
     public Post write(Member author, PostForm postForm) {
@@ -25,9 +28,12 @@ public class PostService {
                 .author(author)
                 .contentHtml(Ut.markdown(postForm.getContent()))
                 .content(postForm.getContent())
+                .hashTagContent(postForm.getHashTagContents())
                 .build();
 
         postRepository.save(post);
+
+        hashTagService.applyHashTags(post, postForm.getHashTagContents());
 
         return post;
     }
@@ -39,10 +45,13 @@ public class PostService {
     @Transactional
     public void modify(Post post, String subject, String content) {
         post.modify(subject, content, Ut.markdown(content));
+        postRepository.save(post);
     }
 
     public Optional<Post> findForPrintById(long id) {
         Optional<Post> post = findById(id);
+
+        List<HashTag> hashTags = hashTagService.getHashTags(post.get());
 
         if (post.isEmpty()) return post;
 

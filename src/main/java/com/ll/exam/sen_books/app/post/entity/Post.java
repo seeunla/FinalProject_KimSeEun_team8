@@ -25,6 +25,7 @@ public class Post extends BaseEntity {
     private String subject;
     private String content;
     private String contentHtml;
+    private String hashTagContent;
 
     @ManyToOne(fetch = LAZY)
     private Member author;

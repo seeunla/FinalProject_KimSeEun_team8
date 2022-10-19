@@ -50,8 +50,6 @@ public class PostController {
 
         List<Post> posts = postService.findAllByAuthorId(author.getId());
 
-        System.out.println(posts);
-
         model.addAttribute("posts", posts);
 
         return "post/list";
