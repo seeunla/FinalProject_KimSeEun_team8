@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>아이디 찾기</title>
+</head>
+
+<body>
+<main layout:fragment="main">
+    <section class="section section-login flex-grow flex flex-col items-center justify-center">
+
+        <div class="max-w-md w-full px-2 pt-4">
+            <h1 class="font-bold text-lg">아이디 찾기</h1>
+
+
+            <form th:action method="POST" class="flex flex-col gap-3" onsubmit="MemberLogin__submit(this); return false;">
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">이메일</span>
+                    </label>
+                    <input th:unless="${member}" type="email" name="email" autofocus placeholder="이메일을 입력해주세요." class="input input-bordered" maxlength="50">
+                    <input th:if="${member}" autofocus type="text" name="username" placeholder="아이디" readonly class="input input-bordered" maxlength="50" th:value="${member}">
+                </div>
+
+
+                <div class="grid grid-cols-2 mt-2 gap-2">
+                    <input class="btn btn-primary" type="submit" value="아이디 찾기">
+                </div>
+
+                <div class="grid mt-2 gap-2">
+                    <a href="/member/login" class="btn btn-primary">로그인</a>
+                </div>
+
+            </form>
+        </div>
+
+
+
+        </div>
+    </section>
+
+</main>
+</body>
+</html>
