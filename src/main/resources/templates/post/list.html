@@ -24,7 +24,7 @@
                 </thead>
 
                 <tbody>
-                <tr th:each="post, loop : ${posts}" class="flex items-center">
+                <tr th:each="post, loop : ${posts}" class="items-center">
                     <td th:text="${loop.count}"></td>
                     <td>
                         <a th:href="@{|/post/${post.id}|}" th:text="${post.subject}"></a>

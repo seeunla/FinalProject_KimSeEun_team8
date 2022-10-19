@@ -19,8 +19,8 @@ public class HashTagService {
     private final KeywordService keywordService;
     private final HashTagRepository hashTagRepository;
 
-    public void applyHashTags(Post post, String keywordContentsStr) {
-        List<String> keywordContents = Arrays.stream(keywordContentsStr.split("#"))
+    public void applyHashTags(Post post, String hashTagContents) {
+        List<String> keywordContents = Arrays.stream(hashTagContents.split("#"))
                 .map(String::trim)
                 .filter(s -> s.length() > 0)
                 .collect(Collectors.toList());
@@ -47,5 +47,9 @@ public class HashTagService {
         hashTagRepository.save(hashTag);
 
         return hashTag;
+    }
+
+    public List<HashTag> getHashTags(Post post) {
+        return hashTagRepository.findAllByPostId(post.getId());
     }
 }
