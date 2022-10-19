@@ -2,7 +2,6 @@ package com.ll.exam.sen_books.app.post.controller;
 
 
 import com.ll.exam.sen_books.app.member.entity.Member;
-import com.ll.exam.sen_books.app.member.service.MemberService;
 import com.ll.exam.sen_books.app.post.entity.Post;
 import com.ll.exam.sen_books.app.post.form.PostForm;
 import com.ll.exam.sen_books.app.post.service.PostService;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,7 +28,6 @@ import java.util.NoSuchElementException;
 public class PostController {
 
     private final PostService postService;
-    private final MemberService memberService;
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/write")
@@ -63,14 +60,8 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
-    public String detail(@AuthenticationPrincipal MemberContext memberContext, @PathVariable long id, Model model) {
+    public String detail(@PathVariable long id, Model model) {
         Post post = postService.findForPrintById(id).get();
-
-        Member author = memberContext.getMember();
-
-        if (postService.authorCanModify(author, post) ==false) {
-            throw new RuntimeException();
-        }
 
         model.addAttribute("post", post);
 
@@ -79,14 +70,8 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}/modify")
-    public String showModify(@AuthenticationPrincipal MemberContext memberContext, @PathVariable long id, Model model) {
+    public String showModify(@PathVariable long id, Model model) {
         Post post = postService.findForPrintById(id).get();
-
-        Member author = memberContext.getMember();
-
-        if (postService.authorCanModify(author, post) == false) {
-            throw new RuntimeException();
-        }
 
         model.addAttribute("post", post);
 
@@ -95,12 +80,12 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{id}/modify")
-    public String modifyPost(@AuthenticationPrincipal MemberContext memberContext, @Valid PostForm postForm, @PathVariable long id) {
+    public String modifyPost(@Valid PostForm postForm, @PathVariable long id) {
         Post post = postService.findById(id).get();
-        Member author = memberContext.getMember();
 
-        if (postService.authorCanModify(author, post) == false) {
-            return "redirect:/post/" + post.getId() + "?msg=" + Ut.url.encode("수정 권한이 없습니다..");
+
+        if (post == null) {
+            return "redirect:/post/" + post.getId() + "?msg=" + Ut.url.encode("%d번 글은 존재하지 않습니다.".formatted(id));
         }
 
         postService.modify(post, postForm.getSubject(), postForm.getContent());
@@ -109,22 +94,15 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}/delete")
-    public String deletePost (@AuthenticationPrincipal MemberContext memberContext, @PathVariable long id) {
+    public String deletePost (@PathVariable long id) {
         Post post = postService.findById(id).get();
 
         if (post == null) {
-            throw new NoSuchElementException("%d번 글은 존재하지 않습니다.".formatted(id));
-        }
-
-        Member author = memberContext.getMember();
-
-        if (postService.authorCanModify(author, post) == false) {
-            return "redirect:/?" + Ut.url.encode("삭제 권한이 없습니다.");
+            return "redirect:/post/" + post.getId() + "?msg=" + Ut.url.encode("%d번 글은 존재하지 않습니다.".formatted(id));
         }
 
         postService.delete(post);
 
         return "redirect:/?" + Ut.url.encode("%d번 글이 삭제되었습니다.".formatted(post.getId()));
     }
-
 }

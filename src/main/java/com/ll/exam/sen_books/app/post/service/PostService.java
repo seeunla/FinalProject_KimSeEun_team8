@@ -49,10 +49,6 @@ public class PostService {
         return post;
     }
 
-    public boolean authorCanModify(Member author, Post post) {
-        return author.getId().equals(post.getAuthor().getId());
-    }
-
     @Transactional
     public void delete(Post post) {
         postRepository.delete(post);
