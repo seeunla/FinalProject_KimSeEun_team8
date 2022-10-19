@@ -42,7 +42,7 @@ public class PostController {
     @PostMapping("/write")
     public String write(@AuthenticationPrincipal MemberContext memberContext, @Valid PostForm postForm) {
         Member author = memberContext.getMember();
-        Post post = postService.write(author , postForm.getSubject(), postForm.getContent());
+        Post post = postService.write(author, postForm);
         return "redirect:/post/" + post.getId() + "?msg=" + Ut.url.encode("%d번 글이 생성되었습니다.".formatted(post.getId()));
     }
 

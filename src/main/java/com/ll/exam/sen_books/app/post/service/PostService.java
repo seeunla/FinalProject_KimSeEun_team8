@@ -2,7 +2,9 @@ package com.ll.exam.sen_books.app.post.service;
 
 import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.post.entity.Post;
+import com.ll.exam.sen_books.app.post.form.PostForm;
 import com.ll.exam.sen_books.app.post.repository.PostRepository;
+import com.ll.exam.sen_books.util.Ut;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,16 +19,17 @@ public class PostService {
     private final PostRepository postRepository;
 
     @Transactional
-    public Post write(Member author, String subject, String content) {
-        Post product = Post.builder()
-                .subject(subject)
+    public Post write(Member author, PostForm postForm) {
+        Post post = Post.builder()
+                .subject(postForm.getSubject())
                 .author(author)
-                .content(content)
+                .contentHtml(Ut.markdown(postForm.getContent()))
+                .content(postForm.getContent())
                 .build();
 
-        postRepository.save(product);
+        postRepository.save(post);
 
-        return product;
+        return post;
     }
 
     public Optional<Post> findById(long id) {

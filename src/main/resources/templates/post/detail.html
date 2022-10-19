@@ -25,7 +25,7 @@
                 <div>
                     <div class="badge badge-primary">내용</div>
 
-                    <div th:text="${post.content}"></div>
+                    <div th:utext="${post.getContentHtml()}"></div>
                 </div>
 
                 <div class="grid grid-cols-6 mt-2 gap-2">
