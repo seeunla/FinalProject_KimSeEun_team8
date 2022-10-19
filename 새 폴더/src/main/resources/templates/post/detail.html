@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>글</title>
+</head>
+
+<body>
+<main layout:fragment="main">
+    <section class="section section-write container mx-auto">
+
+        <div class="px-2 pt-4">
+            <h1 class="font-bold text-lg">글</h1>
+
+            <div class="flex flex-col gap-3 mt-3">
+                <svg width="80" height="80" th:data-jdenticon-value="${post.jdenticon}"></svg>
+
+                <div>
+                    <div class="badge badge-primary">제목</div>
+
+                    <div th:text="${post.subject}"></div>
+                </div>
+
+                <div>
+                    <div class="badge badge-primary">내용</div>
+                    <div th:utext="${post.getContentHtml()}"></div>
+                </div>
+
+                <div class="grid grid-cols-6 mt-2 gap-2">
+                    <a th:href="@{|/post/${post.id}/modify|}" class="btn btn-sm btn-outline-secondary"
+                       sec:authorize="isAuthenticated()"
+                       th:if="${post.author != null and #authentication.isAuthenticated()}"
+                       th:text="수정"></a>
+
+                    <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/post/${post.id}/delete|}"
+                       class="btn btn-sm btn-outline-secondary"
+                       sec:authorize="isAuthenticated()"
+                       th:if="${post.author != null and #authentication.isAuthenticated()}"
+                       th:text="삭제"></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+</body>
+</html>
