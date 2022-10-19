@@ -37,9 +37,8 @@ public class PostService {
     }
 
     @Transactional
-    public void modify(Post product, String subject, String content) {
-        product.setSubject(subject);
-        product.setContent(content);
+    public void modify(Post post, String subject, String content) {
+        post.modify(subject, content, Ut.markdown(content));
     }
 
     public Optional<Post> findForPrintById(long id) {

@@ -36,4 +36,10 @@ public class Post extends BaseEntity {
     public String getJdenticon() {
         return "post__" + getId();
     }
+
+    public void modify(String subject, String content, String contentHtml) {
+        this.subject = subject;
+        this.content = content;
+        this.contentHtml = contentHtml;
+    }
 }
