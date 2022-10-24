@@ -47,6 +47,10 @@ public class CartService {
         return false;
     }
 
+    public boolean hasItem(Member buyer, Product product) {
+        return cartItemRepository.existsByBuyerIdAndProductId(buyer.getId(), product.getId());
+    }
+
     public void removeItem(CartItem cartItem) {
         cartItemRepository.delete(cartItem);
     }
