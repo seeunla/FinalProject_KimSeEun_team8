@@ -25,8 +25,17 @@ public class Product extends BaseEntity {
     private Member author;
     @ManyToOne(fetch = LAZY)
     private Post post;
+    private int price;
 
     public Product(long id) {
         super(id);
+    }
+
+    public int getSalePrice() {
+        return getPrice();
+    }
+
+    public String getJdenticon() {
+        return "product__" + getId();
     }
 }
