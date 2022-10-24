@@ -2,6 +2,7 @@ package com.ll.exam.sen_books.app.cart.entity;
 
 import com.ll.exam.sen_books.app.base.entity.BaseEntity;
 import com.ll.exam.sen_books.app.member.entity.Member;
+import com.ll.exam.sen_books.app.product.entity.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,5 +23,6 @@ import static javax.persistence.FetchType.LAZY;
 public class CartItem extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     private Member buyer;
-
+    @ManyToOne(fetch = LAZY)
+    private Product product;
 }
