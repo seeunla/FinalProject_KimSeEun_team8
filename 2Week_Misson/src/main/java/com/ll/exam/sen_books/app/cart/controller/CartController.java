@@ -3,6 +3,7 @@ package com.ll.exam.sen_books.app.cart.controller;
 import com.ll.exam.sen_books.app.cart.entity.CartItem;
 import com.ll.exam.sen_books.app.cart.service.CartService;
 import com.ll.exam.sen_books.app.member.entity.Member;
+import com.ll.exam.sen_books.app.product.entity.Product;
 import com.ll.exam.sen_books.app.product.service.ProductService;
 import com.ll.exam.sen_books.app.security.dto.MemberContext;
 import com.ll.exam.sen_books.util.Ut;
@@ -48,20 +49,17 @@ public class CartController {
             cartService.removeItem(cartItem);
         }
 
-        return "redirect:/cart/items?msg=" + Ut.url.encode("%d번 품목을 삭제하였습니다.".formatted(productId));
+        return "redirect:/cart/list?msg=" + Ut.url.encode("%d번 품목을 삭제하였습니다.".formatted(productId));
     }
 
     @PostMapping("/add/{productId}")
     @PreAuthorize("isAuthenticated()")
     public String addItem(@AuthenticationPrincipal MemberContext memberContext, @PathVariable Long productId) {
         Member buyer = memberContext.getMember();
+        Product product = productService.findById(productId).get();
 
-//        CartItem cartItem = cartService.addItem(buyer, product).orElse(null);
-//
-//        if (cartService.actorCanDelete(buyer, cartItem)) {
-//            cartService.removeItem(cartItem);
-//        }
+        cartService.addItem(buyer, product);
 
-        return "redirect:/cart/items?msg=" + Ut.url.encode("%d번 품목을 삭제하였습니다.".formatted(productId));
+        return "redirect:/cart/list?msg=" + Ut.url.encode("%d번 품목을 추가하였습니다.".formatted(productId));
     }
 }
