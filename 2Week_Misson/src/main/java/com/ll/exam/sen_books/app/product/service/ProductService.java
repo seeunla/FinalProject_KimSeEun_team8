@@ -54,4 +54,9 @@ public class ProductService {
 
         return product;
     }
+
+    @Transactional
+    public void delete(Product product) {
+        productRepository.delete(product);
+    }
 }

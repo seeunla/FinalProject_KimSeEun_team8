@@ -2,7 +2,6 @@ package com.ll.exam.sen_books.app.product.controller;
 
 import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.post.entity.Post;
-import com.ll.exam.sen_books.app.post.form.PostForm;
 import com.ll.exam.sen_books.app.post.service.PostService;
 import com.ll.exam.sen_books.app.product.entity.Product;
 import com.ll.exam.sen_books.app.product.form.ProductForm;
@@ -101,5 +100,17 @@ public class ProductController {
         return "redirect:/product/" + product.getId() + "?msg=" + Ut.url.encode("%d번 상품이 수정되었습니다.".formatted(product.getId()));
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{id}/delete")
+    public String deleteProduct (@PathVariable long id) {
+        Product product = productService.findById(id).get();
 
+        if (product == null) {
+            return "redirect:/product/" + product.getId() + "?msg=" + Ut.url.encode("%d번 상품은 존재하지 않습니다.".formatted(id));
+        }
+
+        productService.delete(product);
+
+        return "redirect:/?" + Ut.url.encode("%d번 글이 삭제되었습니다.".formatted(product.getId()));
+    }
 }
