@@ -35,6 +35,10 @@ public class Product extends BaseEntity {
         return getPrice();
     }
 
+    public int getWholesalePrice() {
+        return (int) Math.ceil(getPrice() * 0.7);
+    }
+
     public String getJdenticon() {
         return "product__" + getId();
     }
@@ -42,5 +46,9 @@ public class Product extends BaseEntity {
     public void modify(String subject, int price) {
         this.subject = subject;
         this.price = price;
+    }
+
+    public boolean isOrderable() {
+        return true;
     }
 }
