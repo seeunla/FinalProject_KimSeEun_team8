@@ -39,6 +39,12 @@
                        th:if="${post.author != null and #authentication.isAuthenticated()}"
                        th:text="삭제"></a>
                 </div>
+                <a href="/post/list" class="inline-flex" sec:authorize="isAuthenticated()">
+                    <i class="fa-solid fa-upload"></i>
+                    <span class="ml-[2px] hidden sm:block">
+                    글 목록
+                </span>
+                </a>
             </div>
         </div>
     </section>
