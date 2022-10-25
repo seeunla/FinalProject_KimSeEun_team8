@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Book</title>
+</head>
+
+<body>
+<main layout:fragment="main">
+    <section class="section section-write container mx-auto">
+
+        <div class="px-2 pt-4">
+            <h1 class="font-bold text-lg">BOOK</h1>
+
+            <div class="flex flex-col gap-3 mt-3">
+                <svg width="80" height="80" th:data-jdenticon-value="${product.jdenticon}"></svg>
+
+                <div>
+                    <div class="badge badge-primary">Name</div>
+
+                    <div th:text="${product.subject}"></div>
+                </div>
+
+                <div>
+                    <div class="badge badge-primary">Price</div>
+                    <div th:utext="${product.price}"></div>
+                </div>
+
+                <div class="grid grid-cols-6 mt-2 gap-2">
+                    <a th:href="@{|/product/${product.id}/modify|}" class="btn btn-sm btn-outline-secondary"
+                       sec:authorize="isAuthenticated()"
+                       th:if="${product.author != null and #authentication.isAuthenticated()}"
+                       th:text="MODIFY"></a>
+
+                    <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/product/${product.id}/delete|}"
+                       class="btn btn-sm btn-outline-secondary"
+                       sec:authorize="isAuthenticated()"
+                       th:if="${product.author != null and #authentication.isAuthenticated()}"
+                       th:text="DELETE"></a>
+                </div>
+                <a href="/product/list" class="inline-flex" sec:authorize="isAuthenticated()">
+                    <i class="fa-solid fa-upload"></i>
+                    <span class="ml-[2px] hidden sm:block">
+                        List
+                </span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+</main>
+</body>
+</html>

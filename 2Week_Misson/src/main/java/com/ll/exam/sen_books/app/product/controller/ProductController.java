@@ -69,6 +69,16 @@ public class ProductController {
     }
 
     @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{id}")
+    public String detail(@PathVariable long id, Model model) {
+        Product product = productService.findForPrintById(id).get();
+
+        model.addAttribute("product", product);
+
+        return "product/detail";
+    }
+
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}/modify")
     public String showModify(@PathVariable long id, Model model) {
         Product product = productService.findForPrintById(id).get();
@@ -84,11 +94,11 @@ public class ProductController {
         Product product = productService.findById(id).get();
 
         if (product == null) {
-            return "redirect:/product/" + product.getId() + "?msg=" + Ut.url.encode("%d번 글은 존재하지 않습니다.".formatted(id));
+            return "redirect:/product/" + product.getId() + "?msg=" + Ut.url.encode("%d번 상품은 존재하지 않습니다.".formatted(id));
         }
 
         productService.modify(product, productForm.getSubject(), productForm.getPrice());
-        return "redirect:/product/" + product.getId() + "?msg=" + Ut.url.encode("%d번 글이 수정되었습니다.".formatted(product.getId()));
+        return "redirect:/product/" + product.getId() + "?msg=" + Ut.url.encode("%d번 상품이 수정되었습니다.".formatted(product.getId()));
     }
 
 
