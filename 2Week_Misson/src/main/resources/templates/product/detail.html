@@ -38,12 +38,14 @@
                        sec:authorize="isAuthenticated()"
                        th:if="${product.author != null and #authentication.isAuthenticated()}"
                        th:text="DELETE"></a>
+                    <a href="javascript: document.addCart.submit();" th:text="CART" class="btn btn-primary btn-sm"></a>
+                    <form method="POST" name="addCart" th:action="@{|/cart/add/${product.id}|}" hidden></form>
                 </div>
                 <a href="/product/list" class="inline-flex" sec:authorize="isAuthenticated()">
                     <i class="fa-solid fa-upload"></i>
                     <span class="ml-[2px] hidden sm:block">
                         List
-                </span>
+                    </span>
                 </a>
             </div>
         </div>
