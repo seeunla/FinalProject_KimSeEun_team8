@@ -38,4 +38,9 @@ public class Product extends BaseEntity {
     public String getJdenticon() {
         return "product__" + getId();
     }
+
+    public void modify(String subject, int price) {
+        this.subject = subject;
+        this.price = price;
+    }
 }
