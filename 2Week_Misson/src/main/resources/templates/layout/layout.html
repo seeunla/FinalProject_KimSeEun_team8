@@ -116,11 +116,23 @@
                     정보수정
                 </span>
             </a>
+            <a href="/post/list" class="inline-flex" sec:authorize="isAuthenticated()">
+                <i class="fa-solid fa-upload"></i>
+                <span class="ml-[2px] hidden sm:block">
+                    글 목록
+                </span>
+            </a>
 
             <a href="/post/write" class="inline-flex" sec:authorize="isAuthenticated()">
                 <i class="fa-solid fa-upload"></i>
                 <span class="ml-[2px] hidden sm:block">
                     글 등록
+                </span>
+            </a>
+            <a href="/cart/list" class="inline-flex" sec:authorize="isAuthenticated()">
+                <i class="fa-solid fa-upload"></i>
+                <span class="ml-[2px] hidden sm:block">
+                    장바구니
                 </span>
             </a>
         </div>
