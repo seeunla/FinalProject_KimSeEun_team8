@@ -2,7 +2,6 @@ package com.ll.exam.sen_books.app.product.controller;
 
 import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.post.entity.Post;
-import com.ll.exam.sen_books.app.post.form.PostForm;
 import com.ll.exam.sen_books.app.post.service.PostService;
 import com.ll.exam.sen_books.app.product.entity.Product;
 import com.ll.exam.sen_books.app.product.form.ProductForm;
@@ -53,5 +52,17 @@ public class ProductController {
 
         Product product = productService.create(post, productForm.getSubject(), productForm.getPrice());
         return "redirect:/product/" + product.getId() + "?msg=" + Ut.url.encode("%d번 상품이 생성되었습니다.".formatted(product.getId()));
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/list")
+    public String showList(@AuthenticationPrincipal MemberContext memberContext, Model model) {
+        Member author = memberContext.getMember();
+
+        List<Product> products = productService.findAllByAuthorId(author.getId());
+
+        model.addAttribute("products", products);
+
+        return "product/list";
     }
 }
