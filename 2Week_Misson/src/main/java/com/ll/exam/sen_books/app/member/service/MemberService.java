@@ -118,4 +118,11 @@ public class MemberService {
 
         return passwordEncoder.matches(password, member.getPassword());
     }
+
+    public long getRestCash(Member member) {
+        Member foundMember = findByUsername(member.getUsername()).get();
+
+        return foundMember.getRestCash();
+    }
+
 }

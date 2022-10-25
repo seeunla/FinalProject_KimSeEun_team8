@@ -30,6 +30,10 @@ public class Order extends BaseEntity {
     private Member buyer;
     private String name;
 
+    private boolean isPaid; // 결제여부
+    private boolean isCanceled; // 취소여부
+    private boolean isRefunded; // 환불여부
+
     @Builder.Default
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
@@ -38,6 +42,39 @@ public class Order extends BaseEntity {
         orderItem.setOrder(this);
 
         orderItems.add(orderItem);
+    }
+
+    public int calculatePayPrice() {
+        int payPrice = 0;
+
+        for (OrderItem orderItem : orderItems) {
+            payPrice += orderItem.getPayPrice();
+        }
+
+        return payPrice;
+    }
+
+    public void setPaymentDone() {
+        for (OrderItem orderItem : orderItems) {
+            orderItem.setPaymentDone();
+        }
+    }
+
+    public void setRefundDone() {
+        for (OrderItem orderItem : orderItems) {
+            orderItem.setRefundDone();
+        }
+
+        isRefunded = true;
+    }
+
+    public int getPayPrice() {
+        int payPrice = 0;
+        for (OrderItem orderItem : orderItems) {
+            payPrice += orderItem.getSalePrice();
+        }
+
+        return payPrice;
     }
 
     public void makeName() {
@@ -49,4 +86,11 @@ public class Order extends BaseEntity {
 
         this.name = name;
     }
+    public boolean isPayable() {
+        if (isPaid) return  false;
+        if (isCanceled) return false;
+
+        return true;
+    }
+
 }
