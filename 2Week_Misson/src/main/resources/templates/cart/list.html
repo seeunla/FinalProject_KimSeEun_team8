@@ -62,7 +62,7 @@
                     const $checked = $('.cartItemCheckbox:checked');
 
                     if ($checked.length == 0) {
-                        alert('삭제할 장바구니 품목을 선택해주세요.');
+                        warningModal('삭제할 장바구니 품목을 선택해주세요.');
                         return;
                     }
 
@@ -72,9 +72,26 @@
                     RemoveCartItemsForm__submitDone = true;
                 }
 
-                function OrderCartItemsForm__submit() {
+                // let OrderCartItemsForm__submitDone = false;
 
+                function OrderCartItemsForm__submit() {
+                    // if (OrderCartItemsForm__submitDone) return;
+
+                    const form = document.orderCartItemsForm;
+
+                    // const $checked = $('.cartItemCheckbox:checked');
+                    //
+                    // if ($checked.length == 0) {
+                    //     warningModal('주문할 장바구니 품목을 선택해주세요.');
+                    //     return;
+                    // }
+                    //
+                    // const ids = $checked.map((index, el) => $(el).val()).get();
+                    // form.ids.value = ids;
+                    form.submit();
+                    // OrderCartItemsForm__submitDone = true;
                 }
+
             </script>
         </div>
 
