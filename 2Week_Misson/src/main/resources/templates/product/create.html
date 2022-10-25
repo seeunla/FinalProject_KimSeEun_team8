@@ -50,7 +50,7 @@
                     <label class="label">
                         <span class="label-text">도서</span>
                     </label>
-                    <select class="select select-bordered" name="songId">
+                    <select class="select select-bordered" select-2 name="postId">
                         <option th:each="post : ${posts}" th:value="${post.id}" th:text="|${post.id}. ${post.subject}|"></option>
                     </select>
                 </div>
