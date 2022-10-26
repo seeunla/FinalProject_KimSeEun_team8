@@ -1,6 +1,7 @@
 package com.ll.exam.sen_books.app.order.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ll.exam.sen_books.app.cart.entity.CartItem;
 import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.member.service.MemberService;
 import com.ll.exam.sen_books.app.order.entity.Order;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -53,5 +56,17 @@ public class OrderController {
         model.addAttribute("actorRestCash", restCash);
 
         return "order/detail";
+    }
+
+    @GetMapping("/list")
+    @PreAuthorize("isAuthenticated()")
+    public String orderList(@AuthenticationPrincipal MemberContext memberContext, Model model) {
+        Member buyer = memberContext.getMember();
+
+        List<Order> orders = orderService.getOrders(buyer);
+
+        model.addAttribute("orders", orders);
+
+        return "order/list";
     }
 }

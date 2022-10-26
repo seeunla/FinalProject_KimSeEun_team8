@@ -78,4 +78,8 @@ public class OrderService {
     public boolean memberCanSee(Member member, Order order) {
         return member.getId().equals(order.getBuyer().getId());
     }
+
+    public List<Order> getOrders(Member buyer) {
+        return orderRepository.findAllByBuyerId(buyer.getId());
+    }
 }
