@@ -71,7 +71,7 @@ public class OrderService {
         return findById(id);
     }
 
-    private Optional<Order> findById(long id) {
+    public Optional<Order> findById(long id) {
         return orderRepository.findById(id);
     }
 
@@ -82,4 +82,11 @@ public class OrderService {
     public List<Order> getOrders(Member buyer) {
         return orderRepository.findAllByBuyerId(buyer.getId());
     }
+
+
+    @Transactional
+    public void removeOrder(Order order) {
+        orderRepository.delete(order);
+    }
+
 }

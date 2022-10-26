@@ -69,4 +69,14 @@ public class OrderController {
 
         return "order/list";
     }
+
+    @GetMapping("/{id}/cancel")
+    @PreAuthorize("isAuthenticated()")
+    public String removeOrder(@PathVariable Long id) {
+        Order order = orderService.findById(id).get();
+
+        orderService.removeOrder(order);
+
+        return "redirect:/order/list?msg=" + Ut.url.encode("%d번 품목을 삭제하였습니다.".formatted(id));
+    }
 }

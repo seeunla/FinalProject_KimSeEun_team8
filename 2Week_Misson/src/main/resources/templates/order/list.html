@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
     <title>Order list</title>
@@ -30,10 +31,18 @@
                     </td>
                     <td th:text="${order.calculatePayPrice()}"></td>
                     <td th:text="${#temporals.format(order.createDate, 'yy-MM-dd HH:mm')}"></td>
+                    <td>
+                        <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/order/${order.id}/cancel|}"
+                           class="btn btn-warning btn-sm btn-outline-secondary"
+                           sec:authorize="isAuthenticated()"
+                           th:if="${order.buyer != null and #authentication.isAuthenticated()}"
+                           th:text="삭제"></a>
+                    </td>
                 </tr>
                 </tbody>
 
             </table>
+
 
         </div>
     </section>

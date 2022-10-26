@@ -38,12 +38,12 @@ public class CartController {
         return "cart/list";
     }
 
-    @PostMapping("/remove/{productId}")
+    @GetMapping("/remove/{productId}")
     @PreAuthorize("isAuthenticated()")
-    public String removeItem(@AuthenticationPrincipal MemberContext memberContext, @PathVariable Long productId) {
-        Member buyer = memberContext.getMember();
+    public String removeItem(@PathVariable Long productId) {
+        CartItem cartItem = cartService.findItemById(productId).get();
 
-        cartService.removeItem(buyer, productId);
+        cartService.removeItem(cartItem);
 
         return "redirect:/cart/list?msg=" + Ut.url.encode("%d번 품목을 삭제하였습니다.".formatted(productId));
     }

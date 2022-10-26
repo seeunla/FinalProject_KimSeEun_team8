@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
     <title>장바구니</title>
@@ -29,8 +30,11 @@
                     </td>
                     <td th:text="${item.product.salePrice}"></td>
                     <td>
-                        <a href="javascript: document.removeCartItemsForm.submit();" class="btn btn-warning btn-outline btn-sm">삭제</a>
-                        <form method="POST" name="removeCartItemsForm" th:action="@{|/cart/remove/${item.product.id}|}" hidden></form>
+                        <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/cart/remove/${item.id}|}"
+                           class="btn btn-warning btn-sm btn-outline-secondary"
+                           sec:authorize="isAuthenticated()"
+                           th:if="${item.buyer.name != null and #authentication.isAuthenticated()}"
+                           th:text="삭제"></a>
                     </td>
                 </tr>
                 </tbody>

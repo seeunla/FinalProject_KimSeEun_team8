@@ -38,6 +38,10 @@ public class Order extends BaseEntity {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    public Order(long id) {
+        super(id);
+    }
+
     public void addOrderItem(OrderItem orderItem) {
         orderItem.setOrder(this);
 

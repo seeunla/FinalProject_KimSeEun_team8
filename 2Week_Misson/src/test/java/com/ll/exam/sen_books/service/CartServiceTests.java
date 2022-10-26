@@ -61,10 +61,10 @@ public class CartServiceTests {
         Product product3 = productService.findById(3).get();
         Product product4 = productService.findById(4).get();
 
-        cartService.removeItem(buyer1, product1);
-        cartService.removeItem(buyer1, product2);
-        cartService.removeItem(buyer2, product3);
-        cartService.removeItem(buyer2, product4);
+//        cartService.removeItem(buyer1, product1);
+//        cartService.removeItem(buyer1, product2);
+//        cartService.removeItem(buyer2, product3);
+//        cartService.removeItem(buyer2, product4);
 
         assertThat(cartService.hasItem(buyer1, product1)).isFalse();
         assertThat(cartService.hasItem(buyer1, product1)).isFalse();
