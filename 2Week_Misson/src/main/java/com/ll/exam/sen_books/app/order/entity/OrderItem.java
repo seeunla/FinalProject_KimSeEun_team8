@@ -37,12 +37,17 @@ public class OrderItem extends BaseEntity {
     private int SalePrice; // 결제금액
     private int refundPrice; // 환불금액
     private boolean isPaid; // 결제여부
+    private int quantity;
 
     public OrderItem(Product product) {
         this.product = product;
         this.price = product.getPrice();
         this.PayPrice = product.getSalePrice();
         this.wholesalePrice = product.getWholesalePrice();
+    }
+
+    public int calculatePayPrice() {
+        return SalePrice * quantity;
     }
 
     public void setPaymentDone() {
