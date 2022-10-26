@@ -89,4 +89,38 @@ public class OrderService {
         orderRepository.delete(order);
     }
 
+    @Transactional
+    public void payByRestCashOnly(Order order) {
+        Member orderer = order.getBuyer();
+
+        long restCash = orderer.getRestCash();
+
+        int payPrice = order.calculatePayPrice();
+
+        if (payPrice > restCash) {
+            throw new RuntimeException("예치금이 부족합니다.");
+        }
+
+        memberService.addCash(orderer, payPrice * -1, "주문결제__예치금결제");
+
+        order.setPaymentDone();
+        orderRepository.save(order);
+    }
+
+    @Transactional
+    public void payByTossPayments(Order order, long useRestCash) {
+        Member buyer = order.getBuyer();
+        int payPrice = order.calculatePayPrice();
+
+        long pgPayPrice = payPrice - useRestCash;
+        memberService.addCash(buyer, pgPayPrice, "주문__%d__충전__토스페이먼츠".formatted(order.getId()));
+        memberService.addCash(buyer, pgPayPrice * -1, "주문__%d__사용__토스페이먼츠".formatted(order.getId()));
+
+        if ( useRestCash > 0 ) {
+            memberService.addCash(buyer, useRestCash * -1, "주문__%d__사용__예치금".formatted(order.getId()));
+        }
+
+        order.setPaymentDone();
+        orderRepository.save(order);
+    }
 }

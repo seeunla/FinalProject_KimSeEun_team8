@@ -79,4 +79,14 @@ public class OrderController {
 
         return "redirect:/order/list?msg=" + Ut.url.encode("%d번 품목을 삭제하였습니다.".formatted(id));
     }
+
+    @PostMapping("/{id}/pay")
+    @PreAuthorize("isAuthenticated()")
+    public String payOrder(@PathVariable Long id) {
+        Order order = orderService.findById(id).get();
+
+        orderService.payByRestCashOnly(order);
+
+        return "redirect:/order/list?msg=" + Ut.url.encode("%d번 품목을 결제하였습니다.".formatted(id));
+    }
 }
