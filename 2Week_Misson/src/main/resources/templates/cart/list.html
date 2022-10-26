@@ -3,7 +3,7 @@
       layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
-    <title>장바구니</title>
+    <title>Cart</title>
 </head>
 
 <body>
@@ -11,7 +11,7 @@
     <section class="section section-write container mx-auto">
 
         <div class="px-2 pt-4">
-            <h1 class="font-bold text-lg">장바구니</h1>
+            <h1 class="font-bold text-lg">Cart</h1>
 
             <table class="table">
                 <thead class="table-light">
@@ -19,6 +19,7 @@
                     <th>Id</th>
                     <th>Subject</th>
                     <th>Price</th>
+                    <th>Delete</th>
                 </tr>
                 </thead>
 
@@ -34,13 +35,13 @@
                            class="btn btn-warning btn-sm btn-outline-secondary"
                            sec:authorize="isAuthenticated()"
                            th:if="${item.buyer.name != null and #authentication.isAuthenticated()}"
-                           th:text="삭제"></a>
+                           th:text="DELETE"></a>
                     </td>
                 </tr>
                 </tbody>
             </table>
 
-            <a href="javascript: document.orderCartItemsForm.submit();"  class="btn btn-primary btn-sm">주문하기</a>
+            <a href="javascript: document.orderCartItemsForm.submit();"  class="btn btn-primary btn-sm">Order</a>
             <form method="POST" name="orderCartItemsForm" th:action="@{|/order/create|}" hidden></form>
 
         </div>

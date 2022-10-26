@@ -10,35 +10,34 @@
         <div class="section section-write container mx-auto">
 
             <div>
-                <h1>회원정보 수정</h1>
-
+                <h1>UPDATE USER</h1>
 
 
                 <form th:action method="POST" class="flex flex-col gap-3" >
                     <div>
-                        <span>아이디</span>
+                        <span>ID</span>
                         <input autofocus type="text" name="username" placeholder="아이디" class="input input-bordered"
                                maxlength="50" th:value="${member.username}">
                     </div>
                     <div>
-                        <span>이메일</span>
+                        <span>EMAIL</span>
                         <input autofocus type="text" name="email" placeholder="이메일" class="input input-bordered"
                                maxlength="50" th:value="${member.email}">
                     </div>
                     <div>
-                        <span>닉네임</span>
+                        <span>NICKNAME</span>
                         <input autofocus type="text" name="nickname" placeholder="닉네임" class="input input-bordered"
                                maxlength="50" th:value="${member.nickname}">
                     </div>
                     <div class="grid grid-cols-2 mt-2 gap-2">
-                        <input class="btn btn-primary" type="submit" value="수정">
-                        <button type="button" onclick="history.back();" class="btn btn-secondary btn-outline">취소</button>
+                        <input class="btn btn-primary" type="submit" value="UPDATE">
+                        <button type="button" onclick="history.back();" class="btn btn-secondary btn-outline">DELETE</button>
                     </div>
 
                     <div class="grid grid-cols-2 mt-2 gap-2">
                         <a href="/member/modifyPassword" class="inline-flex">
                             <i class="fa-solid fa-user"></i>
-                            <span class="ml-[2px] hidden sm:block">비밀번호 변경</span>
+                            <span class="ml-[2px] hidden sm:block">Update Password</span>
                         </a>
                     </div>
                 </form>

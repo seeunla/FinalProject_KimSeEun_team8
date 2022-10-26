@@ -20,6 +20,7 @@
                     <th>Subject</th>
                     <th>Price</th>
                     <th>CreateDate</th>
+                    <th>DELETE</th>
                 </tr>
                 </thead>
 
@@ -36,7 +37,7 @@
                            class="btn btn-warning btn-sm btn-outline-secondary"
                            sec:authorize="isAuthenticated()"
                            th:if="${order.buyer != null and #authentication.isAuthenticated()}"
-                           th:text="삭제"></a>
+                           th:text="DELETE"></a>
                     </td>
                 </tr>
                 </tbody>
