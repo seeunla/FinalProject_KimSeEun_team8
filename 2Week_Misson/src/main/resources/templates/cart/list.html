@@ -12,87 +12,33 @@
         <div class="px-2 pt-4">
             <h1 class="font-bold text-lg">장바구니</h1>
 
-            <input type="checkbox" class="cartItemCheckboxAll checkbox">
+            <table class="table">
+                <thead class="table-light">
+                <tr>
+                    <th>Id</th>
+                    <th>Subject</th>
+                    <th>Price</th>
+                </tr>
+                </thead>
 
-            <ul>
-                <li th:each="item : ${items}" class="flex items-center">
-                    <input onchange="CartItemCheckbox__changed();" type="checkbox" class="cartItemCheckbox checkbox" th:value="${item.id}">
-                    <svg width="80" height="80" th:data-jdenticon-value="${item.product.jdenticon}"></svg>
-                    <div>
-                        <span th:text="${item.product.author.name}"></span> <span
-                            th:text="${item.product.subject}"></span> <span th:text="${item.product.salePrice}"></span>
-                    </div>
+                <tbody>
+                <tr th:each="item, loop : ${items}" class="items-center">
+                    <td th:text="${loop.count}"></td>
+                    <td>
+                        <a th:href="@{|/item/${item.id}|}" th:text="${item.product.subject}"></a>
+                    </td>
+                    <td th:text="${item.product.salePrice}"></td>
+                    <td>
+                        <a href="javascript: document.removeCartItemsForm.submit();" class="btn btn-warning btn-outline btn-sm">삭제</a>
+                        <form method="POST" name="removeCartItemsForm" th:action="@{|/cart/remove/${item.product.id}|}" hidden></form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
-                    </span>
-                </li>
-            </ul>
-
-            <a href="javascript:;" onclick="RemoveCartItemsForm__submit();" class="btn btn-warning btn-outline btn-sm">선택삭제</a>
-            <form method="POST" name="removeCartItemsForm" th:action="@{|/cart/remove|}" hidden>
-                <input type="hidden" name="ids">
-            </form>
-
-            <a href="javascript:;" onclick="OrderCartItemsForm__submit();" class="btn btn-primary btn-sm">주문하기</a>
+            <a href="javascript: document.orderCartItemsForm.submit();"  class="btn btn-primary btn-sm">주문하기</a>
             <form method="POST" name="orderCartItemsForm" th:action="@{|/order/create|}" hidden></form>
 
-            <script>
-                // 전체선택 체크박스
-                const $cartItemCheckboxAll = $('.cartItemCheckboxAll');
-                // 아이템 체크박스
-                const $cartItemCheckbox = $('.cartItemCheckbox');
-
-                $cartItemCheckboxAll.change(function () {
-                    const allChecked = $(this).prop('checked');
-                    $cartItemCheckbox.prop('checked', allChecked);
-                });
-
-                function CartItemCheckbox__changed() {
-                    const allChecked = $cartItemCheckbox.length == $('.cartItemCheckbox:checked').length;
-
-                    $cartItemCheckboxAll.prop('checked', allChecked);
-                }
-
-                let RemoveCartItemsForm__submitDone = false;
-
-                function RemoveCartItemsForm__submit() {
-                    if (RemoveCartItemsForm__submitDone) return;
-
-                    const form = document.removeCartItemsForm;
-
-                    const $checked = $('.cartItemCheckbox:checked');
-
-                    if ($checked.length == 0) {
-                        warningModal('삭제할 장바구니 품목을 선택해주세요.');
-                        return;
-                    }
-
-                    const ids = $checked.map((index, el) => $(el).val()).get();
-                    form.ids.value = ids;
-                    form.submit();
-                    RemoveCartItemsForm__submitDone = true;
-                }
-
-                // let OrderCartItemsForm__submitDone = false;
-
-                function OrderCartItemsForm__submit() {
-                    // if (OrderCartItemsForm__submitDone) return;
-
-                    const form = document.orderCartItemsForm;
-
-                    // const $checked = $('.cartItemCheckbox:checked');
-                    //
-                    // if ($checked.length == 0) {
-                    //     warningModal('주문할 장바구니 품목을 선택해주세요.');
-                    //     return;
-                    // }
-                    //
-                    // const ids = $checked.map((index, el) => $(el).val()).get();
-                    // form.ids.value = ids;
-                    form.submit();
-                    // OrderCartItemsForm__submitDone = true;
-                }
-
-            </script>
         </div>
 
         </div>
