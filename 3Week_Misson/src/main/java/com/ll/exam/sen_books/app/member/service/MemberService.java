@@ -90,8 +90,8 @@ public class MemberService {
         long newRestCash;
     }
 
-    public Member findById(Long id) {
-        return memberRepository.findById(id).get();
+    public Optional<Member> findById(Long id) {
+        return memberRepository.findById(id);
     }
     @Transactional
     public void modify(String username, ResponseMember responseMember) {
@@ -142,9 +142,7 @@ public class MemberService {
     }
 
     public long getRestCash(Member member) {
-        Member foundMember = findByUsername(member.getUsername()).get();
-
-        return foundMember.getRestCash();
+        return memberRepository.findById(member.getId()).get().getRestCash();
     }
 
 }
