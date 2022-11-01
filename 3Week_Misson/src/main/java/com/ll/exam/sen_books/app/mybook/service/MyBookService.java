@@ -24,4 +24,11 @@ public class MyBookService {
                         .build())
                 .forEach(myBookRepository::save);
     }
+
+    @Transactional
+    public void remove(Order order) {
+        order.getOrderItems()
+                .stream()
+                .forEach(orderItem -> myBookRepository.deleteByProductIdAndOwnerId(orderItem.getProduct().getId(), order.getBuyer().getId()));
+    }
 }
