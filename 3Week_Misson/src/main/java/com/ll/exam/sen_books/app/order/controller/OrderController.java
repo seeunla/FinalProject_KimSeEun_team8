@@ -80,13 +80,21 @@ public class OrderController {
         return "redirect:/order/list?msg=" + Ut.url.encode("%d번 품목을 삭제하였습니다.".formatted(id));
     }
 
-    @PostMapping("/{id}/pay")
+    @PostMapping("/{id}/payByRestCashOnly")
     @PreAuthorize("isAuthenticated()")
-    public String payOrder(@PathVariable Long id) {
+    public String payByRestCashOnly(@PathVariable Long id) {
         Order order = orderService.findById(id).get();
 
         orderService.payByRestCashOnly(order);
 
-        return "redirect:/order/list?msg=" + Ut.url.encode("%d번 품목을 결제하였습니다.".formatted(id));
+        return "redirect:/order/%d?msg=".formatted(order.getId()) + Ut.url.encode(("%d번 품목을 예치금으로 결제하였습니다.").formatted(id));
+    }
+
+    @PostMapping("/{orderId}/cancel")
+    @PreAuthorize("isAuthenticated()")
+    public String cancel(@PathVariable Long orderId) {
+        orderService.cancel(orderId);
+
+        return "redirect:/order/%d?msg=".formatted(orderId) + Ut.url.encode("결제를 취소했습니다.");
     }
 }

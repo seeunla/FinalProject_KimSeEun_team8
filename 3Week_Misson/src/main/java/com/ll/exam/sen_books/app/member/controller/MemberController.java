@@ -81,7 +81,7 @@ public class MemberController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/profile")
     public String showProfile(@AuthenticationPrincipal MemberContext memberContext, Model model) {
-        Member member = memberService.findById(memberContext.getId());
+        Member member = memberService.findById(memberContext.getId()).get();
 
         model.addAttribute("member", member);
         return "member/profile";

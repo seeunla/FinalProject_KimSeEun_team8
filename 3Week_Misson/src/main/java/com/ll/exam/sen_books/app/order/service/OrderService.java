@@ -123,4 +123,10 @@ public class OrderService {
         order.setPaymentDone();
         orderRepository.save(order);
     }
+
+    @Transactional
+    public void cancel(Long orderId) {
+        Order order = findById(orderId).get();
+        order.setCanceled(true);
+    }
 }

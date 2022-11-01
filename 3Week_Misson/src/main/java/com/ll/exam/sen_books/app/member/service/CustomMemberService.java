@@ -25,9 +25,6 @@ public class CustomMemberService implements UserDetailsService {
 
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        if ( member.getAuthLevel() > 6) {
-            authorities.add(new SimpleGrantedAuthority("ADMIN"));
-        }
         authorities.add(new SimpleGrantedAuthority("MEMBER"));
 
         return new MemberContext(member, authorities);
