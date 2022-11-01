@@ -2,6 +2,7 @@ package com.ll.exam.sen_books.app.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ll.exam.sen_books.app.base.entity.BaseEntity;
+import com.ll.exam.sen_books.app.member.entity.emum.AuthLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 
 @Entity
@@ -26,7 +28,8 @@ public class Member extends BaseEntity {
     private String password;
     private String email;
     private String nickname;
-    private int authLevel;
+    @Convert(converter = AuthLevel.Converter.class)
+    private AuthLevel authLevel;
     private long restCash;
 
 

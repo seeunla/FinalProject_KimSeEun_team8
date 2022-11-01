@@ -4,6 +4,7 @@ import com.ll.exam.sen_books.app.cash.entity.CashLog;
 import com.ll.exam.sen_books.app.cash.service.CashService;
 import com.ll.exam.sen_books.app.member.dto.ResponseMember;
 import com.ll.exam.sen_books.app.member.entity.Member;
+import com.ll.exam.sen_books.app.member.entity.emum.AuthLevel;
 import com.ll.exam.sen_books.app.member.repository.MemberRepository;
 import com.ll.exam.sen_books.util.mail.dto.ResponseMessage;
 import com.ll.exam.sen_books.util.mail.service.EmailService;
@@ -37,11 +38,8 @@ public class MemberService {
                 .password(passwordEncoder.encode(password))
                 .email(email)
                 .nickname(nickname)
+                .authLevel(AuthLevel.NORMAL)
                 .build();
-
-        if (member.getNickname() != null) {
-            member.setAuthLevel(3);
-        }
 
         memberRepository.save(member);
 
