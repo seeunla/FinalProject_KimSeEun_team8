@@ -21,7 +21,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @SuperBuilder
 @ToString(callSuper = true)
@@ -109,4 +108,7 @@ public class Order extends BaseEntity {
     }
 
 
+    public void setCanceled() {
+        isCanceled = true;
+    }
 }

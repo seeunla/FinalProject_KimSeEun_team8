@@ -127,7 +127,7 @@ public class OrderService {
     @Transactional
     public void cancel(Long orderId) {
         Order order = findById(orderId).get();
-        order.setCanceled(true);
+        order.setCanceled();
     }
 
     @Transactional
