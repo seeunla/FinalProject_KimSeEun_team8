@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <title>Cart</title>
+</head>
+
+<body>
+<main layout:fragment="main">
+    <section class="section section-write container mx-auto">
+
+        <div class="px-2 pt-4">
+            <h1 class="font-bold text-lg">Cart</h1>
+
+            <table class="table">
+                <thead class="table-light">
+                <tr>
+                    <th>Id</th>
+                    <th>Subject</th>
+                    <th>Price</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="item, loop : ${items}" class="items-center">
+                    <td th:text="${loop.count}"></td>
+                    <td>
+                        <a th:href="@{|/item/${item.id}|}" th:text="${item.product.subject}"></a>
+                    </td>
+                    <td th:text="${item.product.salePrice}"></td>
+                    <td>
+                        <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/cart/remove/${item.id}|}"
+                           class="btn btn-warning btn-sm btn-outline-secondary"
+                           sec:authorize="isAuthenticated()"
+                           th:if="${item.buyer.name != null and #authentication.isAuthenticated()}"
+                           th:text="DELETE"></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <a href="javascript: document.orderCartItemsForm.submit();"  class="btn btn-primary btn-sm">Order</a>
+            <form method="POST" name="orderCartItemsForm" th:action="@{|/order/create|}" hidden></form>
+
+        </div>
+
+        </div>
+    </section>
+
+</main>
+</body>
+</html>
