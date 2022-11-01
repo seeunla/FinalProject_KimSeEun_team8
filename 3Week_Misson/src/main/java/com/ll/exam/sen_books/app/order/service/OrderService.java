@@ -129,4 +129,21 @@ public class OrderService {
         Order order = findById(orderId).get();
         order.setCanceled(true);
     }
+
+    @Transactional
+    public void refund(Long orderId) {
+        Order order = findById(orderId).orElse(null);
+
+        if (order == null) {
+            return;
+        }
+
+        order.setCancelDone();
+
+        int payPrice = order.getPayPrice();
+        memberService.addCash(order.getBuyer(), payPrice, "주문_%d_환불_예치금".formatted(order.getId()));
+
+        order.setRefundDone();
+        orderRepository.save(order);
+    }
 }

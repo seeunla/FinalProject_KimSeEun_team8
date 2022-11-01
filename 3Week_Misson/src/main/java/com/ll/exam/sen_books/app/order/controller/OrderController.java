@@ -97,4 +97,12 @@ public class OrderController {
 
         return "redirect:/order/%d?msg=".formatted(orderId) + Ut.url.encode("결제를 취소했습니다.");
     }
+
+    @PostMapping("/{orderId}/refund")
+    @PreAuthorize("isAuthenticated()")
+    public String refund(@PathVariable Long orderId) {
+        orderService.refund(orderId);
+
+        return "redirect:/order/%d?msg=".formatted(orderId) + Ut.url.encode("환불되었습니다.");
+    }
 }
