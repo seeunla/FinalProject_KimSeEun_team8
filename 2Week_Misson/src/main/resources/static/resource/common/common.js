@@ -368,3 +368,8 @@ $(function() {
     ToastEditor__init();
 });
 // 토스트 에디터 끝
+
+
+$(document).ready(function () {
+    $('.select-2').select2();
+});

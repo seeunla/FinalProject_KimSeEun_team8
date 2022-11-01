@@ -14,6 +14,7 @@
 
             <form th:action method="POST" class="flex flex-col gap-3"
                   onsubmit="PostModify__submit(this); return false;">
+                <input type="hidden" name="content"/>
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">제목</span>
@@ -26,9 +27,13 @@
                     <label class="label">
                         <span class="label-text">내용</span>
                     </label>
-                    <input type="hidden" name="content" id="content"/>
-                    <input type="hidden" name="contentHtml" id="contentHtml"/>
-                    <div id="editor"></div>
+                    <input autofocus type="hidden" name="content" placeholder="내용"/>
+                    <input type="hidden" name="contentHtml" />
+                    <div id="editor" toast-ui-editor--height="calc(100vh - 300px)"></div>
+                </div>
+                <div>
+                    <span>키워드</span>
+                    <input type="text" name="hashTagContents" placeholder="#키워드1 #키워드2" />
                 </div>
 
                 <div class="grid grid-cols-2 mt-2 gap-2">
@@ -40,7 +45,7 @@
     </section>
 
     <script th:inline="javascript">
-        const contentMarkdown = /*[[${post.getContent()}]]*/ null;
+        const content = /*[[${post.content}]]*/ null;
 
         const Editor = toastui.Editor;
 
@@ -51,7 +56,7 @@
             previewStyle: 'vertical'
         });
 
-        editor.setMarkdown(contentMarkdown);
+        editor.setMarkdown(content);
 
         let PostModify__submitDone = false;
 

@@ -15,6 +15,9 @@
 <!-- 제이쿼리 불러오기 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <!-- 폰트어썸 불러오기 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
 
@@ -110,17 +113,16 @@
                     프로파일
                 </span>
             </a>
-            <a href="/member/modify" class="inline-flex" sec:authorize="isAuthenticated()">
-                <i class="fa-solid fa-user"></i>
-                <span class="ml-[2px] hidden sm:block">
-                    정보수정
-                </span>
-            </a>
-
             <a href="/post/write" class="inline-flex" sec:authorize="isAuthenticated()">
                 <i class="fa-solid fa-upload"></i>
                 <span class="ml-[2px] hidden sm:block">
                     글 등록
+                </span>
+            </a>
+            <a href="/cart/list" class="inline-flex" sec:authorize="isAuthenticated()">
+                <i class="fa-solid fa-upload"></i>
+                <span class="ml-[2px] hidden sm:block">
+                    장바구니
                 </span>
             </a>
         </div>
