@@ -38,4 +38,14 @@ public class AdmHomeController {
         return "redirect:/adm/home/main?msg=" + Ut.url.encode("정산데이터 성공");
     }
 
+    @GetMapping("/rebateOrderItemList")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String showRebateOrderItemList(String yearMonth) {
+        if (yearMonth == null) {
+            yearMonth = "2022-10";
+        }
+
+        return "adm/rebate/rebateOrderItemList";
+    }
+
 }
