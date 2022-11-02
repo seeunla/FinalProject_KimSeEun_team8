@@ -85,4 +85,8 @@ public class RebateService {
 
         rebateOrderItem.setRebateDone(cashLog.getId());
     }
+
+    public RebateOrderItem findByOrderItemId(long orderItemId) {
+        return rebateOrderItemRepository.findByOrderItemId(orderItemId).get();
+    }
 }
