@@ -6,11 +6,10 @@ import com.ll.exam.sen_books.app.member.entity.emum.AuthLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.util.StringUtils;
 
@@ -26,6 +25,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
+@Slf4j
 @ToString(callSuper = true)
 public class Member extends BaseEntity {
     @Column(unique = true)
@@ -66,9 +66,11 @@ public class Member extends BaseEntity {
             authorities.add(new SimpleGrantedAuthority("AUTHOR"));
         }
 
-        if (authLevel.getCode() == 7) {
+        if (authLevel.getCode() >= 7) {
             authorities.add(new SimpleGrantedAuthority("ADMIN"));
         }
+
+        log.debug(authorities.toString());
 
         return authorities;
     }
