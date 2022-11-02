@@ -25,6 +25,12 @@ import java.util.List;
 public class AdmRebateController {
     private final RebateService rebateService;
 
+    @GetMapping("/makeData")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String showMakeData() {
+        return "adm/rebate/makeData";
+    }
+
     @PostMapping("/makeData")
     @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseBody
