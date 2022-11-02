@@ -1,7 +1,5 @@
 package com.ll.exam.sen_books.app.rebate.controller;
 
-import com.ll.exam.sen_books.app.order.entity.OrderItem;
-import com.ll.exam.sen_books.app.order.service.OrderService;
 import com.ll.exam.sen_books.app.rebate.entity.RebateOrderItem;
 import com.ll.exam.sen_books.app.rebate.service.RebateService;
 import com.ll.exam.sen_books.util.Ut;
