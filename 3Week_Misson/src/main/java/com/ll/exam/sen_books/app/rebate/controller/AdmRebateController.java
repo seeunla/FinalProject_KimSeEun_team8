@@ -67,7 +67,7 @@ public class AdmRebateController {
 
         return "/adm/rebate/rebateOrderItemList?yearMonth="
                 + yearMonth
-                + "?msg=" + Ut.url.encode("주문품목번호 %d번에 대해서 판매자에게 %s원 정산을 완료하였습니다.".formatted(orderItemId, calculateRebatePrice));
+                + "&msg=" + Ut.url.encode("주문품목번호 %d번에 대해서 판매자에게 %s원 정산을 완료하였습니다.".formatted(orderItemId, calculateRebatePrice));
     }
 
     @PostMapping("/rebate")
@@ -85,9 +85,8 @@ public class AdmRebateController {
         String referer = req.getHeader("Referer");
         String yearMonth = Ut.url.getQueryParamValue(referer, "yearMonth", "");
 
-        String redirect = "redirect:/adm/rebate/rebateOrderItemList?yearMonth=" + yearMonth;
-        redirect += "&msg=" + Ut.url.encode("%d건의 정산품목을 정산처리하였습니다.".formatted(idsArr.length));
-
-        return redirect;
+        return "redirect:/adm/rebate/rebateOrderItemList?yearMonth="
+                + yearMonth
+                + "&msg=" + Ut.url.encode("%d건의 정산품목을 정산처리하였습니다.".formatted(idsArr.length));
     }
 }
