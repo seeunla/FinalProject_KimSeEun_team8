@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -67,5 +68,26 @@ public class AdmRebateController {
         return "/adm/rebate/rebateOrderItemList?yearMonth="
                 + yearMonth
                 + "?msg=" + Ut.url.encode("주문품목번호 %d번에 대해서 판매자에게 %s원 정산을 완료하였습니다.".formatted(orderItemId, calculateRebatePrice));
+    }
+
+    @PostMapping("/rebate")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String rebate(String ids, HttpServletRequest req) {
+
+        String[] idsArr = ids.split(",");
+
+        Arrays.stream(idsArr)
+                .mapToLong(Long::parseLong)
+                .forEach(id -> {
+                    rebateService.rebate(id);
+                });
+
+        String referer = req.getHeader("Referer");
+        String yearMonth = Ut.url.getQueryParamValue(referer, "yearMonth", "");
+
+        String redirect = "redirect:/adm/rebate/rebateOrderItemList?yearMonth=" + yearMonth;
+        redirect += "&msg=" + Ut.url.encode("%d건의 정산품목을 정산처리하였습니다.".formatted(idsArr.length));
+
+        return redirect;
     }
 }
