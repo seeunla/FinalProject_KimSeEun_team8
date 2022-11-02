@@ -16,7 +16,6 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Getter
-@Setter
 @SuperBuilder
 @NoArgsConstructor(access=PROTECTED)
 public class Product extends BaseEntity {

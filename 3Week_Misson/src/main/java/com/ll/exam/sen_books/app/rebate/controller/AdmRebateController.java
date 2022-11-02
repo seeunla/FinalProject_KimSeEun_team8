@@ -37,7 +37,7 @@ public class AdmRebateController {
     public String makeData(String yearMonth) {
         rebateService.makeDate(yearMonth);
 
-        return "redirect:/adm/rebate/rebateOrderItemList?msg=" + Ut.url.encode("정산데이터가 성공적으로 생성되었습니다.");
+        return "redirect:/adm/rebate/rebateOrderItemList" + "?msg="+ Ut.url.encode("정산데이터가 성공적으로 생성되었습니다.");
     }
 
     @GetMapping("/rebateOrderItemList")
@@ -69,7 +69,7 @@ public class AdmRebateController {
 
         String yearMonth = Ut.url.getQueryParamValue(referer, "yearMonth", "");
 
-        return "/adm/rebate/rebateOrderItemList?yearMonth="
+        return "redirect:/adm/rebate/rebateOrderItemList?yearMonth="
                 + yearMonth
                 + "&msg=" + Ut.url.encode("주문품목번호 %d번에 대해서 판매자에게 %s원 정산을 완료하였습니다.".formatted(orderItemId, calculateRebatePrice));
     }

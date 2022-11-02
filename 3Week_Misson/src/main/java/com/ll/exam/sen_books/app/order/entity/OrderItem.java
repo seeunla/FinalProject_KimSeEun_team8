@@ -16,7 +16,6 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @SuperBuilder
 @ToString(callSuper = true)
@@ -61,4 +60,7 @@ public class OrderItem extends BaseEntity {
         this.refundPrice = SalePrice;
     }
 
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 }
