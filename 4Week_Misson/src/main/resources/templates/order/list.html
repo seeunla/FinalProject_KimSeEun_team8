@@ -16,9 +16,6 @@
             <table class="table">
                 <thead class="table-light">
                 <tr>
-                    <th>
-                        <input type="checkbox" class="orderCheckboxAll checkbox">
-                    </th>
                     <th>Id</th>
                     <th>Subject</th>
                     <th>Price</th>
@@ -28,70 +25,24 @@
                 </thead>
 
                 <tbody>
-                <tr th:each="order : ${orders}" class="items-center">
-                    <td>
-                        <input onchange="OrderCheckbox__changed();" th:if="${order.buyer != null and #authentication.isAuthenticated()}"
-                               type="checkbox" class="orderCheckbox checkbox" th:value="${order.id}">
-                    </td>
-                    <td th:text="${order.id}"></td>
+                <tr th:each="order, loop : ${orders}" class="items-center">
+                    <td th:text="${loop.count}"></td>
                     <td>
                         <a th:href="@{|/order/${order.id}|}" th:text="${order.name}"></a>
                     </td>
                     <td th:text="${order.calculatePayPrice()}"></td>
                     <td th:text="${#temporals.format(order.createDate, 'yy-MM-dd HH:mm')}"></td>
                     <td>
-                        <a sec:authorize="isAuthenticated()" th:if="${order.buyer != null and #authentication.isAuthenticated()}" href="javascript:;" onclick="$(this).next().submit();"
-                           class="btn btn-primary btn-xs">DELETE</a>
-                        <form method="POST" th:action="@{|/order/${order.id}/cancel|}"
-                              hidden></form>
+                        <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/order/${order.id}/cancel|}"
+                           class="btn btn-warning btn-sm btn-outline-secondary"
+                           sec:authorize="isAuthenticated()"
+                           th:if="${order.buyer != null and #authentication.isAuthenticated()}"
+                           th:text="DELETE"></a>
                     </td>
                 </tr>
                 </tbody>
 
             </table>
-
-            <a href="javascript:;" onclick="OrderForm__submit();" class="btn btn-primary btn-sm">DELETE ORDERS</a>
-            <form method="POST" name="orderForm" th:action="@{|/order/cancel|}" hidden>
-                <input type="hidden" name="ids">
-            </form>
-
-            <script>
-                // 전체선택 체크박스
-                const $orderCheckboxAll = $('.orderCheckboxAll');
-                // 아이템 체크박스
-                const $orderCheckbox = $('.orderCheckbox');
-
-                $orderCheckboxAll.change(function () {
-                    const allChecked = $(this).prop('checked');
-                    $orderCheckbox.prop('checked', allChecked); // 아이템 체크박스들에게 체크상태 동기화
-                });
-
-                function OrderCheckbox__changed() {
-                    const allChecked = $orderCheckbox.length == $('.orderCheckbox:checked').length;
-
-                    $orderCheckboxAll.prop('checked', allChecked);
-                }
-
-                let OrderForm__submitDone = false;
-
-                function OrderForm__submit() {
-                    if (OrderForm__submitDone) return;
-
-                    const form = document.orderForm;
-
-                    const $checked = $('.orderCheckbox:checked');
-
-                    if ($checked.length == 0) {
-                        warningModal('삭제할 주문을 선택해주세요.');
-                        return;
-                    }
-
-                    const ids = $checked.map((index, el) => $(el).val()).get();
-                    form.ids.value = ids;
-                    form.submit();
-                    OrderForm__submitDone = true;
-                }
-            </script>
 
 
         </div>

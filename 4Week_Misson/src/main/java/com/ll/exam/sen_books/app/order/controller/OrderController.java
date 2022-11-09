@@ -30,7 +30,6 @@ import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
@@ -83,6 +82,16 @@ public class OrderController {
         model.addAttribute("orders", orders);
 
         return "order/list";
+    }
+
+    @GetMapping("/{id}/cancel")
+    @PreAuthorize("isAuthenticated()")
+    public String removeOrder(@PathVariable Long id) {
+        Order order = orderService.findById(id).get();
+
+        orderService.removeOrder(order);
+
+        return "redirect:/order/list?msg=" + Ut.url.encode("%d번 품목을 삭제하였습니다.".formatted(id));
     }
 
     @PostMapping("/{id}/payByRestCashOnly")
@@ -179,20 +188,6 @@ public class OrderController {
         orderService.cancel(orderId);
 
         return "redirect:/order/%d?msg=".formatted(orderId) + Ut.url.encode("결제를 취소했습니다.");
-    }
-
-    @PostMapping("/cancel")
-    @PreAuthorize("isAuthenticated()")
-    public String cancelOrders(String ids) {
-        String[] idsArr = ids.split(",");
-
-        Arrays.stream(idsArr)
-                .mapToLong(Long::parseLong)
-                .forEach(id -> {
-                    orderService.cancel(id);
-                });
-
-        return "redirect:/order/list?msg=" + Ut.url.encode("%d건의 품목을 삭제하였습니다.".formatted(idsArr.length));
     }
 
     @PostMapping("/{orderId}/refund")

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
@@ -32,10 +33,11 @@ public class AdmRebateController {
 
     @PostMapping("/makeData")
     @PreAuthorize("hasAuthority('ADMIN')")
+    @ResponseBody
     public String makeData(String yearMonth) {
         rebateService.makeDate(yearMonth);
 
-        return "redirect:/adm/rebate/rebateOrderItemList?msg=" + Ut.url.encode("정산데이터가 성공적으로 생성되었습니다.");
+        return "redirect:/adm/rebate/rebateOrderItemList" + "?msg="+ Ut.url.encode("정산데이터가 성공적으로 생성되었습니다.");
     }
 
     @GetMapping("/rebateOrderItemList")
@@ -54,6 +56,7 @@ public class AdmRebateController {
 
     @PostMapping("/rebateOne/{orderItemId}")
     @PreAuthorize("hasAuthority('ADMIN')")
+    @ResponseBody
     public String rebateOne(@PathVariable long orderItemId, HttpServletRequest req) {
         rebateService.rebate(orderItemId);
 

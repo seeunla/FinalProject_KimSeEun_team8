@@ -90,72 +90,46 @@
         <div class="flex gap-4">
             <a href="/adm/home/main" class="inline-flex" sec:authorize="hasAuthority('ADMIN')">
                 <i class="fa-solid fa-gauge-high"></i>
-                <span class="ml-[2px] hidden lg:block">
+                <span class="ml-[2px] hidden sm:block">
                     관리자 홈
                 </span>
             </a>
 
             <a href="/member/login" class="inline-flex" sec:authorize="isAnonymous()">
                 <i class="fa-solid fa-arrow-right-to-bracket"></i>
-                <span class="ml-[2px] hidden lg:block">
+                <span class="ml-[2px] hidden sm:block">
                     로그인
                 </span>
             </a>
             <a href="/member/join" class="inline-flex" sec:authorize="isAnonymous()">
                 <i class="fa-solid fa-user-plus"></i>
-                <span class="ml-[2px] hidden lg:block">
+                <span class="ml-[2px] hidden sm:block">
                     회원가입
                 </span>
             </a>
             <a href="javascript: document.logoutForm.submit();" class="inline-flex" sec:authorize="isAuthenticated()">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                <span class="ml-[2px] hidden lg:block">
+                <span class="ml-[2px] hidden sm:block">
                     로그아웃
                 </span>
             </a>
             <form name="logoutForm" th:action="@{/member/logout}" method="post" hidden></form>
             <a href="/member/profile" class="inline-flex" sec:authorize="isAuthenticated()">
                 <i class="fa-solid fa-user"></i>
-                <span class="ml-[2px] hidden lg:block">
+                <span class="ml-[2px] hidden sm:block">
                     프로파일
                 </span>
             </a>
             <a href="/post/write" class="inline-flex" sec:authorize="isAuthenticated()">
                 <i class="fa-solid fa-upload"></i>
-                <span class="ml-[2px] hidden lg:block">
+                <span class="ml-[2px] hidden sm:block">
                     글 등록
                 </span>
             </a>
             <a href="/cart/list" class="inline-flex" sec:authorize="isAuthenticated()">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span class="ml-[2px] hidden lg:block">
+                <i class="fa-solid fa-upload"></i>
+                <span class="ml-[2px] hidden sm:block">
                     장바구니
-                </span>
-            </a>
-
-            <a href="/post/list" class="inline-flex">
-                <i class="fa-solid fa-rectangle-list"></i>
-                <span class="ml-[2px] hidden lg:block">
-                    글 목록
-                </span>
-            </a>
-            <a href="/product/create" class="inline-flex" sec:authorize="hasAuthority('AUTHOR')">
-                <i class="fa-solid fa-book-medical"></i>
-                <span class="ml-[2px] hidden lg:block">
-                    도서 등록
-                </span>
-            </a>
-            <a href="/product/list" class="inline-flex">
-                <i class="fa-solid fa-book"></i>
-                <span class="ml-[2px] hidden lg:block">
-                    도서 목록
-                </span>
-            </a>
-
-            <a href="/order/list" class="inline-flex">
-                <i class="fa-solid fa-basket-shopping"></i>
-                <span class="ml-[2px] hidden lg:block">
-                    주문 목록
                 </span>
             </a>
         </div>
