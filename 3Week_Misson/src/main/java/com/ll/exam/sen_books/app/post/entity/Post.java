@@ -15,7 +15,6 @@ import javax.persistence.ManyToOne;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor

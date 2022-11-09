@@ -6,20 +6,26 @@ import com.ll.exam.sen_books.app.member.entity.emum.AuthLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
-@Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
+@Slf4j
 @ToString(callSuper = true)
 public class Member extends BaseEntity {
     @Column(unique = true)
@@ -35,6 +41,7 @@ public class Member extends BaseEntity {
 
     public Member(long id) {
         super(id);
+        this.authLevel = getAuthLevel();
     }
 
     public String getName() {
@@ -51,4 +58,24 @@ public class Member extends BaseEntity {
         this.password = password;
     }
 
+    public List<GrantedAuthority> genAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("MEMBER"));
+
+        if (StringUtils.hasText(nickname)) {
+            authorities.add(new SimpleGrantedAuthority("AUTHOR"));
+        }
+
+        if (authLevel.getCode() >= 7) {
+            authorities.add(new SimpleGrantedAuthority("ADMIN"));
+        }
+
+        log.debug(authorities.toString());
+
+        return authorities;
+    }
+
+    public void setRestCash(long newRestCash) {
+        this.restCash = newRestCash;
+    }
 }
