@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout.html}" xmlns:layout="" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>프로파일</title>
+</head>
+
+<body>
+    <section layout:fragment="main">
+        <section class="section section-write container mx-auto">
+
+            <div class="px-2 pt-4">
+                <h1 class="font-bold text-lg">회원 정보</h1>
+
+                <div class="flex flex-col gap-3 mt-3">
+                    <div>
+                        <label class="label">
+                            <span class="label-text">아이디</span>
+                        </label>
+
+                        <div th:text="${member.username}"></div>
+                    </div>
+
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">예치금</span>
+                        </label>
+                        <div class="badge badge-primary"
+                             th:text="${member.restCash}"></div>
+                    </div>
+
+                    <div>
+                        <label class="label">
+                            <span class="label-text">이메일</span>
+                        </label>
+
+                        <div th:text="${member.email}"></div>
+                    </div>
+
+                    <div>
+                        <label class="label">
+                            <span class="label-text">필명</span>
+                        </label>
+
+                        <div th:text="${member.nickname}"></div>
+                    </div>
+                    <div>
+                        <a href="/member/modify" class="inline-flex" sec:authorize="isAuthenticated()">
+                            <i class="fa-solid fa-user"></i>
+                            <span class="ml-[2px] hidden sm:block">
+                            정보수정
+                            </span>
+                        </a>
+                        <a sec:authorize="!(hasAuthority('AUTHOR'))" href="/member/beAuthor" class="btn btn-primary">작가활동 시작</a>
+                        <a sec:authorize="hasAuthority('AUTHOR')" class="btn btn-primary btn-disabled">이미 작가회원입니다.</a>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </section>
+</body>
+</html>
