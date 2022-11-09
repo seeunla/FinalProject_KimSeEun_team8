@@ -23,7 +23,6 @@ public enum AuthLevel {
         public Integer convertToDatabaseColumn(AuthLevel attribute) {
             return attribute.getCode();
         }
-
         @Override
         public AuthLevel convertToEntityAttribute(Integer dbData) {
             return EnumSet.allOf(AuthLevel.class).stream()
