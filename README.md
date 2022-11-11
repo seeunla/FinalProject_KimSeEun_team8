@@ -1,36 +1,15 @@
-# FinalProject_KimSeEun_team8
+# 멋쟁이 사자처럼 백엔드스쿨 Final Project
 
-## 필수과제 
-### 회원
+## EBook 마켓과 RestAPI로 구현된 EBook 리더기입니다.
 
-✅ 회원가입 <br>
-✅ 회원가입 축하 이메일 발송 <br>
-✅ 회원 정보 수정 <br>
-✅ 로그인 <br>
-✅ 로그아웃 <br>
-✅ 아이디 찾기 <br>
+### 각 주차별 Pull Request
+<a href="https://github.com/likelion-backendschool/FinalProject_KimSeEun_team8/pull/2">1Week_Misson</a><br>
+<a href="https://github.com/likelion-backendschool/FinalProject_KimSeEun_team8/pull/3">2Week_Misson</a><br>
+<a href="https://github.com/likelion-backendschool/FinalProject_KimSeEun_team8/pull/4">3Week_Misson</a><br>
+<a href="https://github.com/likelion-backendschool/FinalProject_KimSeEun_team8/pull/5">4Week_Misson</a><br>
 
-### 글
-
-✅ 글 작성 <br>
-✅ TOAST UI EDITOR <br>
-✅ 기본글 작성 <br>
-[🔺]  해시태그 추가 <br>
-✅ 글 수정 <br>
-✅ 글 리스트 <br>
-[X] GET / : 최신 글 100개 노출 <br>
-✅ GET /post/list : 글 리스트 전체 노출(페이징 X) <br>
-✅ 글 삭제 <br>
-
-
-## 추가과제
-### 회원
-
-✅ 비밀번호 찾기 <br>
-✅ 임시 비밀번호 이메일 발송 <br>
-### 상품
-
-[ ] 상품 등록 <br>
-[ ] 상품 수정 <br>
-[ ]상품 리스트 <br>
-[ ]상품 상세페이지 <br>
+### 각 주차별 Mission Record
+<a href="https://github.com/likelion-backendschool/FinalProject_KimSeEun_team8/blob/master/1Week_Misson_Record/1Week_Misson_Record.md">1Week_Misson_Record</a><br>
+<a href="https://github.com/likelion-backendschool/FinalProject_KimSeEun_team8/blob/master/2Week_Misson_Record/2Week_Misson_Record.md">2Week_Misson_Record</a><br>
+<a href="https://github.com/likelion-backendschool/FinalProject_KimSeEun_team8/blob/master/3Week_Misson_Record/3Week_Misson_Record.md">3Week_Misson_Record</a><br>
+<a href="https://github.com/likelion-backendschool/FinalProject_KimSeEun_team8/blob/master/4Week_Misson_Record/4Week_Misson_Record.md">4Week_Misson_Record</a><br>
