@@ -3,6 +3,7 @@ package com.ll.exam.sen_books.app.member.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ll.exam.sen_books.app.base.entity.BaseEntity;
 import com.ll.exam.sen_books.app.member.entity.emum.AuthLevel;
+import com.ll.exam.sen_books.util.Ut;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ import javax.persistence.Convert;
 import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 @Entity
@@ -77,5 +79,16 @@ public class Member extends BaseEntity {
 
     public void setRestCash(long newRestCash) {
         this.restCash = newRestCash;
+    }
+
+    public Map<String, Object> getAccessTokenClaims() {
+        return Ut.mapOf(
+                "id", getId(),
+                "createDate", getCreateDate(),
+                "modifyDate", getModifyDate(),
+                "username", getUsername(),
+                "email", getEmail(),
+                "authorities", genAuthorities()
+        );
     }
 }
