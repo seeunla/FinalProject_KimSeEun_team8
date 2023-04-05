@@ -33,7 +33,10 @@ public class PostService {
 
         postRepository.save(post);
 
-        hashTagService.applyHashTags(post, postForm.getHashTagContents());
+        String keywords = postForm.getHashTagContents();
+        if(keywords != null) {
+            hashTagService.applyHashTags(post, postForm.getHashTagContents());
+        }
 
         return post;
     }

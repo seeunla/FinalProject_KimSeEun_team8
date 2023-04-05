@@ -30,7 +30,8 @@ public class HashTagService {
         });
     }
 
-    private HashTag saveHashTag(Post post, String keywordContent) {
+    //해시태그 저장
+    public HashTag saveHashTag(Post post, String keywordContent) {
         Keyword keyword = keywordService.save(keywordContent);
 
         Optional<HashTag> opHashTag = hashTagRepository.findByPostIdAndKeywordId(post.getId(), keyword.getId());

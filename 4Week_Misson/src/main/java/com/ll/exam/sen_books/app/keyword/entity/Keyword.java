@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
@@ -18,6 +19,7 @@ import javax.persistence.Entity;
 @SuperBuilder
 @ToString(callSuper = true)
 public class Keyword extends BaseEntity {
+    @Column(unique = true)
     private String content;
 
     public String getListUrl() {

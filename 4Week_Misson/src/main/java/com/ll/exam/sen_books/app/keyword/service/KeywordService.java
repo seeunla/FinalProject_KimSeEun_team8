@@ -12,6 +12,7 @@ import java.util.Optional;
 public class KeywordService {
     private final KeywordRepository keywordRepository;
 
+    // 키워드 저장
     public Keyword save(String keywordContent) {
         Optional<Keyword> optKeyword = keywordRepository.findByContent(keywordContent);
 
@@ -27,5 +28,11 @@ public class KeywordService {
         keywordRepository.save(keyword);
 
         return keyword;
+    }
+
+    // 키워드 content 로 조회
+
+    public Keyword findByContent(String content) {
+        return keywordRepository.findByContent(content).get();
     }
 }
