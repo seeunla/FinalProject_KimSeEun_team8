@@ -18,7 +18,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
 @SuperBuilder
 @ToString(callSuper = true)

@@ -28,7 +28,6 @@ public class PostService {
                 .author(author)
                 .contentHtml(Ut.markdown(postForm.getContent()))
                 .content(postForm.getContent())
-                .hashTagContent(postForm.getHashTagContents())
                 .build();
 
         postRepository.save(post);

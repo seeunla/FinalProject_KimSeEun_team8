@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
-      layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title>글</title>
+    <title>글 상세</title>
 </head>
 
 <body>
@@ -11,49 +10,35 @@
     <section class="section section-write container mx-auto">
 
         <div class="px-2 pt-4">
-            <h1 class="font-bold text-lg">글</h1>
+            <h1 class="font-bold text-lg">글 상세</h1>
 
-            <div class="flex flex-col gap-3 mt-3">
-                <svg width="80" height="80" th:data-jdenticon-value="${post.jdenticon}"></svg>
+            <div class="flex flex-col gap-3">
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">제목</span>
+                    </label>
+                    <div class="input input-bordered" th:text="${post.subject}">
+                    </div>
 
-                <div>
-                    <div class="badge badge-primary">제목</div>
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">내용</span>
+                        </label>
+                        <div class="textarea textarea-bordered min-h-[500px] h-[calc(100vh-400px)]" th:utext="${post.contentHtml}"></div>
+                    </div>
 
-                    <div th:text="${post.subject}"></div>
+                    <div class="my-2">
+                        <div th:each="hashTag : ${post.hashTags}" class="badge badge-lg badge-accent mx-1">
+                            <span>#</span>
+                            <span th:text="${hashTag.keyword.content}"></span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 mt-2 gap-2">
+                        <a th:href="|/post/${post.id}/modify|" class="btn btn-secondary btn-outline">수정</a>
+                        <a onclick="if(!confirm('해당 글을 삭제하시겠습니까?')) return false;" th:href="|/post/${post.id}/delete|" class="btn btn-secondary btn-outline">삭제</a>
+                    </div>
                 </div>
-
-                <div>
-                    <div class="badge badge-primary">내용</div>
-                    <div th:utext="${post.contentHtml}"></div>
-                </div>
-
-                <div class="grid grid-cols-6 mt-2 gap-2">
-                    <a th:href="@{|/post/${post.id}/modify|}" class="btn btn-sm btn-outline-secondary"
-                       sec:authorize="isAuthenticated()"
-                       th:if="${post.author != null and #authentication.isAuthenticated()}"
-                       th:text="수정"></a>
-
-                    <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/post/${post.id}/delete|}"
-                       class="btn btn-sm btn-outline-secondary"
-                       sec:authorize="isAuthenticated()"
-                       th:if="${post.author != null and #authentication.isAuthenticated()}"
-                       th:text="삭제"></a>
-                </div>
-                <div>
-                    <a href="/post/list" class="inline-flex" sec:authorize="isAuthenticated()">
-                        <i class="fa-solid fa-upload"></i>
-                        <span class="ml-[2px] hidden sm:block">
-                    글 목록
-                </span>
-                    </a>
-                    <a href="/product/create" class="inline-flex" sec:authorize="isAuthenticated()">
-                        <i class="fa-solid fa-upload"></i>
-                        <span class="ml-[2px] hidden sm:block">
-                    상품등록
-                </span>
-                    </a>
-                </div>
-
             </div>
         </div>
     </section>
