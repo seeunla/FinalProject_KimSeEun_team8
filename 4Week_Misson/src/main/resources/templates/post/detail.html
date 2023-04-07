@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.w3.org/1999/xhtml">
-
 <head>
-    <title>글 상세</title>
+    <title>글 상세(임시)</title>
 </head>
 
 <body>
@@ -10,7 +9,7 @@
     <section class="section section-write container mx-auto">
 
         <div class="px-2 pt-4">
-            <h1 class="font-bold text-lg">글 상세</h1>
+            <h1 class="font-bold text-lg">글 상세(임시)</h1>
 
             <div class="flex flex-col gap-3">
                 <div class="form-control">
@@ -24,6 +23,11 @@
                         <label class="label">
                             <span class="label-text">내용</span>
                         </label>
+                        <!--                    <div class="toast-ui-viewer">-->
+                        <!--                        <script type="text/x-template">-->
+                        <!--                            ${post.content}-->
+                        <!--                        </script>-->
+                        <!--                    </div>-->
                         <div class="textarea textarea-bordered min-h-[500px] h-[calc(100vh-400px)]" th:utext="${post.contentHtml}"></div>
                     </div>
 
@@ -34,6 +38,7 @@
                         </div>
                     </div>
 
+
                     <div class="grid grid-cols-2 mt-2 gap-2">
                         <a th:href="|/post/${post.id}/modify|" class="btn btn-secondary btn-outline">수정</a>
                         <a onclick="if(!confirm('해당 글을 삭제하시겠습니까?')) return false;" th:href="|/post/${post.id}/delete|" class="btn btn-secondary btn-outline">삭제</a>
@@ -41,6 +46,7 @@
                 </div>
             </div>
         </div>
+
     </section>
 
 </main>

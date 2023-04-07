@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -50,5 +51,17 @@ public class Post extends BaseEntity {
         this.subject = subject;
         this.content = content;
         this.contentHtml = contentHtml;
+    }
+
+    public String getHashTagString() {
+        if(hashTags.isEmpty()) {
+            return "";
+        }
+        return "#" + hashTags
+                .stream()
+                .map(hashTag -> hashTag.getKeyword().getContent())
+                .sorted()
+                .collect(Collectors.joining(" #"))
+                .trim();
     }
 }

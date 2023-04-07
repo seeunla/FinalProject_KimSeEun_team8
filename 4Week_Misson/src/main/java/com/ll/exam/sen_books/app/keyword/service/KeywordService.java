@@ -14,25 +14,25 @@ public class KeywordService {
 
     // 키워드 저장
     public Keyword save(String keywordContent) {
-        Optional<Keyword> optKeyword = keywordRepository.findByContent(keywordContent);
+        Keyword opKeyword = findByContent(keywordContent);
 
-        if ( optKeyword.isPresent() ) {
-            return optKeyword.get();
+        if ( opKeyword !=null ) {
+            return opKeyword;
         }
 
-        Keyword keyword = Keyword
+        opKeyword = Keyword
                 .builder()
                 .content(keywordContent)
                 .build();
 
-        keywordRepository.save(keyword);
+        keywordRepository.save(opKeyword);
 
-        return keyword;
+        return opKeyword;
     }
 
     // 키워드 content 로 조회
 
     public Keyword findByContent(String content) {
-        return keywordRepository.findByContent(content).get();
+        return keywordRepository.findByContent(content).orElse(null);
     }
 }
