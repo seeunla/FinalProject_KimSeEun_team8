@@ -73,4 +73,8 @@ public class PostService {
     public List<Post> findAllByAuthorId(Long id) {
         return postRepository.findAllByAuthorId(id);
     }
+
+    public List<Post> search(Member author, String kwType, String kw) {
+        return postRepository.searchQsl(author, kwType, kw);
+    }
 }

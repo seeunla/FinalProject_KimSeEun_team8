@@ -29,4 +29,10 @@ public class HashTag extends BaseEntity {
     private Keyword keyword;
     @ManyToOne(fetch = LAZY)
     private Member member;
+
+    // postHashTag 키워드로 게시글 검색 요청 url
+    public String getSearchUrl() {
+        String url = "/post/list?kwType=hashTag&kw=%s".formatted(this.getKeyword().getContent());
+        return url;
+    }
 }

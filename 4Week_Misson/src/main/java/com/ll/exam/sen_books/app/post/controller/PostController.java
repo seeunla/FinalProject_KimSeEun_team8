@@ -46,10 +46,11 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/list")
-    public String showList(@AuthenticationPrincipal MemberContext memberContext, Model model) {
+    public String showList(@RequestParam(defaultValue = "hashTag") String kwType, @RequestParam(defaultValue = "") String kw
+            ,@AuthenticationPrincipal MemberContext memberContext, Model model) {
         Member author = memberContext.getMember();
 
-        List<Post> posts = postService.findAllByAuthorId(author.getId());
+        List<Post> posts = postService.search(author, kwType, kw);
 
         model.addAttribute("posts", posts);
 
