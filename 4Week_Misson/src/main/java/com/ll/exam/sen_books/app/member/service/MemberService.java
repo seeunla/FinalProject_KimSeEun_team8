@@ -150,7 +150,7 @@ public class MemberService {
         String tmpPassword = UUID.randomUUID().toString().replace("-", "");
         tmpPassword = tmpPassword.substring(0, 10);
 
-        updatePassword(member.getUsername(), tmpPassword);
+        updatePassword(member.getUsername(), passwordEncoder.encode(tmpPassword));
 
         ResponseMessage responseMessage = ResponseMessage.builder()
                 .to(member.getEmail())

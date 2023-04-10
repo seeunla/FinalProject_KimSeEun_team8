@@ -61,7 +61,7 @@ public class PostController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
     public String detail(@PathVariable long id, Model model) {
-        Post post = postService.findForPrintById(id).get();
+        Post post = postService.findForPrintById(id);
 
         model.addAttribute("post", post);
 
@@ -71,7 +71,7 @@ public class PostController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}/modify")
     public String showModify(@PathVariable long id, Model model) {
-        Post post = postService.findForPrintById(id).get();
+        Post post = postService.findForPrintById(id);
 
         model.addAttribute("post", post);
 

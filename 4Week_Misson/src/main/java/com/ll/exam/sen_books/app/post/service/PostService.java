@@ -46,7 +46,7 @@ public class PostService {
     }
 
     public void modify(Post post, PostForm postForm) {
-        post.modify(postForm.getSubject(), post.getContent(), Ut.markdown(postForm.getContent()));
+        post.modify(postForm.getSubject(), post.getContent(), postForm.getContentHtml());
 
         String keywords = postForm.getKeywords();
         if(keywords != null) {
@@ -55,12 +55,10 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public Optional<Post> findForPrintById(long id) {
-        Optional<Post> post = findById(id);
+    public Post findForPrintById(long id) {
+        Post post = findById(id).orElse(null);
 
-        List<HashTag> hashTags = hashTagService.getHashTags(post.get());
-
-        if (post.isEmpty()) return post;
+        List<HashTag> hashTags = hashTagService.getHashTags(post);
 
         return post;
     }
