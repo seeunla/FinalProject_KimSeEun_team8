@@ -1,11 +1,11 @@
 package com.ll.exam.sen_books.app.product.entity;
 
 import com.ll.exam.sen_books.app.base.entity.BaseEntity;
+import com.ll.exam.sen_books.app.keyword.entity.PostKeyword;
 import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.post.entity.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
@@ -24,6 +24,8 @@ public class Product extends BaseEntity {
     private Member author;
     @ManyToOne(fetch = LAZY)
     private Post post;
+    @ManyToOne(fetch = LAZY)
+    private PostKeyword postKeyword;
     private int price;
 
     public Product(long id) {

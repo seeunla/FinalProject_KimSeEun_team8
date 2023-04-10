@@ -14,4 +14,5 @@ public class ProductForm {
     private int price;
     @NotNull
     private long postId;
+
 }

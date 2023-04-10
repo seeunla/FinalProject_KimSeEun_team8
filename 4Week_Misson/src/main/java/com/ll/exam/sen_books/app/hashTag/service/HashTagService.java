@@ -2,8 +2,8 @@ package com.ll.exam.sen_books.app.hashTag.service;
 
 import com.ll.exam.sen_books.app.hashTag.entity.HashTag;
 import com.ll.exam.sen_books.app.hashTag.repository.HashTagRepository;
-import com.ll.exam.sen_books.app.keyword.entity.Keyword;
-import com.ll.exam.sen_books.app.keyword.service.KeywordService;
+import com.ll.exam.sen_books.app.keyword.entity.PostKeyword;
+import com.ll.exam.sen_books.app.keyword.service.PostKeywordService;
 import com.ll.exam.sen_books.app.post.entity.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,13 +11,12 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class HashTagService {
-    private final KeywordService keywordService;
+    private final PostKeywordService postKeywordService;
     private final HashTagRepository hashTagRepository;
 
     public void applyHashTags(Post post, String keywords) {
@@ -33,7 +32,7 @@ public class HashTagService {
         // 삭제할 해시태그 구하기
         List<HashTag> deleteHashTags = new ArrayList<>();
         for(HashTag oldHash : oldHashTags) {
-            boolean contains = keywordContents.stream().anyMatch(s -> s.equals(oldHash.getKeyword().getContent()));
+            boolean contains = keywordContents.stream().anyMatch(s -> s.equals(oldHash.getPostKeyword().getContent()));
 
             if (!contains) {
                 deleteHashTags.add(oldHash);
@@ -57,9 +56,9 @@ public class HashTagService {
 
     //해시태그 저장
     public HashTag saveHashTag(Post post, String keywordContent) {
-        Keyword keyword = keywordService.save(keywordContent);
+        PostKeyword postKeyword = postKeywordService.save(keywordContent);
 
-        HashTag opHashTag = hashTagRepository.findByPostIdAndKeywordId(post.getId(), keyword.getId()).orElse(null);
+        HashTag opHashTag = hashTagRepository.findByPostIdAndKeywordId(post.getId(), postKeyword.getId()).orElse(null);
 
         if (opHashTag != null) {
             return opHashTag;
@@ -68,7 +67,7 @@ public class HashTagService {
         opHashTag = HashTag.builder()
                 .member(post.getAuthor())
                 .post(post)
-                .keyword(keyword)
+                .postKeyword(postKeyword)
                 .build();
 
         hashTagRepository.save(opHashTag);

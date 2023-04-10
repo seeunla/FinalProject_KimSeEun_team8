@@ -6,7 +6,6 @@ import com.ll.exam.sen_books.app.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
@@ -59,7 +58,7 @@ public class Post extends BaseEntity {
         }
         return "#" + hashTags
                 .stream()
-                .map(hashTag -> hashTag.getKeyword().getContent())
+                .map(hashTag -> hashTag.getPostKeyword().getContent())
                 .sorted()
                 .collect(Collectors.joining(" #"))
                 .trim();

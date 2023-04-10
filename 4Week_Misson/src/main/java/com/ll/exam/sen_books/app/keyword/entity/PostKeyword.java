@@ -18,7 +18,7 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 @SuperBuilder
 @ToString(callSuper = true)
-public class Keyword extends BaseEntity {
+public class PostKeyword extends BaseEntity {
     @Column(unique = true)
     private String content;
 

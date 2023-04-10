@@ -21,7 +21,7 @@
                 <div class="my-4">
                     <div th:each="hashTag : ${post.hashTags}" class="badge badge-lg badge-accent mx-1">
                         <span>#</span>
-                        <span th:text="${hashTag.keyword.content}"></span>
+                        <span th:text="${hashTag.postKeyword.content}"></span>
                     </div>
                     <!--                    <div class="input input-bordered text-" th:text="${post.hashTagString}"></div>-->
                 </div>

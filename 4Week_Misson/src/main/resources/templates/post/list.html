@@ -33,7 +33,7 @@
                                 <div th:each="hashTag : ${post.hashTags}" class="badge badge-lg badge-accent mx-1">
                                     <a th:href="${hashTag.getSearchUrl}">
                                         <span>#</span>
-                                        <span th:text="${hashTag.keyword.content}"></span>
+                                        <span th:text="${hashTag.postKeyword.content}"></span>
                                     </a>
                                 </div>
                             </div>
