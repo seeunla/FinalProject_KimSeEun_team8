@@ -1,8 +1,11 @@
 package com.ll.exam.sen_books.app.product.service;
 
-import com.ll.exam.sen_books.app.hashTag.entity.HashTag;
+import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.post.entity.Post;
+import com.ll.exam.sen_books.app.postKeyword.entity.PostKeyword;
+import com.ll.exam.sen_books.app.postKeyword.service.PostKeywordService;
 import com.ll.exam.sen_books.app.product.entity.Product;
+import com.ll.exam.sen_books.app.product.form.ProductForm;
 import com.ll.exam.sen_books.app.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,14 +20,18 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class ProductService {
     private final ProductRepository productRepository;
+    private final PostKeywordService postKeywordService;
 
     @Transactional
-    public Product create(Post post, String subject, int price) {
+    public Product create(Member author, ProductForm productForm) {
+        PostKeyword postKeyword = postKeywordService.findById(productForm.getPostKeywordId());
+
         Product product = Product.builder()
-                .subject(subject)
-                .post(post)
-                .author(post.getAuthor())
-                .price(price)
+                .subject(productForm.getSubject())
+                .postKeyword(postKeyword)
+                .author(author)
+                .price(productForm.getPrice())
+                .content(productForm.getContent())
                 .build();
 
         productRepository.save(product);

@@ -1,7 +1,7 @@
 package com.ll.exam.sen_books.app.hashTag.entity;
 
 import com.ll.exam.sen_books.app.base.entity.BaseEntity;
-import com.ll.exam.sen_books.app.keyword.entity.PostKeyword;
+import com.ll.exam.sen_books.app.postKeyword.entity.PostKeyword;
 import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.post.entity.Post;
 import lombok.Getter;

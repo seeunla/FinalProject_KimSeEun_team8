@@ -2,7 +2,7 @@ package com.ll.exam.sen_books.service;
 
 import com.ll.exam.sen_books.app.hashTag.entity.HashTag;
 import com.ll.exam.sen_books.app.hashTag.service.HashTagService;
-import com.ll.exam.sen_books.app.keyword.service.PostKeywordService;
+import com.ll.exam.sen_books.app.postKeyword.service.PostKeywordService;
 import com.ll.exam.sen_books.app.post.entity.Post;
 import com.ll.exam.sen_books.app.post.service.PostService;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.ll.exam.sen_books.app.keyword.entity;
+package com.ll.exam.sen_books.app.postKeyword.entity;
 
 import com.ll.exam.sen_books.app.base.entity.BaseEntity;
 import lombok.AllArgsConstructor;

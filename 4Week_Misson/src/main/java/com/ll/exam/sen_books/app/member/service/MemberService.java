@@ -117,7 +117,7 @@ public class MemberService {
         long newRestCash;
     }
 
-    public Optional<Member> findById(Long id) {
+    public Optional<Member> findById(long id) {
         return memberRepository.findById(id);
     }
     @Transactional

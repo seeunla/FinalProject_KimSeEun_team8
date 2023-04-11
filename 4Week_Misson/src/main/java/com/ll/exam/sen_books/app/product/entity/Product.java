@@ -1,13 +1,14 @@
 package com.ll.exam.sen_books.app.product.entity;
 
 import com.ll.exam.sen_books.app.base.entity.BaseEntity;
-import com.ll.exam.sen_books.app.keyword.entity.PostKeyword;
+import com.ll.exam.sen_books.app.postKeyword.entity.PostKeyword;
 import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.post.entity.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -21,12 +22,12 @@ import static lombok.AccessLevel.PROTECTED;
 public class Product extends BaseEntity {
     private String subject;
     @ManyToOne
-    private Member author;
+    private Member author; // 작가
     @ManyToOne(fetch = LAZY)
-    private Post post;
-    @ManyToOne(fetch = LAZY)
-    private PostKeyword postKeyword;
-    private int price;
+    private PostKeyword postKeyword; // 게시글 키워드
+    @Column(columnDefinition = "TEXT")
+    private String content; // 상품설명
+    private int price; // 판매가
 
     public Product(long id) {
         super(id);

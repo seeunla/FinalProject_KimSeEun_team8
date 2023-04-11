@@ -2,8 +2,8 @@ package com.ll.exam.sen_books.app.hashTag.service;
 
 import com.ll.exam.sen_books.app.hashTag.entity.HashTag;
 import com.ll.exam.sen_books.app.hashTag.repository.HashTagRepository;
-import com.ll.exam.sen_books.app.keyword.entity.PostKeyword;
-import com.ll.exam.sen_books.app.keyword.service.PostKeywordService;
+import com.ll.exam.sen_books.app.postKeyword.entity.PostKeyword;
+import com.ll.exam.sen_books.app.postKeyword.service.PostKeywordService;
 import com.ll.exam.sen_books.app.post.entity.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

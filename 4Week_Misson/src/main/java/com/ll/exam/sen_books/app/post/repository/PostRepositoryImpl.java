@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import static com.ll.exam.sen_books.app.hashTag.entity.QHashTag.hashTag;
-import static com.ll.exam.sen_books.app.keyword.entity.QKeyword.keyword;
+import static com.ll.exam.sen_books.app.postKeyword.entity.QKeyword.keyword;
 import static com.ll.exam.sen_books.app.post.entity.QPost.post;
 
 @RequiredArgsConstructor
