@@ -51,7 +51,7 @@ public class MemberController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify")
     public String showModify(@AuthenticationPrincipal MemberContext memberContext, Model model) {
-        Member member = memberContext.getMember();
+        Member member = memberService.findById(memberContext.getId()).get();
 
         model.addAttribute("member", member);
 

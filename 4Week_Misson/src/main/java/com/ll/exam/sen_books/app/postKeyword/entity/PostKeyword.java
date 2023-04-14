@@ -1,4 +1,4 @@
-package com.ll.exam.sen_books.app.keyword.entity;
+package com.ll.exam.sen_books.app.postKeyword.entity;
 
 import com.ll.exam.sen_books.app.base.entity.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
@@ -17,7 +18,8 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 @SuperBuilder
 @ToString(callSuper = true)
-public class Keyword extends BaseEntity {
+public class PostKeyword extends BaseEntity {
+    @Column(unique = true)
     private String content;
 
     public String getListUrl() {

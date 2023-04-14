@@ -1,15 +1,17 @@
 package com.ll.exam.sen_books.app.post.form;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
 public class PostForm {
+    @NotEmpty
     private String subject;
+    @NotEmpty
     private String content;
-    private String hashTagContents;
+    private String contentHtml;
+    private String keywords;
 }

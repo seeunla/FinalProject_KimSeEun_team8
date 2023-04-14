@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -45,10 +46,11 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/list")
-    public String showList(@AuthenticationPrincipal MemberContext memberContext, Model model) {
+    public String showList(@RequestParam(defaultValue = "hashTag") String kwType, @RequestParam(defaultValue = "") String kw
+            ,@AuthenticationPrincipal MemberContext memberContext, Model model) {
         Member author = memberContext.getMember();
 
-        List<Post> posts = postService.findAllByAuthorId(author.getId());
+        List<Post> posts = postService.search(author, kwType, kw);
 
         model.addAttribute("posts", posts);
 
@@ -59,7 +61,7 @@ public class PostController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
     public String detail(@PathVariable long id, Model model) {
-        Post post = postService.findForPrintById(id).get();
+        Post post = postService.findForPrintById(id);
 
         model.addAttribute("post", post);
 
@@ -69,7 +71,7 @@ public class PostController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}/modify")
     public String showModify(@PathVariable long id, Model model) {
-        Post post = postService.findForPrintById(id).get();
+        Post post = postService.findForPrintById(id);
 
         model.addAttribute("post", post);
 
@@ -85,7 +87,7 @@ public class PostController {
             return "redirect:/post/" + post.getId() + "?msg=" + Ut.url.encode("%d번 글은 존재하지 않습니다.".formatted(id));
         }
 
-        postService.modify(post, postForm.getSubject(), postForm.getContent());
+        postService.modify(post, postForm);
         return "redirect:/post/" + post.getId() + "?msg=" + Ut.url.encode("%d번 글이 수정되었습니다.".formatted(post.getId()));
     }
 

@@ -8,6 +8,7 @@ import com.ll.exam.sen_books.app.post.form.PostForm;
 import com.ll.exam.sen_books.app.post.repository.PostRepository;
 import com.ll.exam.sen_books.util.Ut;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,25 +16,27 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class PostService {
     private final PostRepository postRepository;
     private final HashTagService hashTagService;
 
-    @Transactional
     public Post write(Member author, PostForm postForm) {
         Post post = Post.builder()
                 .subject(postForm.getSubject())
                 .author(author)
                 .contentHtml(Ut.markdown(postForm.getContent()))
                 .content(postForm.getContent())
-                .hashTagContent(postForm.getHashTagContents())
                 .build();
 
         postRepository.save(post);
 
-        hashTagService.applyHashTags(post, postForm.getHashTagContents());
+        String keywords = postForm.getKeywords();
+        log.info("키워드: "+keywords);
+        if(keywords != null) {
+            hashTagService.applyHashTags(post, postForm.getKeywords());
+        }
 
         return post;
     }
@@ -42,18 +45,20 @@ public class PostService {
         return postRepository.findById(id);
     }
 
-    @Transactional
-    public void modify(Post post, String subject, String content) {
-        post.modify(subject, content, Ut.markdown(content));
+    public void modify(Post post, PostForm postForm) {
+        post.modify(postForm.getSubject(), post.getContent(), postForm.getContentHtml());
+
+        String keywords = postForm.getKeywords();
+        if(keywords != null) {
+            hashTagService.applyHashTags(post, keywords);
+        }
         postRepository.save(post);
     }
 
-    public Optional<Post> findForPrintById(long id) {
-        Optional<Post> post = findById(id);
+    public Post findForPrintById(long id) {
+        Post post = findById(id).orElse(null);
 
-        List<HashTag> hashTags = hashTagService.getHashTags(post.get());
-
-        if (post.isEmpty()) return post;
+        List<HashTag> hashTags = hashTagService.getHashTags(post);
 
         return post;
     }
@@ -65,5 +70,9 @@ public class PostService {
 
     public List<Post> findAllByAuthorId(Long id) {
         return postRepository.findAllByAuthorId(id);
+    }
+
+    public List<Post> search(Member author, String kwType, String kw) {
+        return postRepository.searchQsl(author, kwType, kw);
     }
 }
