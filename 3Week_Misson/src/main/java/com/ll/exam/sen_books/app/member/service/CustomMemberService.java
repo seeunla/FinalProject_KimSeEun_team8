@@ -23,10 +23,6 @@ public class CustomMemberService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Member member = memberRepository.findByUsername(username).get();
 
-        List<GrantedAuthority> authorities = new ArrayList<>();
-
-        authorities.add(new SimpleGrantedAuthority("MEMBER"));
-
-        return new MemberContext(member, authorities);
+        return new MemberContext(member, member.genAuthorities());
     }
 }

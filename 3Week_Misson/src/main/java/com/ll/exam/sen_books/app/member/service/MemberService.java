@@ -73,19 +73,19 @@ public class MemberService {
 
 
     @Transactional
-    public AddCashRsDataBody addCash(Member member, long price, String eventType) {
+    public AddCashDataBody addCash(Member member, long price, String eventType) {
         CashLog cashLog = cashService.addCash(member, price, eventType);
 
         long newRestCash = member.getRestCash() + cashLog.getPrice();
         member.setRestCash(newRestCash);
         memberRepository.save(member);
 
-        return new AddCashRsDataBody(cashLog, newRestCash);
+        return new AddCashDataBody(cashLog, newRestCash);
     }
 
     @Data
     @AllArgsConstructor
-    public static class AddCashRsDataBody {
+    public static class AddCashDataBody {
         CashLog cashLog;
         long newRestCash;
     }

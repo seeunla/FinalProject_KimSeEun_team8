@@ -138,15 +138,4 @@ public class MemberController {
 
         return "redirect:/?msg=" + Ut.url.encode( "비밀번호가 변경되었습니다.");
     }
-
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/beAuthor")
-    public String beAuthor(String nickname, @AuthenticationPrincipal MemberContext memberContext) {
-        Member member = memberContext.getMember();
-        memberService.beAuthor(member, nickname);
-        if (false) {
-            return "redirect:/member/beAuthor?msg=" + Ut.url.encode( "해당 필명은 이미 사용중입니다.");
-        }
-        return "redirect:/?msg=" + Ut.url.encode( "해당 필명으로 활동을 시작합니다.");
-    }
 }

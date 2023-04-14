@@ -6,15 +6,11 @@ import com.ll.exam.sen_books.app.member.dto.ResponseMember;
 import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.member.entity.emum.AuthLevel;
 import com.ll.exam.sen_books.app.member.repository.MemberRepository;
-import com.ll.exam.sen_books.app.security.dto.MemberContext;
 import com.ll.exam.sen_books.util.mail.dto.ResponseMessage;
 import com.ll.exam.sen_books.util.mail.service.EmailService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,29 +81,6 @@ public class MemberService {
         memberRepository.save(member);
 
         return new AddCashDataBody(cashLog, newRestCash);
-    }
-
-    public void beAuthor(Member member, String nickname) {
-        Optional<Member> opMember = memberRepository.findByNickname(nickname);
-        if (opMember.isPresent()) {
-            return ;
-        }
-        opMember = memberRepository.findById(member.getId());
-        opMember.get().modifyNickName(nickname);
-        forceAuthentication(opMember.get());
-    }
-
-    private void forceAuthentication(Member member) {
-        MemberContext memberContext = new MemberContext(member, member.genAuthorities());
-        UsernamePasswordAuthenticationToken authentication =
-                UsernamePasswordAuthenticationToken.authenticated(
-                        memberContext,
-                        member.getPassword(),
-                        memberContext.getAuthorities()
-                );
-        SecurityContext context = SecurityContextHolder.createEmptyContext();
-        context.setAuthentication(authentication);
-        SecurityContextHolder.setContext(context);
     }
 
     @Data

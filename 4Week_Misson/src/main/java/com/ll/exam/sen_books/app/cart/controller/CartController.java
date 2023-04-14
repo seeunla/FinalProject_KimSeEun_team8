@@ -39,7 +39,7 @@ public class CartController {
         return "cart/list";
     }
 
-    @PostMapping("/remove/{productId}")
+    @GetMapping("/remove/{productId}")
     @PreAuthorize("isAuthenticated()")
     public String removeItem(@PathVariable Long productId) {
         CartItem cartItem = cartService.findItemById(productId).get();
@@ -49,7 +49,7 @@ public class CartController {
         return "redirect:/cart/list?msg=" + Ut.url.encode("%d번 품목을 삭제하였습니다.".formatted(productId));
     }
 
-    @PostMapping("/remove")
+    @PostMapping("/removeItems")
     @PreAuthorize("isAuthenticated()")
     public String removeItems(String ids) {
         String[] array = ids.split(",");
