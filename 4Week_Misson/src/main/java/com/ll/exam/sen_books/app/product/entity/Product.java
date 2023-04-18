@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
@@ -58,12 +59,27 @@ public class Product extends BaseEntity {
         return "product__" + getId();
     }
 
-    public void modify(String subject, int price) {
+    public void modify(String subject, String content, int price) {
         this.subject = subject;
+        this.content = content;
         this.price = price;
     }
 
     public boolean isOrderable() {
         return true;
+    }
+
+    // 해당 도서의 해시태그들을 한 문장으로 반환
+    public String getHashTagString() {
+        if(productHashTags.isEmpty()) {
+            return "";
+        }
+
+        return "#" + productHashTags
+                .stream()
+                .map(hashTag -> hashTag.getProductKeyword().getContent())
+                .sorted()
+                .collect(Collectors.joining(" #"))
+                .trim();
     }
 }

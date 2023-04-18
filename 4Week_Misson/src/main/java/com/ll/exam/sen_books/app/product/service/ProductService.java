@@ -8,6 +8,7 @@ import com.ll.exam.sen_books.app.postKeyword.entity.PostKeyword;
 import com.ll.exam.sen_books.app.postKeyword.service.PostKeywordService;
 import com.ll.exam.sen_books.app.product.entity.Product;
 import com.ll.exam.sen_books.app.product.form.ProductForm;
+import com.ll.exam.sen_books.app.product.form.ProductModifyForm;
 import com.ll.exam.sen_books.app.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -49,8 +50,13 @@ public class ProductService {
     }
 
     @Transactional
-    public void modify(Product product, String subject, int price) {
-        product.modify(subject, price);
+    public void modify(Product product, ProductModifyForm productModifyForm) {
+        product.modify(productModifyForm.getSubject(), productModifyForm.getContent(), productModifyForm.getPrice());
+
+        String productKeywords = productModifyForm.getProductKeywords();
+        if(productKeywords != null) {
+            productHashTagService.apply(product, productKeywords);
+        }
     }
 
     public Optional<Product> findById(long id) {
@@ -78,5 +84,9 @@ public class ProductService {
 
     public List<Product> findAllByOrderByIdDesc() {
         return productRepository.findAllByOrderByIdDesc();
+    }
+
+    public boolean canModify(Member member, Product product) {
+        return member.getId().equals(product.getAuthor().getId());
     }
 }

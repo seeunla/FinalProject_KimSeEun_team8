@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title>상품 등록</title>
+    <title>도서 등록</title>
 </head>
 
 <body>
@@ -10,7 +10,7 @@
     <section class="section section-write container mx-auto">
 
         <div class="px-2 pt-4">
-            <h1 class="font-bold text-lg">상품 등록</h1>
+            <h1 class="font-bold text-lg">도서 등록</h1>
 
             <script>
                 let ProductCreate__submit = false;
@@ -46,6 +46,8 @@
 
                         return;
                     }
+
+                    form.productKeywords.value = form.productKeywords.value.trim();
 
                     form.submit();
                     ProductCreate__submit = true;
