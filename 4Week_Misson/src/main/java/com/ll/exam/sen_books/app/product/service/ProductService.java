@@ -89,4 +89,8 @@ public class ProductService {
     public boolean canModify(Member member, Product product) {
         return member.getId().equals(product.getAuthor().getId());
     }
+
+    public boolean canDelete(Member member, Product product) {
+        return canModify(member, product);
+    }
 }

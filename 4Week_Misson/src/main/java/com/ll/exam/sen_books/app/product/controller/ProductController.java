@@ -118,9 +118,15 @@ public class ProductController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/{id}/delete")
-    public String deleteProduct (@PathVariable long id) {
+    @PostMapping("/{id}/delete")
+    public String deleteProduct (@PathVariable long id, @AuthenticationPrincipal MemberContext memberContext) {
         Product product = productService.findById(id).get();
+        Member member = memberContext.getMember();
+
+        // 삭제 권한 검사
+        if(productService.canDelete(member, product) == false) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
 
         if (product == null) {
             return "redirect:/product/" + product.getId() + "?msg=" + Ut.url.encode("%d번 상품은 존재하지 않습니다.".formatted(id));
