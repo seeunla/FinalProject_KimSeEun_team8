@@ -27,6 +27,21 @@
                     <div th:utext="${product.price}"></div>
                 </div>
 
+                <div class="mt-4">
+                    <div class="badge badge-primary">Explanation</div>
+                    <span th:text="${product.content}"></span>
+                </div>
+
+                <div class="mt-4">
+                    <div class="badge badge-primary">Author</div>
+                    <span th:text="${product.author.getNickname()}"></span>
+                </div>
+
+                <div th:each="productHashTag : ${product.productHashTags}" class="badge badge-lg badge-accent mx-1">
+                    <span>#</span>
+                    <span th:text="${productHashTag.productKeyword.content}"></span>
+                </div>
+
                 <div class="grid grid-cols-6 mt-2 gap-2">
                     <a th:href="@{|/product/${product.id}/modify|}" class="btn btn-sm btn-outline-secondary"
                        sec:authorize="isAuthenticated()"
