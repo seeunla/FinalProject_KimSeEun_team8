@@ -20,13 +20,13 @@ public class SecurityConfig {
                 .csrf(
                         csrf -> csrf.disable()
                 )
-                .authorizeRequests(
-                        authorizeRequests -> authorizeRequests
-                                .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
-                                .hasAuthority("ADMIN")
-                                .anyRequest()
-                                .permitAll()
-                )
+//                .authorizeRequests(
+//                        authorizeRequests -> authorizeRequests
+//                                .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/**")
+//                                .hasAuthority("ADMIN")
+//                                .anyRequest()
+//                                .permitAll()
+//                )
                 .formLogin(
                         formLogin -> formLogin
                                 .loginPage("/member/login") // GET

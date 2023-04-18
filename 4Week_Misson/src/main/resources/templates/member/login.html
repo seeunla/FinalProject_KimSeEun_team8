@@ -23,7 +23,7 @@
                     form.username.value = form.username.value.trim();
 
                     if (form.username.value.length == 0) {
-                        warningModal("로그인아이디를 입력해주세요.");
+                        warningModal("아이디를 입력해주세요.");
                         form.username.focus();
 
                         return;
@@ -32,7 +32,7 @@
                     form.password.value = form.password.value.trim();
 
                     if (form.password.value.length == 0) {
-                        warningModal("로그인비밀번호를 입력해주세요.");
+                        warningModal("비밀번호를 입력해주세요.");
                         form.password.focus();
 
                         return;
@@ -60,16 +60,21 @@
                            placeholder="비밀번호" class="input input-bordered" maxlength="50">
                 </div>
 
-                <div class="grid grid-cols-2 mt-2 gap-2">
+                <div class="grid grid-cols-1 mt-2 gap-2">
                     <input class="btn btn-primary" type="submit" value="로그인">
-                    <a href="/member/join" class="btn btn-secondary btn-outline">가입하기</a>
                 </div>
 
-                <div class="grid grid-cols-2 mt-2 gap-2">
-                    <a href="/member/findUsername" class="btn btn-secondary btn-outline">아이디 찾기</a>
-                    <a href="/member/findPassword" class="btn btn-secondary btn-outline">비밀번호 찾기</a>
-                </div>
-
+                <ul class="flex my-2" style="justify-content: center">
+                    <li class="mx-2" style="color: #888888">
+                        <a href="/member/findPassword" >비밀번호 찾기</a>
+                    </li>
+                    <li class="mx-2" style="color: #888888">
+                        <a href="/member/findUsername" >아이디 찾기</a>
+                    </li>
+                    <li class="mx-2" style="color: #888888">
+                        <a href="/member/join" >회원가입</a>
+                    </li>
+                </ul>
             </form>
         </div>
 
