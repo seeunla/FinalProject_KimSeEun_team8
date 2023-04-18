@@ -32,7 +32,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         .innerJoin(hashTag)
                         .on(post.eq(hashTag.post))
                         .innerJoin(keyword)
-                        .on(keyword.eq(hashTag.keyword))
+                        .on(keyword.eq(hashTag.postKeyword))
                         .where(keyword.content.eq(kw));
             }
         }

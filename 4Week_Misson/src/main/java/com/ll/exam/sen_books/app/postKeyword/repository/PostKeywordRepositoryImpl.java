@@ -25,7 +25,7 @@ public class PostKeywordRepositoryImpl implements PostKeywordRepositoryCustom{
                 ))
                 .from(keyword)
                 .innerJoin(hashTag)
-                .on(keyword.eq(hashTag.keyword))
+                .on(keyword.eq(hashTag.postKeyword))
                 .where(hashTag.member.id.eq(authorId))
                 .orderBy(keyword.content.asc()) // 키워드 명 오름차순 정렬
                 .groupBy(keyword.id)            // 키워드 중복 제거

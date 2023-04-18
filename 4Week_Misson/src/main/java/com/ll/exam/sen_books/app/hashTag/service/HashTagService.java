@@ -58,7 +58,7 @@ public class HashTagService {
     public HashTag saveHashTag(Post post, String keywordContent) {
         PostKeyword postKeyword = postKeywordService.save(keywordContent);
 
-        HashTag opHashTag = hashTagRepository.findByPostIdAndKeywordId(post.getId(), postKeyword.getId()).orElse(null);
+        HashTag opHashTag = hashTagRepository.findByPostIdAndPostKeywordId(post.getId(), postKeyword.getId()).orElse(null);
 
         if (opHashTag != null) {
             return opHashTag;

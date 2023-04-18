@@ -6,6 +6,8 @@ import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.post.entity.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
@@ -17,8 +19,10 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Getter
+@Setter
 @SuperBuilder
 @NoArgsConstructor(access=PROTECTED)
+@ToString(callSuper = true)
 public class Product extends BaseEntity {
     private String subject;
     @ManyToOne
