@@ -92,7 +92,7 @@ public class PostController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/{id}/delete")
+    @PostMapping("/{id}/delete")
     public String deletePost (@PathVariable long id) {
         Post post = postService.findById(id).get();
 

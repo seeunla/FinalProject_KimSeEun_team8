@@ -43,16 +43,19 @@
                 </div>
 
                 <div class="grid grid-cols-6 mt-2 gap-2">
-                    <a th:href="@{|/product/${product.id}/modify|}" class="btn btn-sm btn-outline-secondary"
-                       sec:authorize="isAuthenticated()"
-                       th:if="${product.author != null and #authentication.isAuthenticated()}"
-                       th:text="MODIFY"></a>
+                    <a
+                            th:href="@{|/product/${product.id}/modify|}"
+                            class="btn btn-secondary btn-sm btn-outline">
+                        <span class="ml-1">수정</span>
+                    </a>
 
-                    <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/product/${product.id}/delete|}"
-                       class="btn btn-sm btn-outline-secondary"
-                       sec:authorize="isAuthenticated()"
-                       th:if="${product.author != null and #authentication.isAuthenticated()}"
-                       th:text="DELETE"></a>
+                    <a href="javascript:;"
+                       onclick="if ( confirm('정말로 삭제하시겠습니까?') ) $(this).next().submit();"
+                       class="btn btn-secondary btn-sm btn-outline">
+                        <span class="ml-1">삭제</span>
+                    </a>
+                    <form th:action="@{|/product/${product.id}/delete|}" method="POST" hidden></form>
+
                     <a href="javascript: document.addCart.submit();" th:text="CART" class="btn btn-primary btn-sm"></a>
                     <form method="POST" name="addCart" th:action="@{|/cart/add/${product.id}|}" hidden></form>
                 </div>
