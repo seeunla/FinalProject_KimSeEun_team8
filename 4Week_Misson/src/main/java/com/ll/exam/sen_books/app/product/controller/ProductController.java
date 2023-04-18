@@ -51,12 +51,11 @@ public class ProductController {
         return "redirect:/product/" + product.getId() + "?msg=" + Ut.url.encode("%d번 상품이 생성되었습니다.".formatted(product.getId()));
     }
 
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/list")
-    public String showList(@AuthenticationPrincipal MemberContext memberContext, Model model) {
-        Member author = memberContext.getMember();
 
-        List<Product> products = productService.findAllByAuthorId(author.getId());
+    @GetMapping("/list")
+    public String showList(Model model) {
+
+        List<Product> products = productService.findAllByOrderByIdDesc();
 
         model.addAttribute("products", products);
 

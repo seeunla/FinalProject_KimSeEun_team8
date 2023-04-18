@@ -1,5 +1,7 @@
 package com.ll.exam.sen_books.app.product.service;
 
+import com.ll.exam.sen_books.app.hashTag.entity.ProductHashTag;
+import com.ll.exam.sen_books.app.hashTag.service.ProductHashTagService;
 import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.post.entity.Post;
 import com.ll.exam.sen_books.app.postKeyword.entity.PostKeyword;
@@ -21,6 +23,7 @@ import java.util.Optional;
 public class ProductService {
     private final ProductRepository productRepository;
     private final PostKeywordService postKeywordService;
+    private final ProductHashTagService productHashTagService;
 
     @Transactional
     public Product create(Member author, ProductForm productForm) {
@@ -35,6 +38,12 @@ public class ProductService {
                 .build();
 
         productRepository.save(product);
+
+        // 도서 해시태그 적용
+        String productKeywords = productForm.getProductKeywords();
+        if(productKeywords != null) {
+            productHashTagService.apply(product, productKeywords);
+        }
 
         return product;
     }
@@ -65,5 +74,9 @@ public class ProductService {
     @Transactional
     public void delete(Product product) {
         productRepository.delete(product);
+    }
+
+    public List<Product> findAllByOrderByIdDesc() {
+        return productRepository.findAllByOrderByIdDesc();
     }
 }

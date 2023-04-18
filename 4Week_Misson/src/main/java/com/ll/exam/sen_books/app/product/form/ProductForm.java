@@ -16,7 +16,6 @@ public class ProductForm {
     @NotNull
     private int price;
     @NotNull
-    private long postId;
     private long postKeywordId;
     private String productKeywords; // 도서(상품) 해시태그 키워드
 }
