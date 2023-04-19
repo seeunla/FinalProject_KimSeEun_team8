@@ -56,7 +56,8 @@
                         <span class="ml-1">삭제</span>
                     </a>
                     <form th:action="@{|/product/${product.id}/delete|}" method="POST" hidden></form>
-
+                </div>
+                <div>
                     <a href="javascript: document.addCart.submit();" th:text="CART" class="btn btn-secondary btn-sm btn-outline"></a>
                     <form method="POST" name="addCart" th:action="@{|/cart/add/${product.id}|}" hidden></form>
                 </div>
