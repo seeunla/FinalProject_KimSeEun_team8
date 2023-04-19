@@ -2,15 +2,21 @@ package com.ll.exam.sen_books.app.member.service;
 
 import com.ll.exam.sen_books.app.cash.entity.CashLog;
 import com.ll.exam.sen_books.app.cash.service.CashService;
+import com.ll.exam.sen_books.app.member.controller.MemberController;
 import com.ll.exam.sen_books.app.member.dto.ResponseMember;
 import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.member.entity.emum.AuthLevel;
 import com.ll.exam.sen_books.app.member.repository.MemberRepository;
+import com.ll.exam.sen_books.app.product.form.ModifyForm;
+import com.ll.exam.sen_books.app.security.dto.MemberContext;
 import com.ll.exam.sen_books.util.mail.dto.ResponseMessage;
 import com.ll.exam.sen_books.util.mail.service.EmailService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -94,12 +100,25 @@ public class MemberService {
         return memberRepository.findById(id);
     }
     @Transactional
-    public void modify(String username, ResponseMember responseMember) {
-        Member member = findByUsername(username).get();
-
-        member.modify(responseMember.getUsername(), responseMember.getNickname(), responseMember.getEmail());
-
+    public void modify(Member member, ModifyForm modifyForm) {
+        member.modify(modifyForm.getUsername(), modifyForm.getEmail(), modifyForm.getNickname());
         memberRepository.save(member);
+        forceAuthentication(member);
+    }
+
+    // 세션에 담긴 회원 기본정보 강제 수정
+    private void forceAuthentication(Member member) {
+        MemberContext memberContext = new MemberContext(member, member.genAuthorities());
+
+        UsernamePasswordAuthenticationToken authentication =
+                UsernamePasswordAuthenticationToken.authenticated(
+                        memberContext,
+                        member.getPassword(),
+                        memberContext.getAuthorities()
+                );
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        context.setAuthentication(authentication);
+        SecurityContextHolder.setContext(context);
     }
 
     @Transactional

@@ -33,7 +33,7 @@ public class ProductServiceTests {
     void t1() {
         Member author = memberService.findById(1).orElse(null);
         ProductForm productForm = new ProductForm();
-        productForm.setPostId(1);
+        productForm.setPostKeywordId(1);
         productForm.setProductKeywords("하나");
         productForm.setSubject("제목");
         productForm.setPrice(1000);

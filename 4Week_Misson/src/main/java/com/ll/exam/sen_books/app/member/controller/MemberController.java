@@ -5,6 +5,7 @@ import com.ll.exam.sen_books.app.member.dto.RequestModifyPw;
 import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.member.form.JoinForm;
 import com.ll.exam.sen_books.app.member.service.MemberService;
+import com.ll.exam.sen_books.app.product.form.ModifyForm;
 import com.ll.exam.sen_books.app.security.dto.MemberContext;
 import com.ll.exam.sen_books.util.Ut;
 import lombok.RequiredArgsConstructor;
@@ -60,13 +61,9 @@ public class MemberController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify")
-    public String modify(@AuthenticationPrincipal MemberContext memberContext, ResponseMember member) {
-
-        memberService.modify(memberContext.getUsername(), member);
-
-        memberContext.setModifyDate(memberContext.getModifyDate());
-        Authentication authentication = new UsernamePasswordAuthenticationToken(memberContext, memberContext.getPassword(), memberContext.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+    public String modify(@AuthenticationPrincipal MemberContext memberContext, @Valid ModifyForm modifyForm) {
+        Member member = memberService.findByUsername(memberContext.getUsername()).orElse(null);
+        memberService.modify(member, modifyForm);
 
         return "redirect:/member/profile";
     }

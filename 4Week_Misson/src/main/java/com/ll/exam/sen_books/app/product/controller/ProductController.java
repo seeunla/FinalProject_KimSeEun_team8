@@ -35,7 +35,7 @@ public class ProductController {
     private final PostService postService;
     private final PostKeywordService postKeywordService;
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() and hasAuthority('AUTHOR')")
     @GetMapping("/create")
     public String create(@AuthenticationPrincipal MemberContext memberContext, Model model) {
 
@@ -46,7 +46,7 @@ public class ProductController {
         return "product/create";
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() and hasAuthority('AUTHOR')")
     @PostMapping("/create")
     public String create(@AuthenticationPrincipal MemberContext memberContext, @Valid ProductForm productForm, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
@@ -79,7 +79,7 @@ public class ProductController {
         return "product/detail";
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() and hasAuthority('AUTHOR')")
     @GetMapping("/{id}/modify")
     public String showModify(@AuthenticationPrincipal MemberContext memberContext, @PathVariable long id, Model model) {
         Product product = productService.findForPrintById(id).get();
@@ -95,7 +95,7 @@ public class ProductController {
         return "product/modify";
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() and hasAuthority('AUTHOR')")
     @PostMapping("/{id}/modify")
     public String modifyProduct(@Valid ProductModifyForm productModifyForm, @AuthenticationPrincipal MemberContext memberContext, @PathVariable long id, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
@@ -117,7 +117,7 @@ public class ProductController {
         return "redirect:/product/" + product.getId() + "?msg=" + Ut.url.encode("%d번 상품이 수정되었습니다.".formatted(product.getId()));
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() and hasAuthority('AUTHOR')")
     @PostMapping("/{id}/delete")
     public String deleteProduct (@PathVariable long id, @AuthenticationPrincipal MemberContext memberContext) {
         Product product = productService.findById(id).get();
