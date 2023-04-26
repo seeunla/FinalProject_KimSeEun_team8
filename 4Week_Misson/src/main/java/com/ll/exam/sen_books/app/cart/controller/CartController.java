@@ -30,11 +30,10 @@ public class CartController {
     @GetMapping("/list")
     @PreAuthorize("isAuthenticated()")
     public String cartList(@AuthenticationPrincipal MemberContext memberContext, Model model) {
-        Member buyer = memberContext.getMember();
 
-        List<CartItem> items = cartService.getItemsByBuyer(buyer);
+        List<CartItem> cartItems = cartService.findAllByMemberIdOrderByIdDesc(memberContext.getId());
 
-        model.addAttribute("items", items);
+        model.addAttribute("cartItems", cartItems);
 
         return "cart/list";
     }

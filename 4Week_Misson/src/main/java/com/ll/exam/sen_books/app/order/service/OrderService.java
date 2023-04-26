@@ -34,7 +34,7 @@ public class OrderService {
         // 만약에 특정 장바구니의 상품옵션이 판매불능이면 삭제
         // 만약에 특정 장바구니의 상품옵션이 판매가능이면 주문품목으로 옮긴 후 삭제
 
-        List<CartItem> cartItems = cartService.getItemsByBuyer(buyer);
+        List<CartItem> cartItems = cartService.findAllByMemberIdOrderByIdDesc(buyer.getId());
 
         List<OrderItem> orderItems = new ArrayList<>();
 

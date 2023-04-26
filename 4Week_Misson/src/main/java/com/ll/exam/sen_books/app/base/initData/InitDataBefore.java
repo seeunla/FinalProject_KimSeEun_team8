@@ -15,6 +15,7 @@ public interface InitDataBefore {
         Member member1 = memberService.join("user1", "1234", "user1@test.com", "하니");
         Member member2 = memberService.join("user2", "1234", "user2@test.com", "원영이");
 
+
         PostForm postForm = new PostForm("글1", "내용2","음악", "음악");
         postForm.setSubject("글1");
         postForm.setContent("내용2");
