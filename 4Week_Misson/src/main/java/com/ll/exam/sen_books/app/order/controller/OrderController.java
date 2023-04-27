@@ -2,7 +2,6 @@ package com.ll.exam.sen_books.app.order.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ll.exam.sen_books.app.cart.entity.CartItem;
 import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.member.service.MemberService;
 import com.ll.exam.sen_books.app.order.entity.Order;
@@ -46,9 +45,9 @@ public class OrderController {
 
     @PostMapping("/create")
     @PreAuthorize("isAuthenticated()")
-    public String create(@AuthenticationPrincipal MemberContext memberContext) {
+    public String createOrder(@AuthenticationPrincipal MemberContext memberContext, String ids) {
         Member member = memberContext.getMember();
-        Order order = orderService.createFromCart(member);
+        Order order = orderService.createOrder(member, ids);
 
         return "redirect:/order/%d".formatted(order.getId()) + "?msg=" + Ut.url.encode("%d번 주문이 생성되었습니다.".formatted(order.getId()));
     }

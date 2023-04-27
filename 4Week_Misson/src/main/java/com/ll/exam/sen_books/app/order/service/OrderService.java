@@ -15,8 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,13 +30,20 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
 
     @Transactional
-    public Order createFromCart(Member buyer) {
+    public Order createOrder(Member buyer, String ids) {
         // 입력된 회원의 장바구니 아이템들을 전부 가져온다.
 
         // 만약에 특정 장바구니의 상품옵션이 판매불능이면 삭제
         // 만약에 특정 장바구니의 상품옵션이 판매가능이면 주문품목으로 옮긴 후 삭제
 
-        List<CartItem> cartItems = cartService.findAllByMemberIdOrderByIdDesc(buyer.getId());
+        String[] idsArr = ids.split(",");
+        // Array -> List
+        List<Long> cartItemIds = Arrays.stream(idsArr)
+                .mapToLong(Long::parseLong)
+                .boxed()
+                .collect(Collectors.toList());
+
+        List<CartItem> cartItems = cartService.findByMemberIdOrderByIdDesc(buyer, cartItemIds);
 
         List<OrderItem> orderItems = new ArrayList<>();
 
@@ -45,7 +54,7 @@ public class OrderService {
                 orderItems.add(new OrderItem(product));
             }
 
-            cartService.removeItem(cartItem);
+            cartService.removeItem(buyer, product);
         }
 
         return create(buyer, orderItems);

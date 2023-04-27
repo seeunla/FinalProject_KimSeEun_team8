@@ -51,7 +51,8 @@ public class CartController {
 
     @PostMapping("/removeItems")
     @PreAuthorize("isAuthenticated()")
-    public String removeItems(String ids) {
+    public String removeItems(@AuthenticationPrincipal MemberContext memberContext,String ids) {
+        Member member = memberContext.getMember();
         String[] array = ids.split(",");
 
         Arrays.stream(array)
@@ -59,7 +60,7 @@ public class CartController {
                 .forEach(id -> {
                     CartItem cartItem = cartService.findItemById(id).orElse(null);
 
-                    cartService.removeItem(cartItem);
+                    cartService.removeItem(member, cartItem);
 
                 });
 

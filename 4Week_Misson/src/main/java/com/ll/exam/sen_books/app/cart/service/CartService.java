@@ -55,8 +55,12 @@ public class CartService {
     }
 
 
-    public List<CartItem> findAllByMemberIdOrderByIdDesc(Long memberId) {
-        return cartItemRepository.findAllByMemberIdOrderByIdDesc(memberId);
+    public List<CartItem> findByMemberIdOrderByIdDesc(Member buyer, List<Long> cartItemIds) {
+        return cartItemRepository.findByBuyerIdAndIdInOrderByIdDesc(buyer.getId(), cartItemIds);
+    }
+
+    public List<CartItem> findAllByMemberIdOrderByIdDesc(long buyerId) {
+        return cartItemRepository.findAllByMemberIdOrderByIdDesc(buyerId);
     }
 
     public Optional<CartItem> findItemById(long id) {
