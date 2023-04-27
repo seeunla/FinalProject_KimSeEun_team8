@@ -39,7 +39,9 @@
                             </div>
 
                             <div class="card-actions flex flex-col justify-center my-2">
-                                <a href="javascript:;" onclick="$(this).next().submit()" class="btn btn-sm">
+                                <a href="javascript:;"
+                                   onclick="if ( confirm('정말로 삭제하시겠습니까?') ) $(this).next().submit()"
+                                   class="btn btn-sm">
                                     <i class="fa-solid fa-trash-can"></i>
                                     <span class="ml-2">삭제</span>
                                 </a>

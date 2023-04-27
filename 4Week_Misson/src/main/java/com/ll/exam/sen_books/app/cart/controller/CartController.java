@@ -40,10 +40,11 @@ public class CartController {
 
     @GetMapping("/remove/{productId}")
     @PreAuthorize("isAuthenticated()")
-    public String removeItem(@PathVariable Long productId) {
-        CartItem cartItem = cartService.findItemById(productId).get();
+    public String removeCartItem(@AuthenticationPrincipal MemberContext memberContext, @PathVariable Long productId) {
+        Member member = memberContext.getMember();
+        Product product = productService.findById(productId).get();
 
-        cartService.removeItem(cartItem);
+        cartService.removeItem(member, product);
 
         return "redirect:/cart/list?msg=" + Ut.url.encode("%d번 품목을 삭제하였습니다.".formatted(productId));
     }

@@ -1,6 +1,7 @@
 package com.ll.exam.sen_books.app.cart.service;
 
 import com.ll.exam.sen_books.app.cart.entity.CartItem;
+import com.ll.exam.sen_books.app.cart.exception.CartItemNotFoundException;
 import com.ll.exam.sen_books.app.cart.repository.CartItemRepository;
 import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.product.entity.Product;
@@ -40,8 +41,17 @@ public class CartService {
     }
 
     @Transactional
-    public void removeItem(CartItem cartItem) {
+    public void removeItem(Member member, Product product) {
+        CartItem cartItem = findByMemberIdAndProductId(member.getId(), product.getId());
+
         cartItemRepository.delete(cartItem);
+    }
+
+    private CartItem findByMemberIdAndProductId(Long id, Long productId) {
+        return cartItemRepository.findByBuyerIdAndProductId(id, productId).orElseThrow(
+                () -> {throw new CartItemNotFoundException("장바구니 품목이 존재하지 않습니다.");
+                }
+        );
     }
 
 
