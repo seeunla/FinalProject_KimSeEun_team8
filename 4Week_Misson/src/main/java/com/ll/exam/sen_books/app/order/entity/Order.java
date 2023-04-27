@@ -33,7 +33,7 @@ public class Order extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member buyer;
     private String name;
-
+    private boolean readyStatus; // 주문완료여부
     private boolean isPaid; // 결제여부
     private boolean isCanceled; // 취소여부
     private boolean isRefunded; // 환불여부
@@ -50,6 +50,10 @@ public class Order extends BaseEntity {
         orderItem.setOrder(this);
 
         orderItems.add(orderItem);
+    }
+
+    public void setOrderDone() {
+        this.readyStatus = true;
     }
 
     public int calculatePayPrice() {
