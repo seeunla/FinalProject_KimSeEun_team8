@@ -154,6 +154,13 @@
                     장바구니
                 </span>
             </a>
+
+            <a href="/order/list" class="inline-flex" sec:authorize="isAuthenticated()">
+                <i class="fa-solid fa-cart-plus"></i>
+                <span class="ml-[2px] hidden sm:block">
+                    주문 내역
+                </span>
+            </a>
         </div>
     </div>
 </header>
