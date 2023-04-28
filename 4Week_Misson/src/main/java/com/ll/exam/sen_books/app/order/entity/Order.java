@@ -67,7 +67,7 @@ public class Order extends BaseEntity {
 
     public void setCancelDone() {
         cancelDate = LocalDateTime.now();
-
+        readyStatus = false;
         isCanceled = true;
     }
 
@@ -106,6 +106,7 @@ public class Order extends BaseEntity {
     public boolean isPayable() {
         if (isPaid) return  false;
         if (isCanceled) return false;
+        if (!readyStatus) return false;
 
         return true;
     }
@@ -113,5 +114,12 @@ public class Order extends BaseEntity {
 
     public void setCanceled() {
         isCanceled = true;
+    }
+
+    public boolean isCancellable() {
+        if (!readyStatus) return false;
+        if(isPaid) return false;
+
+        return true;
     }
 }

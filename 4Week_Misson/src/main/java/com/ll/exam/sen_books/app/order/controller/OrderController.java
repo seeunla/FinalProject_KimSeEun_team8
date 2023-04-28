@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.PostConstruct;
 import java.util.Base64;
@@ -85,9 +86,13 @@ public class OrderController {
 
     @GetMapping("/{id}/cancel")
     @PreAuthorize("isAuthenticated()")
-    public String removeOrder(@PathVariable Long id) {
+    public String removeOrder(@AuthenticationPrincipal MemberContext memberContext, @PathVariable Long id) {
         Order order = orderService.findById(id).get();
+        Member member = memberContext.getMember();
 
+        if(orderService.canCancel(member, order) == false) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
         orderService.removeOrder(order);
 
         return "redirect:/order/list?msg=" + Ut.url.encode("%d번 품목을 삭제하였습니다.".formatted(id));

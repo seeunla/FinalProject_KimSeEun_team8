@@ -162,4 +162,9 @@ public class OrderService {
     public List<OrderItem> findAllByPayDateBetweenOrderByIdAsc(LocalDateTime fromDate, LocalDateTime toDate) {
         return orderItemRepository.findAllByPayDateBetween(fromDate, toDate);
     }
+
+    public boolean canCancel(Member member, Order order) {
+        if (!order.isCancellable()) return false;
+        return memberCanSee(member, order);
+    }
 }
