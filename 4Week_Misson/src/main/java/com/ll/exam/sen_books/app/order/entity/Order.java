@@ -5,7 +5,6 @@ import com.ll.exam.sen_books.app.member.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
@@ -86,8 +85,8 @@ public class Order extends BaseEntity {
         isRefunded = true;
     }
 
-    public int getPayPrice() {
-        int payPrice = 0;
+    public long getTotalPayPrice() {
+        long payPrice = 0;
         for (OrderItem orderItem : orderItems) {
             payPrice += orderItem.getSalePrice();
         }

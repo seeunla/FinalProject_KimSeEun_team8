@@ -49,23 +49,23 @@ public class CartController {
         return "redirect:/cart/list?msg=" + Ut.url.encode("%d번 품목을 삭제하였습니다.".formatted(productId));
     }
 
-    @PostMapping("/removeItems")
-    @PreAuthorize("isAuthenticated()")
-    public String removeItems(@AuthenticationPrincipal MemberContext memberContext,String ids) {
-        Member member = memberContext.getMember();
-        String[] array = ids.split(",");
-
-        Arrays.stream(array)
-                .mapToLong(Long::parseLong)
-                .forEach(id -> {
-                    CartItem cartItem = cartService.findItemById(id).orElse(null);
-
-                    cartService.removeItem(member, cartItem);
-
-                });
-
-        return "redirect:/cart/items?msg=" + Ut.url.encode("%d건의 품목을 삭제하였습니다.".formatted(array.length));
-    }
+//    @PostMapping("/removeItems")
+//    @PreAuthorize("isAuthenticated()")
+//    public String removeItems(@AuthenticationPrincipal MemberContext memberContext,String ids) {
+//        Member member = memberContext.getMember();
+//        String[] array = ids.split(",");
+//
+//        Arrays.stream(array)
+//                .mapToLong(Long::parseLong)
+//                .forEach(id -> {
+//                    CartItem cartItem = cartService.findItemById(id).orElse(null);
+//
+//                    cartService.removeItem(member, cartItem);
+//
+//                });
+//
+//        return "redirect:/cart/items?msg=" + Ut.url.encode("%d건의 품목을 삭제하였습니다.".formatted(array.length));
+//    }
 
     @PostMapping("/add/{productId}")
     @PreAuthorize("isAuthenticated()")
