@@ -85,7 +85,7 @@ public class Order extends BaseEntity {
         isRefunded = true;
     }
 
-    public long getTotalPayPrice() {
+    public long getPayPrice() {
         long payPrice = 0;
         for (OrderItem orderItem : orderItems) {
             payPrice += orderItem.getSalePrice();

@@ -152,7 +152,7 @@ public class OrderService {
 
         order.setCancelDone();
 
-        long payPrice = order.getTotalPayPrice();
+        long payPrice = order.getPayPrice();
         memberService.addCash(order.getBuyer(), payPrice, "주문_%d_환불_예치금".formatted(order.getId()));
 
         order.setRefundDone();
