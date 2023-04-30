@@ -100,14 +100,20 @@ public class OrderController {
 
     @PostMapping("/{id}/payByRestCashOnly")
     @PreAuthorize("isAuthenticated()")
-    public String payByRestCashOnly(@PathVariable Long id) {
+    public String payByRestCashOnly(@AuthenticationPrincipal MemberContext memberContext,@PathVariable Long id) {
+        Member member = memberContext.getMember();
         Order order = orderService.findById(id).get();
+        long restCash = memberService.getRestCash(member);
 
+        if (!orderService.canPayment(member, order)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
         orderService.payByRestCashOnly(order);
 
         return "redirect:/order/%d?msg=".formatted(order.getId()) + Ut.url.encode(("%d번 품목을 예치금으로 결제하였습니다.").formatted(id));
     }
 
+    // Toss Payments 시작
     @PostConstruct
     private void init() {
         restTemplate.setErrorHandler(new ResponseErrorHandler() {
@@ -169,8 +175,7 @@ public class OrderController {
 
             orderService.payByTossPayments(order, payPriceRestCash);
 
-            return "redirect:/order/%d".formatted(order.getId()) + Ut.url.encode(
-                    "%d번 주문이 결제처리되었습니다.".formatted(order.getId()));
+            return "order/success";
         } else {
             JsonNode failNode = responseEntity.getBody();
             model.addAttribute("message", failNode.get("message").asText());

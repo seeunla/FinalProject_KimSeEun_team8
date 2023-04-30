@@ -167,4 +167,8 @@ public class OrderService {
         if (!order.isCancellable()) return false;
         return memberCanSee(member, order);
     }
+
+    public boolean canPayment(Member member, Order order) {
+        return memberCanSee(member, order);
+    }
 }

@@ -75,6 +75,8 @@ public class Order extends BaseEntity {
         for (OrderItem orderItem : orderItems) {
             orderItem.setPaymentDone();
         }
+        this.isPaid = true;
+        payDate = LocalDateTime.now();
     }
 
     public void setRefundDone() {
