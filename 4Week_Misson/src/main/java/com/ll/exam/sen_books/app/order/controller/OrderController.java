@@ -143,9 +143,9 @@ public class OrderController {
 
         Order order = orderService.findForPrintById(id).get();
 
-        long orderIdInputed = Long.parseLong(orderId.split("__")[1]);
+        long realOrderId = Long.parseLong(orderId.split("__")[1]);
 
-        if (id != orderIdInputed) {
+        if (id != realOrderId) {
             return "redirect:/order/fail?msg=" + Ut.url.encode( "기존 주문과 일치하지 않습니다.");
         }
 
@@ -175,7 +175,7 @@ public class OrderController {
 
             orderService.payByTossPayments(order, payPriceRestCash);
 
-            return "order/success";
+            return "redirect:/order/%d".formatted(order.getId());
         } else {
             JsonNode failNode = responseEntity.getBody();
             model.addAttribute("message", failNode.get("message").asText());

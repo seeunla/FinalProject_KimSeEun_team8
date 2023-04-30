@@ -113,7 +113,7 @@ public class OrderService {
             throw new RuntimeException("예치금이 부족합니다.");
         }
 
-        memberService.addCash(orderer, payPrice * -1, "주문결제__예치금결제");
+        memberService.addCash(orderer, payPrice * -1, "상품결제__주문__%d__캐시".formatted(order.getId()));
 
         order.setPaymentDone();
         orderRepository.save(order);
