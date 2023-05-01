@@ -24,50 +24,57 @@
 
         <div class="px-2 pt-4">
             <h1 class="font-bold text-lg">주문 상세내용</h1>
+            <div class="text-2xl flex mb-5 pb-2 border-slate-200 border-b-2">
+                <div class="font-bold mr-3">주문 상품 : </div>
+                <div>총&nbsp</div>
+                <div class="font-bold" th:text="| ${#lists.size(order.orderItems)}|"></div>
+                <div>&nbsp개</div>
+            </div>
 
-            <table class="table">
+<!--            <div th:each="orderItem : ${order.orderItems}">-->
+<!--                <div class="card bg-base-100 border-2 border-slate-100 my-2">-->
+<!--                    <div class="card-body" style="padding: 15px">-->
+<!--                        <div class="flex flex-wrap">-->
+<!--                            <div class="mr-5">-->
+<!--                                <a th:href="|/product/${orderItem.product.id}|" >-->
+<!--                                    <img src="https://source.unsplash.com/random" class="w-28 h-40">-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                            <div class="grow">-->
+<!--                                <div class="flex">-->
+<!--                                    <h2 th:text="|${orderItem.product.subject}|" class="font-bold text-2xl"></h2>-->
+<!--                                </div>-->
+<!--                                <div th:text="|${orderItem.product.price} 원|" class="font-bold text-xl my-2"></div>-->
+<!--                                <div class="mb-2">-->
+<!--                                    <span class="text-lg">수량 : 1</span>-->
+<!--                                </div>-->
+<!--                                <div class="text-blue-400">무배송. 결제 후 즉시 다운로드</div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
 
-                <thead>
-                <tr>
-                    <td>내용</td>
-                </tr>
-
-               </thead>
-
-            <tbody class="flex gap-3 mt-3">
-
-                <td>
-                    주문번호 : [[${order.id}]]
-                </td>
-            </tbody>
-            <tbody>
-                <td>
-                    주문날짜 : [[${order.createDate}]]
-                </td>
-            </tbody>
-            <tbody>
-                <td>
-                    주문자 : [[${order.buyer.name}]]
-                </td>
-            </tbody>
-
-            <tbody>
-            <td>
-                주문가격 : [[${order.calculatePayPrice}]]
-            </td>
-            </tbody>
-            <tbody>
-            <td>
-                <div th:each="orderItem : ${order.orderItems}">
-                    <div>
-                        음악 : [[${orderItem.product.subject}]] /
-                        아티스트 : [[${orderItem.product.author.name}]] /
-                        가격 : [[${orderItem.salePrice}]]
-                    </div>
+            <div class="border-b-2 text-2xl flex my-5 pb-2 border-slate-200 font-bold mr-3">주문 정보
+            </div>
+            <div>
+                <div class="text-xl text-sky-400">
+                    <div th:if="${order.isOrderedStatus()}">주문 완료</div>
+                    <div th:if="${order.isPaidStatus()}">결제 완료</div>
+                    <div th:if="${order.isCanceledStatus()}">취소 완료</div>
+                    <div th:if="${order.isRefundedStatus()}">환불 완료</div>
                 </div>
-            </td>
-            </tbody>
-            </table>
+                <div class="text-lg">
+                    주문고객 [[${order.buyer.username}]] 님
+                </div>
+                <div class="text-lg">
+                    총 상품수 [[${order.orderItems.size()}]] 개
+                </div>
+                <div class="text-lg">
+                    총 상품금액 [[${order.payPrice}]] 원
+                </div>
+            </div>
+        </div>
 
             <div th:if="${order.payable}">
                 <div>

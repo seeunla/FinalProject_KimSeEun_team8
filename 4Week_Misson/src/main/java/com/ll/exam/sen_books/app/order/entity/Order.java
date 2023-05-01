@@ -113,7 +113,6 @@ public class Order extends BaseEntity {
         return true;
     }
 
-
     public void setCanceled() {
         isCanceled = true;
     }
@@ -122,6 +121,42 @@ public class Order extends BaseEntity {
         if (!readyStatus) return false;
         if(isPaid) return false;
 
+        return true;
+    }
+
+    // 주문 완료 상태
+    public boolean isOrderedStatus() {
+        if(!readyStatus) return false;
+        if(isPaid) return false;
+        if(isCanceled) return false;
+        if(isRefunded) return false;
+        return true;
+    }
+
+    // 주문 취소 완료 상태
+    public boolean isCanceledStatus() {
+        if(readyStatus) return false;
+        if(isPaid) return false;
+        if(!isCanceled) return false;
+        if(isRefunded) return false;
+        return true;
+    }
+
+    // 결제 완료 상태
+    public boolean isPaidStatus() {
+        if(!readyStatus) return false;
+        if(!isPaid) return false;
+        if(isCanceled) return false;
+        if(isRefunded) return false;
+        return true;
+    }
+
+    // 환불 완료 상태
+    public boolean isRefundedStatus() {
+        if(!readyStatus) return false;
+        if(isPaid) return false;
+        if(isCanceled) return false;
+        if(!isRefunded) return false;
         return true;
     }
 }
