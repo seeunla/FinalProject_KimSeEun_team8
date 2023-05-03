@@ -201,8 +201,19 @@ public class OrderController {
 
     @PostMapping("/{orderId}/refund")
     @PreAuthorize("isAuthenticated()")
-    public String refund(@PathVariable Long orderId) {
-        orderService.refund(orderId);
+    public String refund(@PathVariable Long orderId, @AuthenticationPrincipal MemberContext memberContext) {
+        Order order = orderService.findById(orderId).orElse(null);
+        Member member = memberContext.getMember();
+
+        if(!order.isRefundable()) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
+        if (!orderService.canRefund(member, order)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
+        orderService.refund(order);
 
         return "redirect:/order/%d?msg=".formatted(orderId) + Ut.url.encode("환불되었습니다.");
     }

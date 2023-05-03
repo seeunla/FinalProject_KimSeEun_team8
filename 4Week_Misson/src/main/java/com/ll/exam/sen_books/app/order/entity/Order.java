@@ -154,9 +154,25 @@ public class Order extends BaseEntity {
     // 환불 완료 상태
     public boolean isRefundedStatus() {
         if(!readyStatus) return false;
-        if(isPaid) return false;
+        if(!isPaid) return false;
         if(isCanceled) return false;
         if(!isRefunded) return false;
         return true;
+    }
+
+    // 환불 가능 여부
+    public boolean isRefundable() {
+        if(!isPaidStatus()) return false;
+        if(isAfterRefundDeadline()) return false;
+        return true;
+    }
+
+    public boolean isAfterRefundDeadline() {
+        if(payDate != null) {
+            // 현재 일시가 결제 일시보다 10분 이후이면
+            LocalDateTime refundDeadline = payDate.plusMinutes(10); // 환불 마감 기한
+            if(LocalDateTime.now().isAfter(refundDeadline)) return true;
+        }
+        return false;
     }
 }

@@ -143,17 +143,12 @@ public class OrderService {
     }
 
     @Transactional
-    public void refund(Long orderId) {
-        Order order = findById(orderId).orElse(null);
-
-        if (order == null) {
-            return;
-        }
+    public void refund(Order order) {
+        Member buyer = order.getBuyer();
+        long payPrice = order.getPayPrice();
+        memberService.addCash(buyer, payPrice, "주문_%d_환불_예치금".formatted(order.getId()));
 
         order.setCancelDone();
-
-        long payPrice = order.getPayPrice();
-        memberService.addCash(order.getBuyer(), payPrice, "주문_%d_환불_예치금".formatted(order.getId()));
 
         order.setRefundDone();
         orderRepository.save(order);
@@ -169,6 +164,10 @@ public class OrderService {
     }
 
     public boolean canPayment(Member member, Order order) {
+        return memberCanSee(member, order);
+    }
+
+    public boolean canRefund(Member member, Order order) {
         return memberCanSee(member, order);
     }
 }

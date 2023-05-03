@@ -52,7 +52,7 @@ public class OrderItem extends BaseEntity {
 
     public void setPaymentDone() {
         this.pgFee = 0;
-        this.payPrice = getPayPrice();
+        this.payPrice = salePrice;
         // 결제 금액 == pg 결제 금액
         this.pgPayPrice = payPrice;
         this.isPaid = true;
