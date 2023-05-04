@@ -60,7 +60,7 @@ public class CartService {
     }
 
     public List<CartItem> findAllByMemberIdOrderByIdDesc(long buyerId) {
-        return cartItemRepository.findAllByMemberIdOrderByIdDesc(buyerId);
+        return cartItemRepository.findAllByBuyerIdOrderByIdDesc(buyerId);
     }
 
     public Optional<CartItem> findItemById(long id) {

@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
     Optional<CartItem> findByBuyerIdAndProductId(Long id, Long id1);
     boolean existsByBuyerIdAndProductId(long buyerId, long productId);
-    List<CartItem> findAllByMemberIdOrderByIdDesc(long buyerId);
+    List<CartItem> findAllByBuyerIdOrderByIdDesc(long buyerId);
     List<CartItem> findByBuyerIdAndIdInOrderByIdDesc(Long buyerId, List<Long> cartItemIds);
 }
