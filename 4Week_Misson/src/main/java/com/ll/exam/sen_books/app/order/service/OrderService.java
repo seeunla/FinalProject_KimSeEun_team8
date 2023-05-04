@@ -146,7 +146,14 @@ public class OrderService {
     public void refund(Order order) {
         Member buyer = order.getBuyer();
         long payPrice = order.getPayPrice();
-        memberService.addCash(buyer, payPrice, "주문_%d_환불_예치금".formatted(order.getId()));
+        long pgPayPrice = order.getPgPayPrice();     // pg 결제 금액
+        long cashPayPrice = payPrice - pgPayPrice;
+
+        // 1. 전액 캐시 환불인 경우
+        // 2. 캐시 + 카드 환불인 경우
+        if (cashPayPrice > 0) {
+            memberService.addCash(buyer, payPrice, "주문_%d_환불_예치금".formatted(order.getId()));
+        }
 
         order.setCancelDone();
 
