@@ -60,7 +60,7 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
-    public String detail(@PathVariable long id, Model model) {
+    public String detail(@AuthenticationPrincipal MemberContext memberContext, @PathVariable long id, Model model) {
         Post post = postService.findForPrintById(id);
 
         model.addAttribute("post", post);

@@ -32,6 +32,9 @@ public class Order extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member buyer;
     private String name;
+    private int payPrice;                   // 총 주문 결제 금액
+    private int pgPayPrice;                 // 총 pg 결제 금액
+    private int cashPayPrice;               // 총 캐시 결제 금액
     private boolean readyStatus; // 주문완료여부
     private boolean isPaid; // 결제여부
     private boolean isCanceled; // 취소여부
@@ -71,7 +74,10 @@ public class Order extends BaseEntity {
         isCanceled = true;
     }
 
-    public void setPaymentDone() {
+    public void setPaymentDone(int payPrice) {
+        // 총 결제 금액 == 캐시 결제 금액
+        this.payPrice = payPrice;
+        this.cashPayPrice = payPrice;
         for (OrderItem orderItem : orderItems) {
             orderItem.setPaymentDone();
         }
