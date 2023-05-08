@@ -74,10 +74,7 @@ public class Order extends BaseEntity {
         isCanceled = true;
     }
 
-    public void setPaymentDone(int payPrice) {
-        // 총 결제 금액 == 캐시 결제 금액
-        this.payPrice = payPrice;
-        this.cashPayPrice = payPrice;
+    public void setPaymentDone() {
         for (OrderItem orderItem : orderItems) {
             orderItem.setPaymentDone();
         }
@@ -93,8 +90,8 @@ public class Order extends BaseEntity {
         isRefunded = true;
     }
 
-    public long getPayPrice() {
-        long payPrice = 0;
+    public int getPayPrice() {
+        int payPrice = 0;
         for (OrderItem orderItem : orderItems) {
             payPrice += orderItem.getSalePrice();
         }
@@ -183,8 +180,8 @@ public class Order extends BaseEntity {
     }
 
     // 총 pg 결제 금액
-    public long getPgPayPrice() {
-        long pgPayPrice =0;
+    public int getPgPayPrice() {
+        int pgPayPrice =0;
         for (OrderItem orderItem: orderItems) {
             pgPayPrice += orderItem.getPgPayPrice();
         }
