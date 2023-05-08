@@ -38,7 +38,7 @@ public class Member extends BaseEntity {
     private String nickname;
     @Convert(converter = AuthLevel.Converter.class)
     private AuthLevel authLevel;
-    private long restCash;
+    private int restCash;
 
 
     public Member(long id) {
@@ -77,7 +77,7 @@ public class Member extends BaseEntity {
         return authorities;
     }
 
-    public void setRestCash(long newRestCash) {
+    public void setRestCash(int newRestCash) {
         this.restCash = newRestCash;
     }
 

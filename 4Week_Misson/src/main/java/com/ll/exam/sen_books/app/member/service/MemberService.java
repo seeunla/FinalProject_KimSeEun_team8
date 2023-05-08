@@ -82,7 +82,7 @@ public class MemberService {
     public AddCashDataBody addCash(Member member, long price, String eventType) {
         CashLog cashLog = cashService.addCash(member, price, eventType);
 
-        long newRestCash = member.getRestCash() + cashLog.getPrice();
+        int newRestCash = member.getRestCash() + cashLog.getPrice();
         member.setRestCash(newRestCash);
         memberRepository.save(member);
 
@@ -160,7 +160,7 @@ public class MemberService {
         return passwordEncoder.matches(password, member.getPassword());
     }
 
-    public long getRestCash(Member member) {
+    public int getRestCash(Member member) {
         return memberRepository.findById(member.getId()).get().getRestCash();
     }
 

@@ -21,7 +21,7 @@ import javax.persistence.ManyToOne;
 public class CashLog extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
-    private long price; // 변동 금액
+    private int price; // 변동 금액
     private String eventType; // 변동 사유
 
     public CashLog(long id) {
