@@ -4,6 +4,7 @@ import com.ll.exam.sen_books.app.cart.entity.CartItem;
 import com.ll.exam.sen_books.app.cart.service.CartService;
 import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.member.service.MemberService;
+import com.ll.exam.sen_books.app.mybook.service.MyBookService;
 import com.ll.exam.sen_books.app.order.entity.Order;
 import com.ll.exam.sen_books.app.order.entity.OrderItem;
 import com.ll.exam.sen_books.app.order.repository.OrderItemRepository;
@@ -28,7 +29,7 @@ public class OrderService {
     private final CartService cartService;
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
-
+    private final MyBookService myBookService;
     @Transactional
     public Order createOrder(Member buyer, String ids) {
         // 입력된 회원의 장바구니 아이템들을 전부 가져온다.
@@ -117,6 +118,7 @@ public class OrderService {
 
         order.setPaymentDone();
         orderRepository.save(order);
+        myBookService.add(order);
     }
 
     @Transactional
@@ -134,6 +136,7 @@ public class OrderService {
 
         order.setPaymentDone();
         orderRepository.save(order);
+        myBookService.add(order);
     }
 
     @Transactional
