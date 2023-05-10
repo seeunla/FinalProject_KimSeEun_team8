@@ -79,7 +79,7 @@ public class MemberService {
 
 
     @Transactional
-    public AddCashDataBody addCash(Member member, long price, String eventType) {
+    public AddCashDataBody addCash(Member member, int price, String eventType) {
         CashLog cashLog = cashService.addCash(member, price, eventType);
 
         int newRestCash = member.getRestCash() + cashLog.getPrice();

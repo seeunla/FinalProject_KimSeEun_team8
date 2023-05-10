@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class CashService {
     private final CashLogRepository cashLogRepository;
 
-    public CashLog addCash(Member member, long price, String eventType) {
+    public CashLog addCash(Member member, int price, String eventType) {
         CashLog cashLog = CashLog.builder()
                 .member(member)
                 .price(price)

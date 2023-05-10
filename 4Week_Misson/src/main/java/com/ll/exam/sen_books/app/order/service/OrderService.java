@@ -122,11 +122,11 @@ public class OrderService {
     }
 
     @Transactional
-    public void payByTossPayments(Order order, long useRestCash) {
+    public void payByTossPayments(Order order, int useRestCash) {
         Member buyer = order.getBuyer();
         int payPrice = order.calculatePayPrice();
 
-        long pgPayPrice = payPrice - useRestCash;
+        int pgPayPrice = payPrice - useRestCash;
         memberService.addCash(buyer, pgPayPrice, "주문__%d__충전__토스페이먼츠".formatted(order.getId()));
         memberService.addCash(buyer, pgPayPrice * -1, "주문__%d__사용__토스페이먼츠".formatted(order.getId()));
 
@@ -148,7 +148,7 @@ public class OrderService {
     @Transactional
     public void refund(Order order) {
         Member buyer = order.getBuyer();
-        long payPrice = order.getPayPrice();
+        int payPrice = order.getPayPrice();
         long pgPayPrice = order.getPgPayPrice();     // pg 결제 금액
         long cashPayPrice = payPrice - pgPayPrice;
 
@@ -162,6 +162,9 @@ public class OrderService {
 
         order.setRefundDone();
         orderRepository.save(order);
+
+        // 내 도서에서 삭제
+        myBookService.remove(order);
     }
 
     public List<OrderItem> findAllByPayDateBetweenOrderByIdAsc(LocalDateTime fromDate, LocalDateTime toDate) {

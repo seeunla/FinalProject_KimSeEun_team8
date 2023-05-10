@@ -136,7 +136,7 @@ public class OrderController {
             @PathVariable long id,
             @RequestParam String paymentKey,
             @RequestParam String orderId,
-            @RequestParam Long amount,
+            @RequestParam int amount,
             Model model,
             @AuthenticationPrincipal MemberContext memberContext
     ) throws Exception {
@@ -160,7 +160,7 @@ public class OrderController {
 
         Member actor = memberContext.getMember();
         long restCash = memberService.getRestCash(actor);
-        long payPriceRestCash = order.calculatePayPrice() - amount;
+        int payPriceRestCash = order.calculatePayPrice() - amount;
 
         if (payPriceRestCash > restCash) {
             return "redirect:/order/fail?msg=" + Ut.url.encode( "예치금이 부족합니다.");
