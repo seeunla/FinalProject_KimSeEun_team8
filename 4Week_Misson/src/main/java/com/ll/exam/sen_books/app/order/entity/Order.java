@@ -88,6 +88,7 @@ public class Order extends BaseEntity {
         }
 
         isRefunded = true;
+        this.refundDate = LocalDateTime.now();
     }
 
     public int getPayPrice() {
