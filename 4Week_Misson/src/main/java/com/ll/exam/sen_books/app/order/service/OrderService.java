@@ -146,19 +146,10 @@ public class OrderService {
     }
 
     @Transactional
-    public void refund(Order order) {
+    public void refundByRestCashOnly(Order order) {
         Member buyer = order.getBuyer();
         int payPrice = order.getPayPrice();
-        long pgPayPrice = order.getPgPayPrice();     // pg 결제 금액
-        long cashPayPrice = payPrice - pgPayPrice;
-
-        // 1. 전액 캐시 환불인 경우
-        // 2. 캐시 + 카드 환불인 경우
-        if (cashPayPrice > 0) {
-            memberService.addCash(buyer, payPrice, "주문_%d_환불_예치금".formatted(order.getId()));
-        }
-
-        order.setCancelDone();
+        memberService.addCash(buyer, payPrice, "상품환불충전__캐시__주문__%d".formatted(order.getId()));
 
         order.setRefundDone();
         orderRepository.save(order);

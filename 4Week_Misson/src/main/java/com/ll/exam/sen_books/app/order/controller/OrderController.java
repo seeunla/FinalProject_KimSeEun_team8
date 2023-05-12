@@ -213,7 +213,7 @@ public class OrderController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 
-        orderService.refund(order);
+        orderService.refundByRestCashOnly(order);
 
         return "redirect:/order/%d?msg=".formatted(orderId) + Ut.url.encode("환불되었습니다.");
     }

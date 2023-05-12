@@ -179,13 +179,4 @@ public class Order extends BaseEntity {
         }
         return false;
     }
-
-    // 총 pg 결제 금액
-    public int getPgPayPrice() {
-        int pgPayPrice =0;
-        for (OrderItem orderItem: orderItems) {
-            pgPayPrice += orderItem.getPgPayPrice();
-        }
-        return pgPayPrice;
-    }
 }
