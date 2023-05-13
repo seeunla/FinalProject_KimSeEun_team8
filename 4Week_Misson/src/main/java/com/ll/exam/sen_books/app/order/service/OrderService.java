@@ -116,7 +116,7 @@ public class OrderService {
 
         memberService.addCash(orderer, payPrice * -1, "상품결제__주문__%d__캐시".formatted(order.getId()));
 
-        order.setPaymentDone();
+        order.setPaymentDone(payPrice);
         orderRepository.save(order);
         myBookService.add(order);
     }
@@ -134,7 +134,7 @@ public class OrderService {
             memberService.addCash(buyer, useRestCash * -1, "주문__%d__사용__예치금".formatted(order.getId()));
         }
 
-        order.setPaymentDone();
+        order.setPaymentDone(payPrice, pgPayPrice);
         orderRepository.save(order);
         myBookService.add(order);
     }

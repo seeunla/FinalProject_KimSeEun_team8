@@ -74,11 +74,29 @@ public class Order extends BaseEntity {
         isCanceled = true;
     }
 
-    public void setPaymentDone() {
+    // 캐시 전액 결제 완료 처리
+    public void setPaymentDone(int payPrice) {
+        this.payDate = LocalDateTime.now();
+        // 총 결제 금액 == 캐시 결제 금액
+        this.payPrice = payPrice;
+        this.cashPayPrice = payPrice;
+        // 주문 품목 결제 완료 처리
+        for(OrderItem orderItem : orderItems) {
+            orderItem.setPaymentDone();
+        }
+        this.isPaid = true;
+    }
+
+    // TossPayments 결제 완료 처리
+    public void setPaymentDone(int payPrice, int pgPayPrice) {
         for (OrderItem orderItem : orderItems) {
             orderItem.setPaymentDone();
         }
         this.isPaid = true;
+        // 총 결제 금액 == pg 결제 금액 + 캐시 결제 금액
+        this.payPrice = payPrice;
+        this.pgPayPrice = pgPayPrice;
+        this.cashPayPrice = payPrice - pgPayPrice;
         payDate = LocalDateTime.now();
     }
 
