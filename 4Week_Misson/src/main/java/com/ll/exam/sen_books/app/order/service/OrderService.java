@@ -148,7 +148,7 @@ public class OrderService {
     @Transactional
     public void refundByRestCashOnly(Order order) {
         Member buyer = order.getBuyer();
-        int payPrice = order.getPayPrice();
+        int payPrice = order.calculatePayPrice();
         memberService.addCash(buyer, payPrice, "상품환불충전__캐시__주문__%d".formatted(order.getId()));
 
         order.setRefundDone();

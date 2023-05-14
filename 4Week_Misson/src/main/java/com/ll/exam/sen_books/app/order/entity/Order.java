@@ -58,13 +58,12 @@ public class Order extends BaseEntity {
         this.readyStatus = true;
     }
 
+    // 총 주문(상품) 금액
     public int calculatePayPrice() {
         int payPrice = 0;
-
         for (OrderItem orderItem : orderItems) {
             payPrice += orderItem.getPayPrice();
         }
-
         return payPrice;
     }
 
@@ -107,15 +106,6 @@ public class Order extends BaseEntity {
 
         isRefunded = true;
         this.refundDate = LocalDateTime.now();
-    }
-
-    public int getPayPrice() {
-        int payPrice = 0;
-        for (OrderItem orderItem : orderItems) {
-            payPrice += orderItem.getSalePrice();
-        }
-
-        return payPrice;
     }
 
     public void makeName() {
