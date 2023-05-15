@@ -31,29 +31,29 @@
                 <div>&nbsp개</div>
             </div>
 
-<!--            <div th:each="orderItem : ${order.orderItems}">-->
-<!--                <div class="card bg-base-100 border-2 border-slate-100 my-2">-->
-<!--                    <div class="card-body" style="padding: 15px">-->
-<!--                        <div class="flex flex-wrap">-->
-<!--                            <div class="mr-5">-->
-<!--                                <a th:href="|/product/${orderItem.product.id}|" >-->
-<!--                                    <img src="https://source.unsplash.com/random" class="w-28 h-40">-->
-<!--                                </a>-->
-<!--                            </div>-->
-<!--                            <div class="grow">-->
-<!--                                <div class="flex">-->
-<!--                                    <h2 th:text="|${orderItem.product.subject}|" class="font-bold text-2xl"></h2>-->
-<!--                                </div>-->
-<!--                                <div th:text="|${orderItem.product.price} 원|" class="font-bold text-xl my-2"></div>-->
-<!--                                <div class="mb-2">-->
-<!--                                    <span class="text-lg">수량 : 1</span>-->
-<!--                                </div>-->
-<!--                                <div class="text-blue-400">무배송. 결제 후 즉시 다운로드</div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
+            <div th:each="orderItem : ${order.orderItems}">
+                <div class="card bg-base-100 border-2 border-slate-100 my-2">
+                    <div class="card-body" style="padding: 15px">
+                        <div class="flex flex-wrap">
+                            <div class="mr-5">
+                                <a th:href="|/product/${orderItem.product.id}|" >
+                                    <img src="https://source.unsplash.com/random" class="w-28 h-40">
+                                </a>
+                            </div>
+                            <div class="grow">
+                                <div class="flex">
+                                    <h2 th:text="|${orderItem.product.subject}|" class="font-bold text-2xl"></h2>
+                                </div>
+                                <div th:text="|${orderItem.product.price} 원|" class="font-bold text-xl my-2"></div>
+                                <div class="mb-2">
+                                    <span class="text-lg">수량 : 1</span>
+                                </div>
+                                <div class="text-blue-400">무배송. 결제 후 즉시 다운로드</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="border-b-2 text-2xl flex my-5 pb-2 border-slate-200 font-bold mr-3">주문 정보
             </div>
@@ -71,7 +71,7 @@
                     총 상품수 [[${order.orderItems.size()}]] 개
                 </div>
                 <div class="text-lg">
-                    총 상품금액 [[${order.payPrice}]] 원
+                    총 상품금액 [[${order.calculatePayPrice}]] 원
                 </div>
             </div>
         </div>
@@ -94,14 +94,60 @@
                                type="checkbox" class="ml-2 checkbox">
                     </label>
                 </div>
+                <!--            결제 정보-->
+                <div th:if="${order.isPayable()}">
+                    <div class="grid grid-cols-1 mt-2 gap-2">
+                        <div class="border-b-2 text-2xl flex my-5 pb-2 border-slate-200 font-bold mr-3">결제정보</div>
+                        <div class="text-lg">
+                            <span class="mr-3">최종 결제금액</span>
+                            <span class="PaymentForm__pgPayPriceDisplay"></span>
+                            <span>원</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!--            주문취소-->
+                <div th:if="${order.isCancellable()}">
+                    <div class="grid grid-cols-1 mt-2 gap-2">
+                        <a href="javascript:;"
+                           onclick="if ( confirm('주문을 취소하시겠습니까?') ) $(this).next().submit();"
+                           class="btn btn-secondary btn-outline">
+                            <span class="ml-1">주문 취소</span>
+                        </a>
+                        <form th:action="@{|/order/${order.id}/cancel|}" method="POST" hidden></form>
+                    </div>
+                </div>
+
                 <button th:if="${order.payable}" onclick="payment();" class="btn btn-sm btn-primary">카드결제</button>
-                <span th:if="${order.isPaid}">결제완료</span>
                 <div>
                     <span>PG결제가격 : </span>
                     <span id="PaymentForm__pgPayPriceDisplay">
 
                             </span>
                 </div>
+
+                <!--            환불신청-->
+                <div th:if="${order.isRefundable()}">
+                    <div class="grid grid-cols-1 mt-2 gap-2">
+                        <a href="javascript:;"
+                           onclick="if ( confirm('정말로 환불하시겠습니까?') ) $(this).next().submit();"
+                           class="btn btn-secondary btn-outline">
+                            <span class="ml-1">환불 신청</span>
+                        </a>
+                        <form th:action="@{|/order/${order.id}/refund|}" method="POST" hidden></form>
+                    </div>
+                </div>
+                <div th:if="${order.isAfterRefundDeadline()}">
+                    <div class="grid grid-cols-1 mt-2 gap-2">
+                        <a href="javascript:;"
+                           onclick="alert('환불 가능한 기간이 지났습니다. 환불은 결제 완료 후 10분 이내에 가능합니다.')"
+                           class="btn btn-secondary btn-outline">
+                            <span class="ml-1">환불 신청</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
             </div>
         </div>
     </section>

@@ -5,6 +5,7 @@ import com.ll.exam.sen_books.app.member.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @SuperBuilder
 @ToString(callSuper = true)
