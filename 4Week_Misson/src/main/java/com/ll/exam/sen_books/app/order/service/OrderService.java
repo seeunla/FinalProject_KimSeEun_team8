@@ -4,6 +4,7 @@ import com.ll.exam.sen_books.app.cart.entity.CartItem;
 import com.ll.exam.sen_books.app.cart.service.CartService;
 import com.ll.exam.sen_books.app.member.entity.Member;
 import com.ll.exam.sen_books.app.member.service.MemberService;
+import com.ll.exam.sen_books.app.mybook.entity.MyBook;
 import com.ll.exam.sen_books.app.mybook.service.MyBookService;
 import com.ll.exam.sen_books.app.order.entity.Order;
 import com.ll.exam.sen_books.app.order.entity.OrderItem;
@@ -172,6 +173,25 @@ public class OrderService {
     }
 
     public boolean canRefund(Member member, Order order) {
-        return memberCanSee(member, order);
+        // 권한 검증
+        if(!memberCanSee(member, order)) {
+            throw new RuntimeException("환불 권한이 없습니다.");
+        }
+        //해당 주문 상품 결제 후 10분 이내이고 읽지 않은 상태에서만 환불 가능
+        if(!order.isRefundable()) {
+            throw new RuntimeException("환불 기한이 지났습니다.");
+        }
+
+        List<OrderItem> orderItems = order.getOrderItems();
+        for(OrderItem orderItem : orderItems) {
+            Long productId = orderItem.getProduct().getId();
+            Long ownerId = order.getBuyer().getId();
+            MyBook myBook = myBookService.findByProductIdAndOwnerId(productId, ownerId);
+
+            if(myBook.isRead()) {
+                throw new RuntimeException("[%s] 상품이 개봉되어 환불할 수 없습니다.".formatted(orderItem.getProduct().getSubject()));
+            }
+        }
+        return true;
     }
 }

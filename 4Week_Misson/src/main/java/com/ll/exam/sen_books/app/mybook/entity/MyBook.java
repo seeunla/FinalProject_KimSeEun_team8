@@ -28,6 +28,8 @@ public class MyBook extends BaseEntity {
     @ToString.Exclude
     private Product product;
 
+    private boolean isRead; // 읽었는지 여부
+
     @ManyToOne(fetch = LAZY)
     @ToString.Exclude
     private OrderItem orderItem;

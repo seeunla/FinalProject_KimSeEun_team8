@@ -205,10 +205,6 @@ public class OrderController {
         Order order = orderService.findById(orderId).orElse(null);
         Member member = memberContext.getMember();
 
-        if(!order.isRefundable()) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        }
-
         if (!orderService.canRefund(member, order)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
