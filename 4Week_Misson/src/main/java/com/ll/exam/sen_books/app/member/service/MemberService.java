@@ -39,12 +39,17 @@ public class MemberService {
             throw new RuntimeException();
         }
 
+        AuthLevel authLevel = AuthLevel.NORMAL; // 일반 권한 디폴트
+        if(username.equals("admin")) {
+            authLevel = AuthLevel.ADMIN; // admin 회원을 관리자 회원으로 설정
+        }
+
         Member member = Member.builder()
                 .username(username)
                 .password(passwordEncoder.encode(password))
                 .email(email)
                 .nickname(nickname)
-                .authLevel(AuthLevel.NORMAL)
+                .authLevel(authLevel)
                 .build();
 
         memberRepository.save(member);
