@@ -50,7 +50,10 @@ public class RebateOrderItem extends BaseEntity {
     private int payPrice; // 결제금액
     private int refundPrice; // 환불금액
     private boolean isPaid; // 결제여부
+    private boolean isRefund; // 환불여부
     private LocalDateTime payDate; // 결제날짜
+    private LocalDateTime refundDate; // 환불날짜
+
 
     @ManyToOne(fetch = LAZY)
     @ToString.Exclude
@@ -90,6 +93,8 @@ public class RebateOrderItem extends BaseEntity {
         refundPrice = orderItem.getRefundPrice();
         isPaid = orderItem.isPaid();
         payDate = orderItem.getPayDate();
+        isRefund = orderItem.isRefund();
+        refundDate = orderItem.getRefundDate();
 
         // 상품 추가데이터
         productSubject = orderItem.getProduct().getSubject();
