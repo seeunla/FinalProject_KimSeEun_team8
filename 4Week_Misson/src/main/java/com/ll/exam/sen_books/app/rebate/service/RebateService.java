@@ -23,24 +23,23 @@ public class RebateService {
     private final RebateOrderItemRepository rebateOrderItemRepository;
 
     @Transactional
-    public void makeDate(String yearMonth) {
-        int monthEndDay = Ut.date.getEndDayOf(yearMonth);
+    public void makeDate(int year, int month) {
+        int monthEndDay = Ut.date.getEndDay(year, month);
 
-        String fromDateStr = yearMonth + "-01 00:00:00.000000";
-        String toDateStr = yearMonth + "-%02d 23:59:59.999999".formatted(monthEndDay);
-        LocalDateTime fromDate = Ut.date.parse(fromDateStr);
-        LocalDateTime toDate = Ut.date.parse(toDateStr);
+        // 1. 정산 데이터를 생성할 날짜 범위 구하기
+        LocalDateTime fromDate = Ut.date.getStartOfDay(year, month, 1);
+        LocalDateTime toDate = Ut.date.getEndOfDay(year, month, monthEndDay);
 
-        // 데이터 가져오기
+        // 2. 해당 범위의 모든 주문 품목 조회
         List<OrderItem> orderItems = orderService.findAllByPayDateBetweenOrderByIdAsc(fromDate, toDate);
 
-        // 변환하기
+        // 3. 주문 데이터 -> 정산 데이터 변환
         List<RebateOrderItem> rebateOrderItems = orderItems
                 .stream()
                 .map(this::toRebateOrderItem)
                 .collect(Collectors.toList());
 
-        // 저장하기
+        // 4. 정산 데이터 생성
         rebateOrderItems.forEach(this::makeRebateOrderItem);
     }
 
@@ -55,6 +54,7 @@ public class RebateService {
         rebateOrderItemRepository.save(item);
     }
 
+    // OrderItem -> RebateOrderItem 변환
     public RebateOrderItem toRebateOrderItem(OrderItem orderItem) {
         return new RebateOrderItem(orderItem);
     }

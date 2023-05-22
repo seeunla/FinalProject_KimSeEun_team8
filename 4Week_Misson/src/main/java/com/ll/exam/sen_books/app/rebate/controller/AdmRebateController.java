@@ -1,6 +1,7 @@
 package com.ll.exam.sen_books.app.rebate.controller;
 
 import com.ll.exam.sen_books.app.rebate.entity.RebateOrderItem;
+import com.ll.exam.sen_books.app.rebate.form.RebateDataForm;
 import com.ll.exam.sen_books.app.rebate.service.RebateService;
 import com.ll.exam.sen_books.util.Ut;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,8 +36,14 @@ public class AdmRebateController {
     @PostMapping("/makeData")
     @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseBody
-    public String makeData(String yearMonth) {
-        rebateService.makeDate(yearMonth);
+    public String makeData(RebateDataForm rebateDataForm, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return "/adm/rebate/makeData";
+        }
+
+        int year = rebateDataForm.getYear();
+        int month = rebateDataForm.getMonth();
+        rebateService.makeDate(year, month);
 
         return "redirect:/adm/rebate/rebateOrderItemList" + "?msg="+ Ut.url.encode("정산데이터가 성공적으로 생성되었습니다.");
     }
