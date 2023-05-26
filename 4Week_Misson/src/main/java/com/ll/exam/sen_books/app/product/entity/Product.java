@@ -52,7 +52,8 @@ public class Product extends BaseEntity {
     }
 
     public int getWholesalePrice() {
-        return (int) Math.ceil(getPrice() * 0.7);
+        // 판매자 : 멋북스 = 5 : 5
+        return (int) Math.ceil(getPrice() * 0.5);
     }
 
     public String getJdenticon() {
