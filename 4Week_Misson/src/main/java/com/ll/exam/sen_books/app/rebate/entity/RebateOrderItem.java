@@ -112,7 +112,7 @@ public class RebateOrderItem extends BaseEntity {
     }
 
     public int calculateRebatePrice() {
-        if (refundPrice > 0) {
+        if (!isRefund) {
             return 0;
         }
 

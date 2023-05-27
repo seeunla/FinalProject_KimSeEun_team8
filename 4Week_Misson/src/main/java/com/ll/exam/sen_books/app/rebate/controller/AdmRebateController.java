@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,12 +51,9 @@ public class AdmRebateController {
 
     @GetMapping("/rebateOrderItemList")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String showRebateOrderItemList(String yearMonth, Model model) {
-        if (yearMonth == null) {
-            yearMonth = "2022-10";
-        }
+    public String showRebateOrderItemList(@RequestParam int year, @RequestParam int month, Model model) {
 
-        List<RebateOrderItem> items = rebateService.findRebateOrderItemsByPayDateIn(yearMonth);
+        List<RebateOrderItem> items = rebateService.findRebateOrderItemsByPayDateIn(year, month);
 
         model.addAttribute("items", items);
 
