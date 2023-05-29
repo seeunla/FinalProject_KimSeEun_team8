@@ -36,7 +36,6 @@ public class AdmRebateController {
 
     @PostMapping("/makeData")
     @PreAuthorize("hasAuthority('ADMIN')")
-    @ResponseBody
     public String makeData(RebateDataForm rebateDataForm, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             return "/adm/rebate/makeData";
@@ -51,9 +50,14 @@ public class AdmRebateController {
 
     @GetMapping("/rebateOrderItemList")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String showRebateOrderItemList(@RequestParam int year, @RequestParam int month, Model model) {
+    public String showRebateOrderItemList(@RequestParam(required = false) Integer year, @RequestParam(required = false) Integer month, Model model) {
+        List<RebateOrderItem> items = null;
 
-        List<RebateOrderItem> items = rebateService.findRebateOrderItemsByPayDateIn(year, month);
+        if(year == null || month == null) {
+            items = rebateService.findRebateOrderItems();
+        } else {
+            items = rebateService.findRebateOrderItemsByPayDateIn(year, month);
+        }
 
         model.addAttribute("items", items);
 
@@ -69,7 +73,7 @@ public class AdmRebateController {
         String referer = req.getHeader("Referer");
         log.debug("referer : " + referer);
 
-        RebateOrderItem orderItem = rebateService.findByOrderItemId(orderItemId);
+        RebateOrderItem orderItem = rebateService.findById(orderItemId);
 
         int calculateRebatePrice = orderItem.calculateRebatePrice();
 

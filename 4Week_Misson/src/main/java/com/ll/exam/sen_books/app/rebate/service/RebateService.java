@@ -5,6 +5,7 @@ import com.ll.exam.sen_books.app.member.service.MemberService;
 import com.ll.exam.sen_books.app.order.entity.OrderItem;
 import com.ll.exam.sen_books.app.order.service.OrderService;
 import com.ll.exam.sen_books.app.rebate.entity.RebateOrderItem;
+import com.ll.exam.sen_books.app.rebate.exception.RebateOrderItemNotFoundException;
 import com.ll.exam.sen_books.app.rebate.repository.RebateOrderItemRepository;
 import com.ll.exam.sen_books.util.Ut;
 import lombok.RequiredArgsConstructor;
@@ -85,23 +86,29 @@ public class RebateService {
         return rebateOrderItemRepository.findAllByPayDateBetweenOrderByIdAsc(fromDate, toDate);
     }
 
+    // 단건 정산 처리
     @Transactional
     public void rebate(long orderItemId) {
         RebateOrderItem rebateOrderItem = rebateOrderItemRepository.findByOrderItemId(orderItemId).get();
-
-        if (rebateOrderItem.isRebateAvailable() == false) {
-            return;
+        // 1. 정산 가능 상태인지 검증
+        if (!rebateOrderItem.isRebateAvailable()) {
+            throw new RuntimeException("정ㅅ나 처리가 가능한 상태가 아닙니다.");
         }
 
         int calculateRebatePrice = rebateOrderItem.calculateRebatePrice();
 
-        MemberService.AddCashDataBody addCashRsData = memberService.addCash(rebateOrderItem.getProduct().getAuthor(), calculateRebatePrice, "정산__%d__지급__예치금".formatted(rebateOrderItem.getOrderItem().getId()));
-        CashLog cashLog = addCashRsData.getCashLog();
-
-        rebateOrderItem.setRebateDone(cashLog.getId());
+        // 2. 판매자에게 예치금으로 정산금액 지급
+        CashLog cashLog = memberService.addCash(
+                rebateOrderItem.getSeller(),
+                rebateOrderItem.calculateRebatePrice(),
+                "정산금액지급__캐시__정산__%d".formatted(rebateOrderItem.getOrderItem().getId()));
+        // 3. 정산 완료 처리
+        rebateOrderItem.setRebateDone(cashLog);
     }
 
-    public RebateOrderItem findByOrderItemId(long orderItemId) {
-        return rebateOrderItemRepository.findByOrderItemId(orderItemId).get();
+    public RebateOrderItem findById(long orderItemId) {
+        return rebateOrderItemRepository.findByOrderItemId(orderItemId).orElseThrow(
+                () -> {throw new RebateOrderItemNotFoundException("정산 데이터가 존재하지 않습니다.");}
+        );
     }
 }

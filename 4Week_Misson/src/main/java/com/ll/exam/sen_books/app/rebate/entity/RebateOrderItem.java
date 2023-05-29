@@ -53,6 +53,7 @@ public class RebateOrderItem extends BaseEntity {
     private boolean isRefund; // 환불여부
     private LocalDateTime payDate; // 결제날짜
     private LocalDateTime refundDate; // 환불날짜
+    private boolean isRebated; // 정산 여부
 
 
     @ManyToOne(fetch = LAZY)
@@ -112,7 +113,7 @@ public class RebateOrderItem extends BaseEntity {
     }
 
     public int calculateRebatePrice() {
-        if (!isRefund) {
+        if (isRefund) {
             return 0;
         }
 
@@ -120,15 +121,16 @@ public class RebateOrderItem extends BaseEntity {
     }
 
     public boolean isRebateAvailable() {
-        if (refundPrice > 0 || rebateDate != null) {
+        if (isRefund || isRebated) {
             return false;
         }
 
         return true;
     }
 
-    public void setRebateDone(long cashLogId) {
+    public void setRebateDone(CashLog cashLog) {
         rebateDate = LocalDateTime.now();
-        this.rebateCashLog = new CashLog(cashLogId);
+        this.rebateCashLog = cashLog;
+        isRebated = true;
     }
 }

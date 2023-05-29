@@ -84,14 +84,14 @@ public class MemberService {
 
 
     @Transactional
-    public AddCashDataBody addCash(Member member, int price, String eventType) {
+    public CashLog addCash(Member member, int price, String eventType) {
         CashLog cashLog = cashService.addCash(member, price, eventType);
 
         int newRestCash = member.getRestCash() + cashLog.getPrice();
         member.setRestCash(newRestCash);
         memberRepository.save(member);
 
-        return new AddCashDataBody(cashLog, newRestCash);
+        return cashLog;
     }
 
     @Data
