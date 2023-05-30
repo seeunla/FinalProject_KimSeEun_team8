@@ -52,7 +52,10 @@
                             <a th:if="${item.rebateAvailable}" href="javascript:;" onclick="$(this).next().submit();"
                                class="btn btn-primary btn-xs">건별정산</a>
                             <form method="POST" th:action="@{|/adm/rebate/rebateOne/${item.orderItem.id}|}"
-                                  hidden></form>
+                                  hidden>
+                            </form>
+                            <div th:if="${item.isRebated}" class="text-blue-600">정산완료</div>
+                            <div th:if="${item.isRefund}" class="text-red-600">환불완료</div>
                     </tr>
                     </tbody>
                 </table>
