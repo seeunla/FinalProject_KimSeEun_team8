@@ -111,4 +111,8 @@ public class RebateService {
                 () -> {throw new RebateOrderItemNotFoundException("정산 데이터가 존재하지 않습니다.");}
         );
     }
+
+    public List<RebateOrderItem> findRebateOrderItems() {
+        return rebateOrderItemRepository.findAllByOrderById();
+    }
 }

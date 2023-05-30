@@ -11,4 +11,6 @@ public interface RebateOrderItemRepository extends JpaRepository<RebateOrderItem
     Optional<RebateOrderItem> findByOrderItemId(long orderItemId);
 
     List<RebateOrderItem> findAllByPayDateBetweenOrderByIdAsc(LocalDateTime fromDate, LocalDateTime toDate);
+
+    List<RebateOrderItem> findAllByOrderById();
 }
