@@ -116,7 +116,7 @@ public class RebateOrderItem extends BaseEntity {
         if (isRefund) {
             return 0;
         }
-
+        // 정산금액 = 도매가 - PG 수수료
         return wholesalePrice - pgFee;
     }
 
