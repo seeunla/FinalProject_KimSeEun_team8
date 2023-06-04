@@ -18,6 +18,7 @@
                         <th>
                             <input type="checkbox" class="orderItemCheckboxAll checkbox">
                         </th>
+                        <th>정산번호</th>
                         <th>주문품목번호</th>
                         <th>결제날짜</th>
                         <th>상품명</th>
@@ -36,8 +37,9 @@
                     <tr th:each="item : ${items}">
                         <td>
                             <input onchange="OrderItemCheckbox__changed();" th:if="${item.rebateAvailable}"
-                                   type="checkbox" class="orderItemCheckbox checkbox" th:value="${item.orderItem.id}">
+                                   type="checkbox" class="orderItemCheckbox checkbox" th:value="${item.id}">
                         </td>
+                        <td th:text="${item.id}"></td>
                         <td th:text="${item.orderItem.id}"></td>
                         <td th:text="${item.payDate}"></td>
                         <td th:text="${item.productSubject}"></td>
