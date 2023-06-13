@@ -1,6 +1,5 @@
 # 멋쟁이 사자처럼 백엔드스쿨 Final Project
 
-## EBook 마켓과 RestAPI로 구현된 EBook 리더기입니다.
 
 ### 각 주차별 Pull Request
 <a href="https://github.com/likelion-backendschool/FinalProject_KimSeEun_team8/pull/2">1Week_Misson</a><br>
